@@ -1,31 +1,32 @@
 ﻿using System.Collections.Generic;
 
-namespace MonoGine.AssetPipeline;
+namespace MonoGine.ContentPipeline;
 
 public sealed class Resources : System
 {
     private Serializer _serializer;
-    private Dictionary<string, Asset> _assets;
+    private Dictionary<string, Resource> _loadedAssets;
 
-    public Resources(string assetFolderPath)
+    public Resources(string contentPath)
     {
-        _serializer = new Serializer(assetFolderPath);
+        _serializer = new Serializer(contentPath);
+        _loadedAssets = new Dictionary<string, Resource>();
     }
 
     public override void Initialize()
     {
-        int a = 0;
-        while (a++ < 10) ;
-
+        
     }
 
     public override void Update()
     {
-        
+
     }
+
+    
 
     public override void Dispose()
     {
-        
+
     }
 }
