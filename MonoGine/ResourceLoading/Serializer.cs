@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MonoGine.ContentPipeline;
+﻿namespace MonoGine.ResourceLoading;
 
 internal sealed class Serializer : Object
 {
@@ -13,6 +11,6 @@ internal sealed class Serializer : Object
 
     public override void Dispose()
     {
-        
+        _assetFolderPath = null;
     }
 }

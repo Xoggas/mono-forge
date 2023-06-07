@@ -6,4 +6,9 @@ public sealed class Canvas : Object
     {
         
     }
+
+    internal void Update()
+    {
+        
+    }
 }

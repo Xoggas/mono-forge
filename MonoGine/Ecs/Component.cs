@@ -2,7 +2,7 @@
 
 public class Component : EntityComponentBase
 {
-    public Component(Entity entity)
+    private Component(Entity entity)
     {
         Entity = entity;
     }

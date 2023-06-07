@@ -1,6 +1,6 @@
 ﻿namespace MonoGine.Nodes;
 
-public abstract class Node : Object
+public abstract class Root : Node
 {
     
 }

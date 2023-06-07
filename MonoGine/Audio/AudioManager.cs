@@ -6,4 +6,9 @@ public sealed class AudioManager : Object
     {
         
     }
+
+    internal void Update()
+    {
+        
+    }
 }

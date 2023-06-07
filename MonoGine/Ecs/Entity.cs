@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace MonoGine.Ecs;
 
@@ -22,7 +23,7 @@ public class Entity : EntityComponentBase
 
     public T AddComponent<T>() where T : Component
     {
-        T component = (T)Activator.CreateInstance(typeof(T), this);
+        T component = (T)Activator.CreateInstance(typeof(T), BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { this }, null);
 
         _components.Add(component);
 

@@ -3,12 +3,19 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="ExternalLibraries\FMOD\**" />
+    <EmbeddedResource Remove="ExternalLibraries\FMOD\**" />
+    <None Remove="ExternalLibraries\FMOD\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FmodForFoxes" Version="3.0.0" />
+    <PackageReference Include="FmodForFoxes.Desktop" Version="3.0.0" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AssetPipeline\Processors\" />
-    <Folder Include="AssetPipeline\Assets\" />
+    <Folder Include="ResourceLoading\Processors\" />
+    <Folder Include="ResourceLoading\Resources\" />
   </ItemGroup>
 </Project>

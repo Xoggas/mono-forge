@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Input;
+using MonoGine.Rendering;
+using MonoGine.ResourceLoading;
 using MonoGine.SceneManagement;
 using System.Collections.Generic;
 
@@ -7,40 +10,27 @@ namespace MonoGine;
 
 public class Engine : Game
 {
-    private static List<System> s_systems;
-
+    private List<System> _systems;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
     public Engine()
     {
-        s_systems = new List<System>();
+        _systems = new List<System>();
     }
 
-    public static void AddSystem(System system)
+    public void AddSystem(System system)
     {
-        s_systems.Add(system);
-    }
-
-    public static bool TryGetSystem<T>(out T system) where T : System
-    {
-        system = (T)s_systems.Find(x => x.GetType() == typeof(T));
-        return system != null;
-    }
-
-    public static void DisposeSystem<T>() where T : System
-    {
-        if (TryGetSystem(out T system))
-        {
-            s_systems.Remove(system);
-            system.Dispose();
-        }
+        _systems.Add(system);
     }
 
     protected override void BeginRun()
     {
         base.BeginRun();
 
+        AddSystem(new Resources());
+        AddSystem(new InputProvider());
+        AddSystem(new Batcher(_spriteBatch));
         AddSystem(new SceneManager());
     }
 
@@ -48,19 +38,24 @@ public class Engine : Game
     {
         base.Initialize();
 
-        for (int i = 0; i < s_systems.Count; i++)
+        for (int i = 0; i < _systems.Count; i++)
         {
-            s_systems[i].Initialize();
+            _systems[i].Initialize();
         }
     }
 
     protected override void Update(GameTime gameTime)
     {
+        for (int i = 0; i < _systems.Count; i++)
+        {
+            _systems[i].PreUpdate();
+        }
+
         base.Update(gameTime);
 
-        for(int i = 0; i < s_systems.Count; i++)
+        for(int i = 0; i < _systems.Count; i++)
         {
-            s_systems[i].Update();
+            _systems[i].PostUpdate();
         }
     }
 }

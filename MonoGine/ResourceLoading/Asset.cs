@@ -1,8 +1,8 @@
-﻿namespace MonoGine.ContentPipeline;
+﻿namespace MonoGine.ResourceLoading;
 
-public abstract class Resource : Object
+public abstract class Asset : Object
 {
-    public Resource(Metadata metadata)
+    public Asset(Metadata metadata)
     {
         Metadata = metadata;
     }

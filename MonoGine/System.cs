@@ -3,5 +3,6 @@
 public abstract class System : Object
 {
     public abstract void Initialize();
-    public abstract void Update();
+    public abstract void PreUpdate();
+    public abstract void PostUpdate();
 }
