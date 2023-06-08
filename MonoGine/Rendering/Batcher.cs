@@ -13,16 +13,21 @@ internal class Batcher : System
 
     public override void Initialize()
     {
-        throw new global::System.NotImplementedException();
+        
+    }
+
+    public override void PreUpdate()
+    {
+        
     }
 
     public override void PostUpdate()
     {
-        throw new global::System.NotImplementedException();
+        
     }
 
     public override void Dispose()
     {
-        throw new global::System.NotImplementedException();
+        
     }
 }

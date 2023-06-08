@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MonoGine.Ecs;
 
-internal class ECSWorld : Object
+public class World : Object
 {
     private List<Entity> _activeEntities = new List<Entity>();
 

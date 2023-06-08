@@ -1,4 +1,4 @@
-﻿namespace MonoGine.Nodes;
+﻿namespace MonoGine.SceneGraph;
 
 public abstract class Root : Node
 {

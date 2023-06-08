@@ -1,47 +1,50 @@
-﻿using Genbox.VelcroPhysics.Dynamics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoGine.Audio;
-using MonoGine.Ecs;
 using MonoGine.UI;
 
 namespace MonoGine.SceneManagement;
 
 public abstract class Scene : Object
 {
-    private ECSWorld _ecsWorld;
-    private World _world;
+    private Ecs.World _world;
+    private Genbox.VelcroPhysics.Dynamics.World _physics;
     private AudioManager _audioManager;
     private Canvas _canvas;
 
     public Scene()
     {
-        _ecsWorld = new ECSWorld();
-        _world = new World(Vector2.Zero);
+        _world = new Ecs.World();
+        _physics = new Genbox.VelcroPhysics.Dynamics.World(Vector2.Zero);
         _canvas = new Canvas();
         _audioManager = new AudioManager();
     }
 
-    public virtual void Load(params string[] args)
+    public Ecs.World World => _world;
+    public Genbox.VelcroPhysics.Dynamics.World Physics => _physics;
+    public AudioManager AudioManager => _audioManager;
+    public Canvas Canvas => _canvas;
+
+    public virtual void Load(params object[] args)
     {
 
     }
 
     public virtual void PreUpdate()
     {
-        _world.Step(Time.DeltaTime);
+        _physics.Step(Time.DeltaTime);
     }
 
     public virtual void PostUpdate()
     {
         _audioManager.Update();
-        _ecsWorld.Update();
+        _world.Update();
         _canvas.Update();
     }
 
     public virtual void Unload()
     {
-        _ecsWorld.Dispose();
-        _world.Clear();
+        _world.Dispose();
+        _physics.Clear();
         _canvas.Dispose();
         _audioManager.Dispose();
     }
