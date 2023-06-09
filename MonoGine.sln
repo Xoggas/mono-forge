@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGine", "MonoGine\MonoGine.csproj", "{BEC437FC-76BB-4357-BB49-B086282BDE4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGine", "MonoGine\MonoGine.csproj", "{BEC437FC-76BB-4357-BB49-B086282BDE4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGine.Test", "MonoGine.Test\MonoGine.Test.csproj", "{BFD9AAD9-1CEA-4701-A09C-0378223D63F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGine.Test", "MonoGine.Test\MonoGine.Test.csproj", "{BFD9AAD9-1CEA-4701-A09C-0378223D63F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MGFXC", "MGFXC\MGFXC.csproj", "{27509CE9-579E-48A1-B61D-ACE0AA212EF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BFD9AAD9-1CEA-4701-A09C-0378223D63F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFD9AAD9-1CEA-4701-A09C-0378223D63F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFD9AAD9-1CEA-4701-A09C-0378223D63F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27509CE9-579E-48A1-B61D-ACE0AA212EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27509CE9-579E-48A1-B61D-ACE0AA212EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27509CE9-579E-48A1-B61D-ACE0AA212EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27509CE9-579E-48A1-B61D-ACE0AA212EF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

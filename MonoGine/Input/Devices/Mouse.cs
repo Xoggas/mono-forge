@@ -16,6 +16,7 @@ public sealed class Mouse : InputDevice
     }
 
     public override bool IsConnected => true;
+    public Vector2 Delta => (_currentState.Position - _previousState.Position).ToVector2();
     public Vector2 Position => _currentState.Position.ToVector2();
     public float Wheel => _currentState.ScrollWheelValue;
 

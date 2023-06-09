@@ -13,7 +13,7 @@ public static class Time
     public static void Update(GameTime gameTime)
     {
         ElapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        DeltaTime = ElapsedTime - s_lastElapsedTime;
+        DeltaTime = (ElapsedTime - s_lastElapsedTime) * Speed;
         s_lastElapsedTime = ElapsedTime;
     }
 }

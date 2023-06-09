@@ -15,7 +15,11 @@ public sealed class Camera : Object
     }
 
     public static Matrix Matrix => s_instance._matrix;
-    public static Color BackgroundColor => s_instance._backgroundColor;
+    public static Color BackgroundColor
+    {
+        get => s_instance._backgroundColor;
+        set => s_instance._backgroundColor = value;
+    }
 
     public void Update()
     {

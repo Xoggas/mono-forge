@@ -2,7 +2,7 @@
 
 namespace MonoGine.Rendering;
 
-internal class Batcher : System
+internal class Batcher : Object
 {
     private SpriteBatch _batch;
 
@@ -11,19 +11,19 @@ internal class Batcher : System
         _batch = batch;
     }
 
-    public override void Initialize()
+    public void Begin()
     {
-        
+
     }
 
-    public override void PreUpdate()
+    public void Draw()
     {
-        
+
     }
 
-    public override void PostUpdate()
+    public void End()
     {
-        
+
     }
 
     public override void Dispose()

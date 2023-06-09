@@ -1,20 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="ExternalLibraries\FMOD\**" />
-    <EmbeddedResource Remove="ExternalLibraries\FMOD\**" />
-    <None Remove="ExternalLibraries\FMOD\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FmodForFoxes" Version="3.0.0" />
-    <PackageReference Include="FmodForFoxes.Desktop" Version="3.0.0" />
-    <PackageReference Include="Genbox.VelcroPhysics.MonoGame" Version="0.1.0-alpha.2" />
-    <PackageReference Include="Genbox.VelcroPhysics.MonoGame.Content.TextureToVertices" Version="0.1.0-alpha.2" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="ExternalLibraries\FMOD\**" />
+		<EmbeddedResource Remove="ExternalLibraries\FMOD\**" />
+		<None Remove="ExternalLibraries\FMOD\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FmodForFoxes" Version="3.0.0" />
+		<PackageReference Include="FmodForFoxes.Desktop" Version="3.0.0" />
+		<PackageReference Include="Genbox.VelcroPhysics.MonoGame" Version="0.1.0-alpha.2" />
+		<PackageReference Include="Genbox.VelcroPhysics.MonoGame.Content.TextureToVertices" Version="0.1.0-alpha.2" />
+		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\MGFXC\MGFXC.csproj" />
+	</ItemGroup>
 </Project>

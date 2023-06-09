@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace MonoGine;
 
@@ -6,10 +7,12 @@ public class Window : Object
 {
     private static GameWindow s_gameWindow;
     private static GraphicsDeviceManager s_graphics;
+    private static Game s_game;
 
-    public Window(GameWindow gameWindow, GraphicsDeviceManager graphics)
+    public Window(Game game, GameWindow window, GraphicsDeviceManager graphics)
     {
-        s_gameWindow = gameWindow;
+        s_game = game;
+        s_gameWindow = window;
         s_graphics = graphics;
         s_graphics.HardwareModeSwitch = false;
     }
@@ -18,6 +21,18 @@ public class Window : Object
     {
         get => s_gameWindow.Title;
         set => s_gameWindow.Title = value;
+    }
+
+    public static bool IsFixedFramerate
+    {
+        get => s_game.IsFixedTimeStep;
+        set => s_game.IsFixedTimeStep = value;
+    }
+
+    public static int Framerate
+    {
+        get => (int)(1d / s_game.TargetElapsedTime.TotalSeconds);
+        set => s_game.TargetElapsedTime = TimeSpan.FromSeconds(1d / value);
     }
 
     public static Point Resolution

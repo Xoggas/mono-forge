@@ -15,44 +15,44 @@ public sealed class Resources : System
         _cache = new Cache();
     }
 
-    public override void Initialize()
-    {
-        
-    }
-
-    public Asset Load(string path)
+    public static Asset Load<T>(string path)
     {
         throw new global::System.NotImplementedException();
     }
 
-    public Task<Asset> LoadAsync(string path)
+    public static Task<Asset> LoadAsync<T>(string path)
     {
         throw new global::System.NotImplementedException();
     }
 
-    public bool Save<T>(string path) where T : Asset
+    public static bool Save<T>(string path) where T : Asset
     {
         throw new global::System.NotImplementedException();
     }
 
-    public Task<bool> SaveAsync<T>(string path) where T : Asset
+    public static Task<bool> SaveAsync<T>(string path) where T : Asset
     {
         throw new global::System.NotImplementedException();
-    }
-
-    public override void PreUpdate()
-    {
-        
-    }
-
-    public override void PostUpdate()
-    {
-
     }
 
     public override void Dispose()
     {
         _serializer.Dispose();
         _cache.Clear();
+    }
+
+    public override void Initialize()
+    {
+
+    }
+
+    public override void PreUpdate()
+    {
+
+    }
+
+    public override void PostUpdate()
+    {
+
     }
 }
