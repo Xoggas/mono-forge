@@ -15,15 +15,18 @@ public abstract class Engine : Game
     private SpriteBatch _spriteBatch;
     private Window _window;
     private Cursor _cursor;
+    private Camera _camera;
 
     public Engine()
     {
         _graphics = new GraphicsDeviceManager(this);
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-        _window = new Window(Window);
+        _window = new Window(base.Window, _graphics);
         _cursor = new Cursor();
+        _camera = new Camera();
         _systems = new List<System>();
     }
+
+    public new Window Window => _window;
 
     public void AddSystem(System system)
     {
@@ -36,11 +39,6 @@ public abstract class Engine : Game
     protected sealed override void BeginRun()
     {
         base.BeginRun();
-
-        AddSystem(new Resources());
-        AddSystem(new Input());
-        AddSystem(new Batcher(_spriteBatch));
-        AddSystem(new SceneManager());
     }
 
     protected sealed override bool BeginDraw()
@@ -61,6 +59,15 @@ public abstract class Engine : Game
     protected sealed override void LoadContent()
     {
         base.LoadContent();
+
+        _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        AddSystem(new Resources());
+        AddSystem(new Input());
+        AddSystem(new Batcher(_spriteBatch));
+        AddSystem(new SceneManager());
+
+        Start();
     }
 
     protected sealed override void UnloadContent()
@@ -76,8 +83,6 @@ public abstract class Engine : Game
         {
             _systems[i].Initialize();
         }
-
-        Start();
     }
 
     protected sealed override void Update(GameTime gameTime)
@@ -102,5 +107,14 @@ public abstract class Engine : Game
         _graphics.GraphicsDevice.Clear(Camera.BackgroundColor);
 
         base.Draw(gameTime);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+
+        _window.Dispose();
+        _cursor.Dispose();
+        _camera.Dispose();
     }
 }

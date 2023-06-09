@@ -40,6 +40,11 @@ public sealed class Gamepad : InputDevice
         return _previousState.IsButtonDown(nativeEnumValue) && _currentState.IsButtonUp(nativeEnumValue);
     }
 
+    public void SetRumble(float left, float right)
+    {
+        GamePad.SetVibration(_index, left, right);
+    }
+
     public override void Dispose()
     {
 

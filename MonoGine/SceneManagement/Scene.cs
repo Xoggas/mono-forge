@@ -32,11 +32,11 @@ public abstract class Scene : Object
     public virtual void PreUpdate()
     {
         _physics.Step(Time.DeltaTime);
+        _audioManager.Update();
     }
 
     public virtual void PostUpdate()
     {
-        _audioManager.Update();
         _world.Update();
         _canvas.Update();
     }

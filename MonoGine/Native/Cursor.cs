@@ -1,6 +1,9 @@
 ﻿namespace MonoGine;
 
-public class Cursor
+public class Cursor : Object
 {
-
+    public override void Dispose()
+    {
+        
+    }
 }
