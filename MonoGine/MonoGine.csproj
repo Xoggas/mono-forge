@@ -3,9 +3,9 @@
 		<TargetFramework>net6.0</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
-		<Compile Remove="ExternalLibraries\FMOD\**" />
-		<EmbeddedResource Remove="ExternalLibraries\FMOD\**" />
-		<None Remove="ExternalLibraries\FMOD\**" />
+		<Compile Remove="Libraries\FMOD\**" />
+		<EmbeddedResource Remove="Libraries\FMOD\**" />
+		<None Remove="Libraries\FMOD\**" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="FmodForFoxes" Version="3.0.0" />

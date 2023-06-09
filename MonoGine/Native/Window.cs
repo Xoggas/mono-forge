@@ -65,5 +65,7 @@ public class Window : Object
     public override void Dispose()
     {
         s_gameWindow = null;
+        s_graphics = null;
+        s_game = null;
     }
 }

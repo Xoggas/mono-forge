@@ -1,7 +1,7 @@
+using MGFXC.Effect.TPGParser;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MGFXC.Effect.TPGParser;
 
 namespace MGFXC.Effect;
 

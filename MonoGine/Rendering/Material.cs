@@ -4,11 +4,6 @@ public class Material
 {
     private Shader[] _shaders;
 
-    private Material()
-    {
-
-    }
-
     public Material(Shader shader)
     {
         _shaders = new Shader[] { shader };
@@ -19,11 +14,10 @@ public class Material
         _shaders = shaders;
     }
 
-    public Shader this[int index]
+    private Material()
     {
-        get
-        {
-            return _shaders[index];
-        }
+
     }
+
+    public Shader this[int index] => _shaders[index];
 }

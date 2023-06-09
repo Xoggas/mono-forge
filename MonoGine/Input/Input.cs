@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace MonoGine.InputSystem;
 
@@ -8,7 +9,7 @@ public sealed class Input : System
     {
         Keyboard = new Keyboard();
         Mouse = new Mouse();
-        Gamepads = new Gamepad[]
+        Gamepads = new List<Gamepad>
         {
             new Gamepad(PlayerIndex.One),
             new Gamepad(PlayerIndex.Two),
@@ -19,7 +20,7 @@ public sealed class Input : System
 
     public static Keyboard Keyboard { get; private set; }
     public static Mouse Mouse { get; private set; }
-    public static Gamepad[] Gamepads { get; private set; }
+    public static IReadOnlyList<Gamepad> Gamepads { get; private set; }
 
     public override void Initialize()
     {
@@ -36,7 +37,7 @@ public sealed class Input : System
         Keyboard.Update();
         Mouse.Update();
 
-        for (int i = 0; i < Gamepads.Length; i++)
+        for (int i = 0; i < Gamepads.Count; i++)
         {
             Gamepads[i].Update();
         }
