@@ -4,27 +4,27 @@ namespace MonoGine.ResourceLoading;
 
 public class SpriteProcessor : Processor
 {
-    public override void GenerateDefaultMetadata(string assetPath)
+    public override Resource CreateAsset(string assetPath)
     {
         throw new global::System.NotImplementedException();
     }
 
-    public override Asset Load(string assetPath)
+    public override Resource Load(string assetPath)
     {
         throw new global::System.NotImplementedException();
     }
 
-    public override Task<Asset> LoadAsync(string assetPath)
+    public override Task<Resource> LoadAsync(string assetPath)
     {
         throw new global::System.NotImplementedException();
     }
 
-    public override bool Save(Asset asset)
+    public override bool Save(Resource asset)
     {
         throw new global::System.NotImplementedException();
     }
 
-    public override Task<bool> SaveAsync(Asset asset)
+    public override Task<bool> SaveAsync(Resource asset)
     {
         throw new global::System.NotImplementedException();
     }

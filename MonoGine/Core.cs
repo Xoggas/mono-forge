@@ -10,50 +10,47 @@ namespace MonoGine;
 
 internal sealed class Core : Game
 {
-    public event Action OnStart;
+    public event Action OnPreInitialize;
+    public event Action OnPostInitialize;
     public event Action OnUpdate;
     public event Action OnQuit;
 
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
     private System[] _systems;
-    private Window _window;
-    private Cursor _cursor;
-    private Camera _camera;
     private Batcher _batcher;
 
     internal Core()
     {
-        _graphics = new GraphicsDeviceManager(this);
-        _window = new Window(this, Window, _graphics);
-        _cursor = new Cursor();
-        _camera = new Camera();
+        s_instance = this;
+        s_gameWindow = Window;
+        s_graphicsDeviceManager = new GraphicsDeviceManager(this);
+        s_graphicsDevice = s_graphicsDeviceManager.GraphicsDevice;
     }
+
+    internal static Core s_instance { get; private set; }
+    internal static GraphicsDevice s_graphicsDevice { get; private set; }
+    internal static GraphicsDeviceManager s_graphicsDeviceManager { get; private set; }
+    internal static GameWindow s_gameWindow { get; private set; }
 
     protected sealed override void LoadContent()
     {
         base.LoadContent();
 
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-        _batcher = new Batcher(_spriteBatch);
-        _systems = new System[]
-        {
-            new Resources(),
-            new Input(),
-            new SceneManager()
-        };
+        _systems = new System[] { new Resources(), new Input(), new SceneManager() };
+        _batcher = new Batcher();
     }
 
     protected sealed override void Initialize()
     {
         base.Initialize();
 
-        foreach(var system in _systems)
+        OnPreInitialize?.Invoke();
+
+        foreach (var system in _systems)
         {
             system.Initialize();
         }
 
-        OnStart?.Invoke();
+        OnPostInitialize?.Invoke();
     }
 
     protected sealed override void Update(GameTime gameTime)
@@ -77,7 +74,7 @@ internal sealed class Core : Game
 
     protected sealed override void Draw(GameTime gameTime)
     {
-        _graphics.GraphicsDevice.Clear(Camera.BackgroundColor);
+        GraphicsDevice.Clear(Color.Black);
 
         base.Draw(gameTime);
 
@@ -88,9 +85,6 @@ internal sealed class Core : Game
     {
         base.Dispose(disposing);
 
-        _window.Dispose();
-        _cursor.Dispose();
-        _camera.Dispose();
         _batcher.Dispose();
 
         foreach (var system in _systems)

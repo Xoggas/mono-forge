@@ -8,7 +8,7 @@ public class Entity : EntityComponentBase
 {
     private List<Component> _components = new List<Component>();
 
-    private Entity()
+    protected Entity()
     {
 
     }

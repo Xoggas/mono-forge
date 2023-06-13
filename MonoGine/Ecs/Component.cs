@@ -2,7 +2,7 @@
 
 public class Component : EntityComponentBase
 {
-    private Component(Entity entity)
+    protected Component(Entity entity)
     {
         Entity = entity;
     }

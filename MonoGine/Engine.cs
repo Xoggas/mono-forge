@@ -4,38 +4,34 @@ namespace MonoGine;
 
 public abstract class Engine : IDisposable
 {
-    private static Engine s_instance;
-
-    private Core _core;
+    private static Core s_core;
 
     public Engine()
     {
-        s_instance = this;
-
-        _core = new Core();
-        _core.OnStart += OnStart;
-        _core.OnUpdate += OnUpdate;
-        _core.OnQuit += OnQuit;
+        s_core = new Core();
+        s_core.OnPreInitialize += OnPreInitialize;
+        s_core.OnPostInitialize += OnPostInitialize;
+        s_core.OnUpdate += OnUpdate;
+        s_core.OnQuit += OnQuit;
     }
 
     public static void Quit()
     {
-        s_instance._core.Quit();
+        s_core.Quit();
     }
 
     public void Run()
     {
-        _core.Run();
+        s_core.Run();
     }
 
     public void Dispose()
     {
-        _core.Dispose();
+        s_core.Dispose();
     }
 
-    protected abstract void OnStart();
-
+    protected abstract void OnPreInitialize();
+    protected abstract void OnPostInitialize();
     protected abstract void OnUpdate();
-
     protected abstract void OnQuit();
 }

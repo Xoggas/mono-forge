@@ -1,57 +1,62 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace MonoGine.ResourceLoading;
 
 public sealed class Resources : System
 {
-    private Processors _processors;
-    private Serializer _serializer;
-    private Cache _cache;
+    private static Serializer s_serializer;
+    private static Cache s_cache;
 
-    public Resources()
+    internal Resources()
     {
-        _serializer = new Serializer(Path.Join(Directory.GetCurrentDirectory(), "Assets"));
-        _cache = new Cache();
+        s_serializer = new Serializer();
+        s_cache = new Cache();
     }
 
-    public static Asset Load<T>(string path)
+    public static void RegisterProcessor<T>(params string[] extensions) where T : Processor
     {
-        throw new global::System.NotImplementedException();
+        s_serializer._processors.Register<T>(extensions);
     }
 
-    public static Task<Asset> LoadAsync<T>(string path)
+    public static Resource Load<T>(string path)
     {
-        throw new global::System.NotImplementedException();
+        return default;
     }
 
-    public static bool Save<T>(string path) where T : Asset
+    public static async Task<Resource> LoadAsync<T>(string path)
     {
-        throw new global::System.NotImplementedException();
+        return default;
     }
 
-    public static Task<bool> SaveAsync<T>(string path) where T : Asset
+    public static bool Save<T>(T resource) where T : Resource
     {
-        throw new global::System.NotImplementedException();
+        return default;
+    }
+
+    public static async Task<bool> SaveAsync<T>(T resource) where T : Resource
+    {
+        return default;
     }
 
     public override void Dispose()
     {
-        _serializer.Dispose();
-        _cache.Clear();
+        s_cache = null;
+        s_serializer = null;
     }
 
-    public override void Initialize()
+    internal override void Initialize()
+    {
+        RegisterProcessor<SpriteProcessor>("png");
+        
+        s_serializer.SerializeAll();
+    }
+
+    internal override void PreUpdate()
     {
 
     }
 
-    public override void PreUpdate()
-    {
-
-    }
-
-    public override void PostUpdate()
+    internal override void PostUpdate()
     {
 
     }

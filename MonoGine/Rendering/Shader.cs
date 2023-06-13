@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using MonoGine.ResourceLoading;
 
 namespace MonoGine.Rendering;
 
-public class Shader : Object
+public class Shader : Resource
 {
     private Effect _effect;
 
-    public Shader(Effect effect)
+    internal Shader(Metadata metadata, Effect effect) : base(metadata)
     {
         _effect = effect;
     }

@@ -4,11 +4,11 @@ namespace MonoGine.ResourceLoading;
 
 internal sealed class Cache : Object
 {
-    private Dictionary<string, Asset> _assets;
+    private Dictionary<string, Resource> _assets;
 
     internal Cache()
     {
-        _assets = new Dictionary<string, Asset>();
+        _assets = new Dictionary<string, Resource>();
     }
 
     public override void Dispose()
@@ -16,7 +16,7 @@ internal sealed class Cache : Object
         _assets.Clear();
     }
 
-    internal void Add(string path, Asset asset)
+    internal void Add(string path, Resource asset)
     {
         
     }
@@ -29,25 +29,5 @@ internal sealed class Cache : Object
     internal void Remove(string path)
     {
 
-    }
-
-    private string FormatPath(string path)
-    {
-        if (path.StartsWith('/'))
-        {
-            path = path[1..];
-        }
-
-        if(path.EndsWith('/'))
-        {
-            path = path[..^1];
-        }
-
-        if (path.Contains('.'))
-        {
-            path = path.Split('.')[0];
-        }
-
-        return path;
     }
 }

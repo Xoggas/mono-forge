@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGine.Audio;
-using MonoGine.UI;
+using MonoGine.Interfaces;
 
 namespace MonoGine.SceneManagement;
 
@@ -29,6 +29,14 @@ public abstract class Scene : Object
 
     }
 
+    public virtual void Unload()
+    {
+        _world.Dispose();
+        _physics.Clear();
+        _canvas.Dispose();
+        _audioManager.Dispose();
+    }
+
     public virtual void PreUpdate()
     {
         _physics.Step(Time.DeltaTime);
@@ -39,13 +47,5 @@ public abstract class Scene : Object
     {
         _world.Update();
         _canvas.Update();
-    }
-
-    public virtual void Unload()
-    {
-        _world.Dispose();
-        _physics.Clear();
-        _canvas.Dispose();
-        _audioManager.Dispose();
     }
 }

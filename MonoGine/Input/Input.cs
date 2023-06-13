@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace MonoGine.InputSystem;
 
 public sealed class Input : System
 {
-    public Input()
+    public event Action<InputDevice> OnDeviceStateChanged; 
+
+    internal Input()
     {
         Keyboard = new Keyboard();
         Mouse = new Mouse();
@@ -22,17 +25,24 @@ public sealed class Input : System
     public static Mouse Mouse { get; private set; }
     public static IReadOnlyList<Gamepad> Gamepads { get; private set; }
 
-    public override void Initialize()
+    public override void Dispose()
+    {
+        Keyboard = null;
+        Mouse = null;
+        Gamepads = null;
+    }
+
+    internal override void Initialize()
     {
 
     }
 
-    public override void PreUpdate()
+    internal override void PreUpdate()
     {
 
     }
 
-    public override void PostUpdate()
+    internal override void PostUpdate()
     {
         Keyboard.Update();
         Mouse.Update();
@@ -41,12 +51,5 @@ public sealed class Input : System
         {
             Gamepads[i].Update();
         }
-    }
-
-    public override void Dispose()
-    {
-        Keyboard = null;
-        Mouse = null;
-        Gamepads = null;
     }
 }
