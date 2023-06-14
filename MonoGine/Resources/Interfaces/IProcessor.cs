@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace MonoGine.Resources;
 
 public interface IProcessor
 {
-    public T Load<T>(string path);
-    public void Save<T>(string path, T resource);
-    public Task<T> LoadAsync<T>(string path);
-    public Task SaveAsync<T>(string path, T resource);
+    public T? Load<T>(Engine engine, string path) where T : class;
+    public Task<T?> LoadAsync<T>(Engine engine, string path) where T : class;
+    public void Save<T>(Engine engine, string path, T? resource) where T : class;
+    public Task SaveAsync<T>(Engine engine, string path, T? resource) where T : class;
 }

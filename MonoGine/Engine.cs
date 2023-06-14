@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Audio;
 using MonoGine.Graphics;
 using MonoGine.ResourceLoading;
 using MonoGine.Resources;
@@ -15,6 +16,7 @@ public abstract class Engine : IObject
     private Window _window;
     private Cursor _cursor;
     private IResourceManager _resourceManager;
+    private IAudioManager _audioManager;
     private ISceneManager _sceneManager;
     private IBatcher _batcher;
 
@@ -33,7 +35,8 @@ public abstract class Engine : IObject
         _window = new Window(_core);
         _cursor = new Cursor(_core);
         _resourceManager = new ResourceManager();
-        _batcher = new DefaultBatcher();
+        _audioManager = new AudioManager();
+        _batcher = new Batcher();
         _sceneManager = new SceneManager();
     }
 
@@ -44,36 +47,17 @@ public abstract class Engine : IObject
     public Window Window => _window;
     public Cursor Cursor => _cursor;
     public IResourceManager ResourceManager => _resourceManager;
+    public IAudioManager AudioManager => _audioManager;
     public ISceneManager SceneManager => _sceneManager;
 
-    public virtual void OnInitialize()
+    public void Run()
     {
-        _resourceManager.Initialize(this);
+        _core.Run();
     }
 
-    public virtual void OnLoadResources()
+    public void Exit()
     {
-
-    }
-
-    public virtual void OnBeginUpdate(GameTime gameTime)
-    {
-        Time.Update(gameTime);
-    }
-
-    public virtual void OnUpdate(GameTime gameTime)
-    {
-        SceneManager.Update(this);
-    }
-
-    public virtual void OnBeginDraw(GameTime gameTime)
-    {
-        _batcher.Clear(this);
-    }
-
-    public virtual void OnDraw(GameTime gameTime)
-    {
-        _batcher.Draw(this);
+        _core.Exit();
     }
 
     public virtual void Dispose()
@@ -86,13 +70,37 @@ public abstract class Engine : IObject
         _sceneManager.Dispose();
     }
 
-    public void Run()
+    protected virtual void OnInitialize()
     {
-        _core.Run();
+        _resourceManager.Initialize(this);
+        _resourceManager.RegisterProcessor<Texture2D>(new Texture2DProcessor());
+
+        _audioManager.Initialize(this);
     }
 
-    public void Exit()
+    protected virtual void OnLoadResources()
     {
-        _core.Exit();
+
+    }
+
+    protected virtual void OnBeginUpdate(GameTime gameTime)
+    {
+        _time.Update(gameTime);
+        _audioManager.Update(this);
+    }
+
+    protected virtual void OnUpdate(GameTime gameTime)
+    {
+        _sceneManager.Update(this);
+    }
+
+    protected virtual void OnBeginDraw(GameTime gameTime)
+    {
+        _batcher.Clear(this);
+    }
+
+    protected virtual void OnDraw(GameTime gameTime)
+    {
+        _batcher.Draw(this);
     }
 }
