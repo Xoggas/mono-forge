@@ -2,7 +2,6 @@ using MGFXC.Effect;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace MGFXC;
 
@@ -21,13 +20,11 @@ public sealed class ShaderCompiler : IDisposable
         }
     }
 
-    private static EffectCompilerOutput s_output = new EffectCompilerOutput();
+    private EffectCompilerOutput _output = new EffectCompilerOutput();
 
-    public static byte[] Compile(string path)
+    public byte[] Compile(string path)
     {
-        Options options = new Options();
-        options.SourceFile = path;
-        options.OutputFile = Path.GetFileNameWithoutExtension(path) + ".mgfxo";
+        Options options = new Options() { SourceFile = path };
 
         if (File.Exists(path))
         {
@@ -39,7 +36,12 @@ public sealed class ShaderCompiler : IDisposable
         }
     }
 
-    private static byte[] GetShaderBytecode(Options options)
+    public void Dispose()
+    {
+        _output = null;
+    }
+
+    private byte[] GetShaderBytecode(Options options)
     {
         try
         {
@@ -59,7 +61,7 @@ public sealed class ShaderCompiler : IDisposable
         }
     }
 
-    private static EffectObject CompileShader(Options options)
+    private EffectObject CompileShader(Options options)
     {
         try
         {
@@ -71,20 +73,15 @@ public sealed class ShaderCompiler : IDisposable
         }
     }
 
-    private static ShaderResult GetShaderResult(Options options)
+    private ShaderResult GetShaderResult(Options options)
     {
         try
         {
-            return ShaderResult.FromFile(options.SourceFile, options, s_output);
+            return ShaderResult.FromFile(options.SourceFile, options, _output);
         }
         catch
         {
             throw;
         }
-    }
-
-    public void Dispose()
-    {
-        s_output = null;
     }
 }

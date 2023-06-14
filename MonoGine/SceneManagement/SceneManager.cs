@@ -2,17 +2,12 @@
 
 public sealed class SceneManager : ISystem
 {
-    public void Initialize()
+    public void Initialize(Engine engine)
     {
         throw new System.NotImplementedException();
     }
 
-    public void PostUpdate()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void PreUpdate()
+    public void Update(Engine engine)
     {
         throw new System.NotImplementedException();
     }

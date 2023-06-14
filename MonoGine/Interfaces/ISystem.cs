@@ -1,8 +1,6 @@
 ﻿namespace MonoGine;
 
-public interface ISystem : IObject
+public interface ISystem : IObject, IUpdatable
 {
-    public void Initialize();
-    public void PreUpdate();
-    public void PostUpdate();
+    public void Initialize(Engine engine);
 }

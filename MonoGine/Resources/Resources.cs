@@ -1,7 +1,12 @@
-﻿namespace MonoGine.Graphics;
+﻿namespace MonoGine.ResourceLoading;
 
-public sealed class Camera : IUpdatable
+public sealed partial class Resources : ISystem
 {
+    public void Initialize(Engine engine)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void Update(Engine engine)
     {
         throw new System.NotImplementedException();

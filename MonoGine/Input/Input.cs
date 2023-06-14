@@ -1,52 +1,19 @@
-﻿using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-
-namespace MonoGine.InputSystem;
+﻿namespace MonoGine.InputSystem;
 
 public sealed class Input : ISystem
 {
-    internal Input()
+    public void Initialize(Engine engine)
     {
-        Keyboard = new Keyboard();
-        Mouse = new Mouse();
-        Gamepads = new List<Gamepad>
-        {
-            new Gamepad(PlayerIndex.One),
-            new Gamepad(PlayerIndex.Two),
-            new Gamepad(PlayerIndex.Three),
-            new Gamepad(PlayerIndex.Four),
-        };
+        throw new System.NotImplementedException();
     }
 
-    public static Keyboard Keyboard { get; private set; }
-    public static Mouse Mouse { get; private set; }
-    public static IReadOnlyList<Gamepad> Gamepads { get; private set; }
+    public void Update(Engine engine)
+    {
+        throw new System.NotImplementedException();
+    }
 
     public void Dispose()
     {
-        Keyboard = null;
-        Mouse = null;
-        Gamepads = null;
-    }
-
-    public void Initialize()
-    {
-
-    }
-
-    public void PreUpdate()
-    {
-
-    }
-
-    public void PostUpdate()
-    {
-        Keyboard.Update();
-        Mouse.Update();
-
-        for (int i = 0; i < Gamepads.Count; i++)
-        {
-            Gamepads[i].Update();
-        }
+        throw new System.NotImplementedException();
     }
 }

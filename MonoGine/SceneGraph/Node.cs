@@ -1,9 +1,16 @@
-﻿namespace MonoGine.SceneGraph;
+﻿using System;
 
-public class Node : IObject
+namespace MonoGine.SceneGraph;
+
+public class Node : IUpdatable
 {
+    public void Update(Engine engine)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Dispose()
     {
-        
+        throw new NotImplementedException();
     }
 }

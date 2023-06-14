@@ -1,14 +1,14 @@
 ﻿namespace MonoGine.Audio;
 
-public sealed class AudioManager : IObject
+public sealed class AudioManager : IUpdatable
 {
-    public void Dispose()
+    public void Update(Engine engine)
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    internal void Update()
+    public void Dispose()
     {
-        
+        throw new System.NotImplementedException();
     }
 }
