@@ -2,7 +2,7 @@
 
 namespace MonoGine.SceneGraph;
 
-public class Node : IUpdatable
+public class Node : IObject, IUpdatable
 {
     public void Update(Engine engine)
     {

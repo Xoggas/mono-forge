@@ -1,6 +1,6 @@
 ﻿namespace MonoGine;
 
-public interface IUpdatable : IObject
+public interface IUpdatable
 {
     public void Update(Engine engine);
 }

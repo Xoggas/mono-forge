@@ -1,14 +1,19 @@
 ﻿namespace MonoGine.Graphics;
 
-public sealed class Camera : IUpdatable
+public sealed class Camera : IObject, IUpdatable
 {
+    internal Camera()
+    {
+
+    }
+
     public void Update(Engine engine)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void Dispose()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

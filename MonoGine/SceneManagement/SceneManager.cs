@@ -1,19 +1,26 @@
 ﻿namespace MonoGine.SceneManagement;
 
-public sealed class SceneManager : ISystem
+public sealed class SceneManager : ISceneManager
 {
-    public void Initialize(Engine engine)
+    public IScene? CurrentScene { get; private set; }
+
+    public void Load<T>(object[] args) where T : Scene
     {
-        throw new System.NotImplementedException();
+        
+    }
+
+    public void Unload()
+    {
+        
     }
 
     public void Update(Engine engine)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void Dispose()
     {
-        throw new System.NotImplementedException();
+        CurrentScene?.Dispose();
     }
 }

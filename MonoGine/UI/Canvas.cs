@@ -1,13 +1,13 @@
 ﻿namespace MonoGine.UI;
 
-public sealed class Canvas : IObject
+public sealed class Canvas : IObject, IUpdatable
 {
-    public void Dispose()
+    public void Update(Engine engine)
     {
         
     }
 
-    internal void Update()
+    public void Dispose()
     {
         
     }

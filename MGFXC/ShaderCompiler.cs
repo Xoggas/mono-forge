@@ -32,7 +32,7 @@ public sealed class ShaderCompiler : IDisposable
         }
         else
         {
-            throw new Exception($"File {path} doesn't exist!");
+            return null;
         }
     }
 
