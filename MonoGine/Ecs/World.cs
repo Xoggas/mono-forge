@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MonoGine.Ecs;
 
-public class World : Object
+public class World : IObject
 {
     private List<Entity> _activeEntities = new List<Entity>();
 
@@ -41,7 +41,7 @@ public class World : Object
         }
     }
 
-    public override void Dispose()
+    public void Dispose()
     {
         DestroyAllEntities();
         RemoveDestroyedEntities();

@@ -1,6 +1,6 @@
-﻿namespace MonoGine.Audio;
+﻿namespace MonoGine.UI;
 
-public sealed class AudioManager : IObject
+public sealed class Canvas : IObject
 {
     public void Dispose()
     {

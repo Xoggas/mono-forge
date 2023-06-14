@@ -1,62 +1,113 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Graphics;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace MonoGine.ResourceLoading;
 
-public sealed class Resources : System
+public sealed partial class Resources : ISystem
 {
-    private static Serializer s_serializer;
+    private static string s_assetsPath;
+    private static Processors s_processors;
     private static Cache s_cache;
 
     internal Resources()
     {
-        s_serializer = new Serializer();
+        s_assetsPath = PathUtils.GetAssetsPath();
+        s_processors = new Processors();
         s_cache = new Cache();
     }
 
-    public static void RegisterProcessor<T>(params string[] extensions) where T : Processor
+    public static void RegisterProcessor<T, U>() where T : class, IProcessor where U : class
     {
-        s_serializer._processors.Register<T>(extensions);
+        s_processors.Register<T, U>();
     }
 
-    public static Resource Load<T>(string path)
+    public static void CreateDirectory(string directory)
     {
+        Directory.CreateDirectory(Path.Combine(s_assetsPath, directory));
+    }
+
+    public static void Unload(string path)
+    {
+        UnCache(PathUtils.FormatPath(path));
+    }
+
+    public static T Load<T>(string path)
+    {
+        return LoadInternal<T>(path, true).GetAwaiter().GetResult();
+    }
+
+    public static async Task<T> LoadAsync<T>(string path)
+    {
+        return await LoadInternal<T>(path, false);
+    }
+
+    private static async Task<T> LoadInternal<T>(string path, bool sync)
+    {
+        path = PathUtils.FormatPath(path);
+
+        if (s_cache.TryGet(path, out T cachedAsset))
+        {
+            return cachedAsset;
+        }
+
+        if (s_processors.TryGetProcessor(typeof(T), out IProcessor<T> processor))
+        {
+            var result = sync ? processor.Load(path) : await processor.LoadAsync(path);
+
+            Cache(path, result);
+
+            return result;
+        }
+
         return default;
     }
 
-    public static async Task<Resource> LoadAsync<T>(string path)
+    public static void Save<T>(string path, T resource)
     {
-        return default;
+        if (s_processors.TryGetProcessor(typeof(T), out IProcessor<T> processor))
+        {
+            processor.Save(path, resource);
+        }
     }
 
-    public static bool Save<T>(T resource) where T : Resource
+    public static async Task SaveAsync<T>(string path, T resource)
     {
-        return default;
+        if (s_processors.TryGetProcessor(typeof(T), out IProcessor<T> processor))
+        {
+            await processor.SaveAsync(path, resource);
+        }
     }
 
-    public static async Task<bool> SaveAsync<T>(T resource) where T : Resource
+    private static void Cache<T>(string key, T asset)
     {
-        return default;
+        s_cache.TryAdd(key, asset);
     }
 
-    public override void Dispose()
+    private static void UnCache(string key)
     {
-        s_cache = null;
-        s_serializer = null;
+        s_cache.TryRemove(key);
     }
 
-    internal override void Initialize()
+    public void Dispose()
     {
-        RegisterProcessor<SpriteProcessor>("png");
-        
-        s_serializer.SerializeAll();
+        s_processors.Dispose();
+        s_cache.Dispose();
     }
 
-    internal override void PreUpdate()
+    public void Initialize()
+    {
+        RegisterProcessor<SpriteProcessor, Sprite>();
+        RegisterProcessor<Texture2DProcessor, Texture2D>();
+    }
+
+    public void PreUpdate()
     {
 
     }
 
-    internal override void PostUpdate()
+    public void PostUpdate()
     {
 
     }

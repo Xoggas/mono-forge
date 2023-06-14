@@ -1,40 +1,24 @@
-﻿using System;
+﻿namespace MonoGine.SceneManagement;
 
-namespace MonoGine.SceneManagement;
-
-public sealed class SceneManager : System
+public sealed class SceneManager : ISystem
 {
-    private static Scene _current;
-
-    public static void Load<T>(params object[] objects) where T : Scene
+    public void Initialize()
     {
-        _current?.Unload();
-        _current = Activator.CreateInstance(typeof(T), objects) as T;
-        _current?.Load(objects);
+        throw new System.NotImplementedException();
     }
 
-    public static void Unload()
+    public void PostUpdate()
     {
-        _current?.Unload();
+        throw new System.NotImplementedException();
     }
 
-    public override void Dispose()
+    public void PreUpdate()
     {
-        _current?.Dispose();
+        throw new System.NotImplementedException();
     }
 
-    internal override void Initialize()
+    public void Dispose()
     {
-
-    }
-
-    internal override void PreUpdate()
-    {
-        _current?.PreUpdate();
-    }
-
-    internal override void PostUpdate()
-    {
-        _current?.PostUpdate();
+        throw new System.NotImplementedException();
     }
 }

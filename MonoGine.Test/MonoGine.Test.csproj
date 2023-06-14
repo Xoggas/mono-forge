@@ -23,7 +23,7 @@
 		<ProjectReference Include="..\MonoGine\MonoGine.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="Assets\image.png">
+	  <None Update="Assets\*">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

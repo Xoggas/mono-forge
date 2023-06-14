@@ -1,6 +1,9 @@
 ﻿namespace MonoGine.SceneGraph;
 
-public abstract class Node : Object
+public class Node : IObject
 {
-    
+    public void Dispose()
+    {
+        
+    }
 }

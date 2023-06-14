@@ -1,6 +1,6 @@
 ﻿namespace MonoGine.Ecs;
 
-public abstract class EntityComponentBase : Object
+public abstract class EntityComponentBase : IObject
 {
     public bool Enabled { get; private set; } = true;
     public bool Started { get; private set; }
@@ -40,4 +40,6 @@ public abstract class EntityComponentBase : Object
         Enabled = false;
         Destroyed = true;
     }
+
+    public abstract void Dispose();
 }
