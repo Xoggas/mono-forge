@@ -20,9 +20,9 @@ public sealed class ShaderCompiler : IDisposable
         }
     }
 
-    private EffectCompilerOutput _output = new EffectCompilerOutput();
+    private static EffectCompilerOutput s_output = new EffectCompilerOutput();
 
-    public byte[] Compile(string path)
+    public static byte[] Compile(string path)
     {
         Options options = new Options() { SourceFile = path };
 
@@ -38,10 +38,10 @@ public sealed class ShaderCompiler : IDisposable
 
     public void Dispose()
     {
-        _output = null;
+        s_output = null;
     }
 
-    private byte[] GetShaderBytecode(Options options)
+    private static byte[] GetShaderBytecode(Options options)
     {
         try
         {
@@ -61,7 +61,7 @@ public sealed class ShaderCompiler : IDisposable
         }
     }
 
-    private EffectObject CompileShader(Options options)
+    private static EffectObject CompileShader(Options options)
     {
         try
         {
@@ -73,11 +73,11 @@ public sealed class ShaderCompiler : IDisposable
         }
     }
 
-    private ShaderResult GetShaderResult(Options options)
+    private static ShaderResult GetShaderResult(Options options)
     {
         try
         {
-            return ShaderResult.FromFile(options.SourceFile, options, _output);
+            return ShaderResult.FromFile(options.SourceFile, options, s_output);
         }
         catch
         {

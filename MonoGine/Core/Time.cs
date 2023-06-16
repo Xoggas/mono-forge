@@ -9,8 +9,19 @@ public sealed class Time : IObject
 
     }
 
+    /// <summary>
+    /// Only affects on delta time value, doesn't change game speed
+    /// </summary>
     public float Speed { get; set; }
+
+    /// <summary>
+    /// Total elapsed time fromt the game launch
+    /// </summary>
     public float ElapsedTime { get; private set; }
+
+    /// <summary>
+    /// Time elapsed from the last frame
+    /// </summary>
     public float DeltaTime { get; private set; }
 
     public void Update(GameTime gameTime)

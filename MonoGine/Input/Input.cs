@@ -7,12 +7,12 @@ public sealed class Input : ISystem
 
     }
 
-    public void Initialize(Engine engine)
+    public void Initialize(IEngine engine)
     {
         
     }
 
-    public void Update(Engine engine)
+    public void Update(IEngine engine)
     {
         
     }

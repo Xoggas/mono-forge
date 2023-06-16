@@ -1,28 +1,56 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace MonoGine.Resources;
 
 internal sealed class Texture2DProcessor : IProcessor
 {
-    public T? Load<T>(Engine engine, string path) where T : class
+    public T? Load<T>(IEngine engine, string path) where T : class
     {
-        return Texture2D.FromFile(engine.GraphicsDevice, Path.Combine(Directory.GetCurrentDirectory(), "Assets", path)) as T;
+        try
+        {
+            return Texture2D.FromFile(engine.GraphicsDevice, PathUtils.GetAbsolutePath(path)) as T;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
-    public async Task<T?> LoadAsync<T>(Engine engine, string path) where T : class
+    public void Save<T>(IEngine engine, string path, T? resource) where T : class
     {
-        return await Task.Run(() => Load<T>(engine, path));
+        if (resource == null || resource is not T)
+        {
+            return;
+        }
+
+        try
+        {
+            using (var stream = File.OpenWrite(PathUtils.GetAbsolutePath(path)))
+            {
+                Texture2D? texture = resource as Texture2D;
+
+                var extension = PathUtils.GetExtension(path);
+
+                if (ExtensionEquals(extension, "jpg"))
+                {
+                    texture?.SaveAsJpeg(stream, texture.Width, texture.Width);
+                }
+                else if(ExtensionEquals(extension, "png"))
+                {
+                    texture?.SaveAsPng(stream, texture.Width, texture.Width);
+                }
+            }
+        }
+        catch
+        {
+
+        }
     }
 
-    public void Save<T>(Engine engine, string path, T? resource) where T : class
+    private bool ExtensionEquals(string a, string b)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public Task SaveAsync<T>(Engine engine, string path, T? resource) where T : class
-    {
-        throw new System.NotImplementedException();
+        return a.Equals(b, StringComparison.OrdinalIgnoreCase);
     }
 }

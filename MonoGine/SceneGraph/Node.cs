@@ -4,7 +4,7 @@ namespace MonoGine.SceneGraph;
 
 public class Node : IObject, IUpdatable
 {
-    public void Update(Engine engine)
+    public void Update(IEngine engine)
     {
         throw new NotImplementedException();
     }

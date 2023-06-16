@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Ecs;
+using MonoGine.Test.Scenes;
 
 namespace MonoGine.Test;
 
@@ -12,7 +13,11 @@ public sealed class Game : Engine
         Window.Title = "MonoGine";
         Window.Resolution = new Point(1280, 720);
 
-        Cursor.IsVisible = true;
-        Cursor.Texture = ResourceManager.Load<Texture2D>("Cursor.png");
+        SceneManager.Load<MainScene>(this);
     }
+}
+
+public sealed class Dummy : Entity
+{
+
 }
