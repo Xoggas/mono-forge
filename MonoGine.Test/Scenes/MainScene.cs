@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Ecs;
 using MonoGine.Graphics;
 using MonoGine.SceneManagement;
@@ -8,31 +8,19 @@ namespace MonoGine.Test.Scenes;
 
 public sealed class MainScene : Scene
 {
-    private IComponent? _component;
-
-    public override void Update(IEngine engine)
-    {
-        base.Update(engine);
-
-        if (Keyboard.GetState().IsKeyDown(Keys.Q))
-        {
-            _component?.Entity?.Destroy();
-        }
-    }
-
     protected override void OnLoad(Engine engine, object[]? args)
     {
-        _component = World.CreateEntity<Dummy>().AddComponent<DummyComponent>();
+        
     }
 
     protected override void OnLoadResources(Engine engine)
     {
-
+        engine.ResourceManager.Load<Effect>("Shaders/HSL.fx");
     }
 
     protected override void OnUnload(Engine engine, object[]? args)
     {
-
+        
     }
 }
 

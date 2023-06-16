@@ -1,9 +1,11 @@
-namespace MGFXC.Effect;
-
-public enum TextureFilterType
+﻿
+namespace MonoGame.Effect
 {
-	None,
-	Point,
-	Linear,
-	Anisotropic
+    public enum TextureFilterType
+    {
+        None,
+        Point,
+        Linear, 
+        Anisotropic,
+    }
 }

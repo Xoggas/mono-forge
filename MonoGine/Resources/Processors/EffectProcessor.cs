@@ -1,5 +1,5 @@
-﻿using MGFXC;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Effect.Compiler;
 using System;
 
 namespace MonoGine.Resources;
@@ -10,11 +10,32 @@ internal sealed class EffectProcessor : IProcessor
     {
         try
         {
-            return new Effect(engine.GraphicsDevice, ShaderCompiler.Compile(PathUtils.GetAbsolutePath(path))) as T;
+            CompileShader(path, out var bytes);
+
+            if (bytes != null)
+            {
+                return new Effect(engine.GraphicsDevice, bytes) as T;
+            }
+            else
+            {
+                throw new Exception("Shader compilation error!");
+            }
         }
         catch
         {
-            return null;
+            throw;
+        }
+    }
+
+    private static void CompileShader(string path, out byte[]? bytes)
+    {
+        try
+        {
+            bytes = ShaderCompiler.Compile(PathUtils.GetAbsolutePath(path));
+        }
+        catch
+        {
+            throw;
         }
     }
 

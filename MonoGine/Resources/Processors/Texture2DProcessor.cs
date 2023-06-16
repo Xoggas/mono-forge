@@ -14,7 +14,7 @@ internal sealed class Texture2DProcessor : IProcessor
         }
         catch
         {
-            return null;
+            throw;
         }
     }
 
@@ -37,7 +37,7 @@ internal sealed class Texture2DProcessor : IProcessor
                 {
                     texture?.SaveAsJpeg(stream, texture.Width, texture.Width);
                 }
-                else if(ExtensionEquals(extension, "png"))
+                else if (ExtensionEquals(extension, "png"))
                 {
                     texture?.SaveAsPng(stream, texture.Width, texture.Width);
                 }
@@ -45,7 +45,7 @@ internal sealed class Texture2DProcessor : IProcessor
         }
         catch
         {
-
+            throw;
         }
     }
 
