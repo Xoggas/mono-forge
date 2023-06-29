@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Audio;
 using MonoGine.InputSystem;
-using MonoGine.InputSystem.Interfaces;
 using MonoGine.Rendering;
 using MonoGine.ResourceLoading;
 using MonoGine.Resources;

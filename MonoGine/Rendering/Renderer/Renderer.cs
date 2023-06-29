@@ -14,8 +14,6 @@ public sealed class Renderer : IRenderer
         _batch = new Batch(engine);
     }
 
-    public Shader? PostProcessingEffect { get; set; }
-
     public void Draw(IEngine engine, IScene scene)
     {
         DrawScene(engine, scene);
@@ -44,7 +42,7 @@ public sealed class Renderer : IRenderer
         _batch.SetRenderTarget(engine, null);
         _batch.Clear(engine, Color.Black);
         _batch.Begin(engine);
-        _batch.DrawSprite(viewport.Target, Color.White, GetViewportMatrix(engine.Window, viewport), Vector2.One * 0.5f, PostProcessingEffect, null, 0f);
+        _batch.DrawSprite(viewport.Target, Color.White, GetViewportMatrix(engine.Window, viewport), Vector2.One * 0.5f, null, null, 0f);
         _batch.End(engine);
     }
 
