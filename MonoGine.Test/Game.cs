@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoGine.Ecs;
-using MonoGine.Test.Scenes;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Rendering;
 
 namespace MonoGine.Test;
 
@@ -10,14 +10,35 @@ public sealed class Game : Engine
     {
         base.OnInitialize();
 
-        Window.Title = "MonoGine";
-        Window.Resolution = new Point(1280, 720);
-
-        SceneManager.Load<MainScene>(this);
+        SetupWindow();
+        SetupRenderer();
+        SetupCursor();
+        LoadScene();
     }
-}
 
-public sealed class Dummy : Entity
-{
+    private void SetupWindow()
+    {
+        Window.Title = "MonoGine";
+        Window.Viewport.Scaler = new FitHeight();
+        Window.Resolution = new Point(1280, 720);
+        Window.Framerate = 60;
+        Window.UseVSync = true;
+    }
 
+    private void SetupCursor()
+    {
+        Cursor.IsVisible = true;
+        Cursor.Texture = ResourceManager.Load<Texture2D>("Cursor.png");
+    }
+
+    private void SetupRenderer()
+    {
+        Renderer.Dispose();
+        Renderer = new CustomRenderer(this);
+    }
+
+    private void LoadScene()
+    {
+        SceneManager.Load(this, new MainScene());
+    }
 }

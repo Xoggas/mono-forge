@@ -4,7 +4,7 @@ namespace MonoGine.Resources;
 
 public static class PathUtils
 {
-    private static string s_assetsPath = Path.Combine(Directory.GetCurrentDirectory(), "Assets");
+    private static readonly string s_assetsPath = Path.Combine(Directory.GetCurrentDirectory(), "Assets");
 
     static PathUtils()
     {
@@ -56,6 +56,19 @@ public static class PathUtils
     public static bool Exists(string localPath)
     {
         return File.Exists(GetAbsolutePath(localPath));
+    }
+
+    /// <summary>
+    /// Throws an exception if the asset doesn't exist.
+    /// </summary>
+    /// <param name="localPath"></param>
+    /// <exception cref="FileNotFoundException"></exception>
+    public static void ValidatePath(string localPath)
+    {
+        if (!File.Exists(GetAbsolutePath(localPath)))
+        {
+            throw new FileNotFoundException($"The file {localPath} doesn't exist!");
+        }
     }
 
     /// <summary>

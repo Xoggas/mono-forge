@@ -2,7 +2,7 @@
 
 namespace MonoGine.Ecs;
 
-public interface IWorld : IObject, IDrawable, IUpdatable
+public interface IWorld : IObject, IUpdatable
 {
     /// <summary>
     /// Creates a new entity of the specified type and adds it to the world.

@@ -1,46 +1,25 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Effect.Compiler;
-using System;
 
 namespace MonoGine.Resources;
 
 internal sealed class EffectProcessor : IProcessor
 {
-    public T? Load<T>(IEngine engine, string path) where T : class
+    public T Load<T>(IEngine engine, string path) where T : class
     {
-        try
-        {
-            CompileShader(path, out var bytes);
+        var bytes = ShaderCompiler.Compile(PathUtils.GetAbsolutePath(path));
 
-            if (bytes != null)
-            {
-                return new Effect(engine.GraphicsDevice, bytes) as T;
-            }
-            else
-            {
-                throw new Exception("Shader compilation error!");
-            }
-        }
-        catch
+        if (bytes != null)
         {
-            throw;
+            return new Effect(engine.GraphicsDevice, bytes) as T ?? throw new InvalidCastException();
         }
-    }
 
-    private static void CompileShader(string path, out byte[]? bytes)
-    {
-        try
-        {
-            bytes = ShaderCompiler.Compile(PathUtils.GetAbsolutePath(path));
-        }
-        catch
-        {
-            throw;
-        }
+        throw new FileProcessingErrorException("Shader compilation error!");
     }
 
     public void Save<T>(IEngine engine, string path, T? resource) where T : class
     {
-        throw new Exception("Shader saving is not supported!");
+        throw new InvalidOperationException("Shader saving is not supported!");
     }
 }

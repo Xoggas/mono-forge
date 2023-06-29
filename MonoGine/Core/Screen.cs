@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 
@@ -9,7 +10,7 @@ namespace MonoGine;
 /// </summary>
 public sealed class Screen
 {
-    internal Core _core;
+    private readonly Core _core;
 
     internal Screen(Core core)
     {
@@ -19,11 +20,15 @@ public sealed class Screen
     /// <summary>
     /// Gets an array of all available screen resolutions.
     /// </summary>
-    public Point[] Resolutions
+    public IEnumerable<Point> Resolutions
     {
-        get => GraphicsAdapter.DefaultAdapter.SupportedDisplayModes.Select(x => new Point(x.Width, x.Height)).ToArray();
+        get
+        {
+            var supportedModes = GraphicsAdapter.DefaultAdapter.SupportedDisplayModes;
+            return supportedModes.Select(x => new Point(x.Width, x.Height));
+        }
     }
-
+    
     /// <summary>
     /// Gets the current screen resolution.
     /// </summary>
@@ -32,7 +37,6 @@ public sealed class Screen
         get
         {
             var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
-
             return new Point(displayMode.Width, displayMode.Height);
         }
     }

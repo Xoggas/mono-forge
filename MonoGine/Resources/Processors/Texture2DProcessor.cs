@@ -1,51 +1,42 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.IO;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine.Resources;
 
 internal sealed class Texture2DProcessor : IProcessor
 {
-    public T? Load<T>(IEngine engine, string path) where T : class
+    public T Load<T>(IEngine engine, string path) where T : class
     {
         try
         {
-            return Texture2D.FromFile(engine.GraphicsDevice, PathUtils.GetAbsolutePath(path)) as T;
+            return Texture2D.FromFile(engine.GraphicsDevice, PathUtils.GetAbsolutePath(path)) as T ?? throw new InvalidCastException();
         }
         catch
         {
-            throw;
+            throw new FileProcessingErrorException($"An error occured when loading texture from path {path}");
         }
     }
 
-    public void Save<T>(IEngine engine, string path, T? resource) where T : class
+    public void Save<T>(IEngine engine, string path, T resource) where T : class
     {
-        if (resource == null || resource is not T)
+        if (resource is not T)
         {
             return;
         }
 
-        try
+        using var stream = File.OpenWrite(PathUtils.GetAbsolutePath(path));
+        
+        var texture = resource as Texture2D;
+        var extension = PathUtils.GetExtension(path);
+
+        if (ExtensionEquals(extension, "jpg"))
         {
-            using (var stream = File.OpenWrite(PathUtils.GetAbsolutePath(path)))
-            {
-                Texture2D? texture = resource as Texture2D;
-
-                var extension = PathUtils.GetExtension(path);
-
-                if (ExtensionEquals(extension, "jpg"))
-                {
-                    texture?.SaveAsJpeg(stream, texture.Width, texture.Width);
-                }
-                else if (ExtensionEquals(extension, "png"))
-                {
-                    texture?.SaveAsPng(stream, texture.Width, texture.Width);
-                }
-            }
+            texture?.SaveAsJpeg(stream, texture.Width, texture.Width);
         }
-        catch
+        else if (ExtensionEquals(extension, "png"))
         {
-            throw;
+            texture?.SaveAsPng(stream, texture.Width, texture.Width);
         }
     }
 

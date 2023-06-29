@@ -1,4 +1,4 @@
-﻿using MonoGine.Graphics;
+﻿using MonoGine.Rendering;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +9,7 @@ namespace MonoGine.Ecs;
 /// </summary>
 public abstract class Entity : IEntity
 {
-    private List<IComponent> _components;
+    private readonly List<IComponent> _components;
 
     /// <summary>
     /// Initializes a new instance of the Entity class.
@@ -41,7 +41,7 @@ public abstract class Entity : IEntity
     /// <returns>The added component.</returns>
     public T AddComponent<T>() where T : notnull, IComponent
     {
-        var component = (T?)Activator.CreateInstance(typeof(T), this);
+        var component = (T?) Activator.CreateInstance(typeof(T), this);
 
         if (component != null)
         {
@@ -62,7 +62,7 @@ public abstract class Entity : IEntity
     /// <returns>The first component of the specified type, or null if not found.</returns>
     public T? GetFirstComponent<T>() where T : IComponent
     {
-        return (T?)_components.Find(component => component is T);
+        return (T?) _components.Find(component => component is T);
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public abstract class Entity : IEntity
     /// <returns>An enumerable collection of components of the specified type.</returns>
     public IEnumerable<T> GetComponentsOfType<T>() where T : IComponent
     {
-        return (IEnumerable<T>)_components.FindAll(component => component is T);
+        return (IEnumerable<T>) _components.FindAll(component => component is T);
     }
 
     /// <summary>
@@ -121,24 +121,6 @@ public abstract class Entity : IEntity
     }
 
     /// <summary>
-    /// Draws the entity.
-    /// </summary>
-    /// <param name="engine">The engine used for drawing the entity.</param>
-    /// <param name="batcher">The batcher used for batching draw calls.</param>
-    public virtual void Draw(IEngine engine, IBatcher batcher)
-    {
-        foreach (var component in _components)
-        {
-            if (ShouldSkip(component))
-            {
-                continue;
-            }
-
-            component.Draw(engine, batcher);
-        }
-    }
-
-    /// <summary>
     /// Destroys the entity and its components.
     /// </summary>
     public virtual void Destroy()
@@ -171,13 +153,13 @@ public abstract class Entity : IEntity
     {
         _components.RemoveAll(component =>
         {
-            if (component.IsDestroyed)
+            if (!component.IsDestroyed)
             {
-                component.Dispose();
-                return true;
+                return false;
             }
-
-            return false;
+            
+            component.Dispose();
+            return true;
         });
     }
 }

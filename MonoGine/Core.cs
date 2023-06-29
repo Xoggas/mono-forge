@@ -9,7 +9,6 @@ internal sealed class Core : Game
     internal event Action? OnLoadResources;
     internal event Action<GameTime>? OnBeginUpdate;
     internal event Action<GameTime>? OnUpdate;
-    internal event Action<GameTime>? OnBeginDraw;
     internal event Action<GameTime>? OnDraw;
 
     internal Core()
@@ -44,8 +43,6 @@ internal sealed class Core : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        OnBeginDraw?.Invoke(gameTime);
-
         base.Draw(gameTime);
 
         OnDraw?.Invoke(gameTime);

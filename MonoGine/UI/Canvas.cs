@@ -1,21 +1,21 @@
-﻿using MonoGine.Graphics;
+﻿using MonoGine.Rendering.Batching;
 
 namespace MonoGine.UI;
 
-public sealed class Canvas : IObject, IDrawable, IUpdatable
+public sealed class Canvas : ICanvas
 {
     public void Update(IEngine engine)
     {
-        
+
     }
 
-    public void Draw(IEngine engine, IBatcher batcher)
+    public void Draw(IEngine engine, IBatch batch)
     {
-        
+
     }
 
     public void Dispose()
     {
-        
+
     }
 }

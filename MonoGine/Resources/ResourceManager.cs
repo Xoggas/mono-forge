@@ -1,4 +1,5 @@
-﻿using MonoGine.Resources;
+﻿using System;
+using MonoGine.Resources;
 
 namespace MonoGine.ResourceLoading;
 
@@ -7,15 +8,16 @@ namespace MonoGine.ResourceLoading;
 /// </summary>
 public sealed class ResourceManager : IResourceManager
 {
-    private IEngine? _engine;
-    private ResourceCollection _resources;
-    private ProcessorCollection _processors;
+    private readonly IEngine _engine;
+    private readonly ResourceCollection _resources;
+    private readonly ProcessorCollection _processors;
 
     /// <summary>
     /// Initializes a new instance of the ResourceManager class.
     /// </summary>
-    internal ResourceManager()
+    internal ResourceManager(IEngine engine)
     {
+        _engine = engine;
         _resources = new ResourceCollection();
         _processors = new ProcessorCollection();
     }
@@ -31,45 +33,35 @@ public sealed class ResourceManager : IResourceManager
     }
 
     /// <summary>
-    /// Initializes the resource manager with the specified engine.
-    /// </summary>
-    /// <param name="engine">The engine to initialize with.</param>
-    public void Initialize(IEngine engine)
-    {
-        _engine = engine;
-    }
-
-    /// <summary>
     /// Loads a resource of type T from the specified path.
     /// </summary>
     /// <typeparam name="T">The type of resource.</typeparam>
     /// <param name="path">The path to the resource.</param>
     /// <returns>The loaded resource, or null if it failed to load.</returns>
-    public T? Load<T>(string path) where T : class
+    public T Load<T>(string path) where T : class
     {
         if (_engine == null)
         {
-            return null;
+            throw new InvalidOperationException("The engine is null!");
         }
 
-        if (_resources.TryGet(path, out T? cachedAsset))
+        if (_resources.TryGet<T>(path, out var cachedAsset))
         {
             return cachedAsset;
         }
 
-        if (_processors.TryGet<T>(out IProcessor? processor))
+        PathUtils.ValidatePath(path);
+
+        if (_processors.TryGet<T>(out var processor))
         {
             var result = processor.Load<T>(_engine, path);
 
-            if (result != null)
-            {
-                _resources.TryAdd(path, result);
-            }
+            _resources.TryAdd(path, result);
 
             return result;
         }
 
-        return null;
+        throw new InvalidOperationException($"Can't process file of type {typeof(T)}");
     }
 
     /// <summary>
@@ -78,16 +70,11 @@ public sealed class ResourceManager : IResourceManager
     /// <typeparam name="T">The type of resource.</typeparam>
     /// <param name="path">The path to save the resource to.</param>
     /// <param name="resource">The resource to save.</param>
-    public void Save<T>(string path, T? resource) where T : class
+    public void Save<T>(string path, T resource) where T : class
     {
-        if (_engine == null || resource == null)
+        if (_processors.TryGet<T>(out var processor))
         {
-            return;
-        }
-
-        if (_processors.TryGet<T>(out IProcessor? processor))
-        {
-            processor?.Save(_engine, path, resource);
+            processor.Save(_engine, path, resource);
         }
     }
 
@@ -97,7 +84,6 @@ public sealed class ResourceManager : IResourceManager
     /// <param name="path">The path of the resource to unload.</param>
     public void Unload(string path)
     {
-        
     }
 
     /// <summary>
@@ -105,7 +91,6 @@ public sealed class ResourceManager : IResourceManager
     /// </summary>
     public void Dispose()
     {
-        _engine = null;
         _processors.Dispose();
         _resources.Dispose();
     }

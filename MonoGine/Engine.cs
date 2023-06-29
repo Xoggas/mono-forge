@@ -1,7 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Audio;
-using MonoGine.Graphics;
+using MonoGine.InputSystem;
+using MonoGine.InputSystem.Interfaces;
+using MonoGine.Rendering;
 using MonoGine.ResourceLoading;
 using MonoGine.Resources;
 using MonoGine.SceneManagement;
@@ -13,37 +16,24 @@ namespace MonoGine;
 /// </summary>
 public abstract class Engine : IEngine
 {
-    private Core _core;
-    private Time _time;
-    private Screen _screen;
-    private Window _window;
-    private Cursor _cursor;
-    private IResourceManager _resourceManager;
-    private IAudioManager _audioManager;
-    private ISceneManager _sceneManager;
-    private IBatcher _batcher;
+    private readonly Core _core;
 
     /// <summary>
     /// Initializes a new instance of the Engine class.
     /// </summary>
-    public Engine()
+    protected Engine()
     {
         _core = new Core();
         _core.OnInitialize += OnInitialize;
         _core.OnLoadResources += OnLoadResources;
-        _core.OnBeginDraw += OnBeginDraw;
         _core.OnDraw += OnDraw;
         _core.OnBeginUpdate += OnBeginUpdate;
         _core.OnUpdate += OnUpdate;
 
-        _time = new Time();
-        _screen = new Screen(_core);
-        _window = new Window(_core, this);
-        _cursor = new Cursor(_core);
-        _resourceManager = new ResourceManager();
-        _audioManager = new AudioManager();
-        _batcher = new Batcher();
-        _sceneManager = new SceneManager();
+        Time = new Time();
+        Screen = new Screen(_core);
+        Cursor = new Cursor(_core);
+        Input = new Input();
     }
 
     /// <summary>
@@ -59,37 +49,47 @@ public abstract class Engine : IEngine
     /// <summary>
     /// Gets the time instance associated with the engine.
     /// </summary>
-    public Time Time => _time;
+    public Time Time { get; }
 
     /// <summary>
     /// Gets the screen instance associated with the engine.
     /// </summary>
-    public Screen Screen => _screen;
+    public Screen Screen { get; }
 
     /// <summary>
     /// Gets the window instance associated with the engine.
     /// </summary>
-    public Window Window => _window;
+    public Window Window { get; private set; } = default!;
+
+    /// <summary>
+    /// Gets the input provider.
+    /// </summary>
+    public IInput Input { get; }
 
     /// <summary>
     /// Gets the cursor instance associated with the engine.
     /// </summary>
-    public Cursor Cursor => _cursor;
+    public Cursor Cursor { get; }
 
     /// <summary>
-    /// Gets the resource manager instance associated with the engine.
+    /// Gets or sets the resource manager instance associated with the engine.
     /// </summary>
-    public IResourceManager ResourceManager => _resourceManager;
+    public IResourceManager ResourceManager { get; protected set; } = default!;
 
     /// <summary>
-    /// Gets the audio manager instance associated with the engine.
+    /// Gets or sets the scene manager instance associated with the engine.
     /// </summary>
-    public IAudioManager AudioManager => _audioManager;
+    public ISceneManager SceneManager { get; protected set; } = default!;
 
     /// <summary>
-    /// Gets the scene manager instance associated with the engine.
+    /// Gets or sets the audio manager instance associated with the engine.
     /// </summary>
-    public ISceneManager SceneManager => _sceneManager;
+    public IAudioManager AudioManager { get; protected set; } = default!;
+
+    /// <summary>
+    /// Gets the renderer.
+    /// </summary>
+    public IRenderer Renderer { get; protected set; } = default!;
 
     /// <summary>
     /// Runs the engine.
@@ -112,12 +112,14 @@ public abstract class Engine : IEngine
     /// </summary>
     public virtual void Dispose()
     {
-        _time.Dispose();
-        _window.Dispose();
-        _cursor.Dispose();
-        _resourceManager.Dispose();
-        _batcher.Dispose();
-        _sceneManager.Dispose();
+        Time.Dispose();
+        Window.Dispose();
+        Input.Dispose();
+        Cursor.Dispose();
+        ResourceManager.Dispose();
+        SceneManager.Dispose();
+        AudioManager?.Dispose();
+        Renderer?.Dispose();
     }
 
     /// <summary>
@@ -125,11 +127,14 @@ public abstract class Engine : IEngine
     /// </summary>
     protected virtual void OnInitialize()
     {
-        _resourceManager.Initialize(this);
-        _resourceManager.RegisterProcessor<Effect>(new EffectProcessor());
-        _resourceManager.RegisterProcessor<Texture2D>(new Texture2DProcessor());
+        Window = new Window(_core);
+        Renderer = new Renderer(this);
+        AudioManager = new FmodAudioManager(this);
+        SceneManager = new SceneManager();
 
-        _audioManager.Initialize(this);
+        ResourceManager = new ResourceManager(this);
+        ResourceManager.RegisterProcessor<Effect>(new EffectProcessor());
+        ResourceManager.RegisterProcessor<Texture2D>(new Texture2DProcessor());
     }
 
     /// <summary>
@@ -137,7 +142,6 @@ public abstract class Engine : IEngine
     /// </summary>
     protected virtual void OnLoadResources()
     {
-        // Implementation of resource loading.
     }
 
     /// <summary>
@@ -146,8 +150,9 @@ public abstract class Engine : IEngine
     /// <param name="gameTime">The game time.</param>
     protected virtual void OnBeginUpdate(GameTime gameTime)
     {
-        _time.Update(gameTime);
-        _audioManager.Update(this);
+        Time.Update(gameTime);
+        AudioManager?.Update(this);
+        Input.Update(this);
     }
 
     /// <summary>
@@ -156,16 +161,7 @@ public abstract class Engine : IEngine
     /// <param name="gameTime">The game time.</param>
     protected virtual void OnUpdate(GameTime gameTime)
     {
-        _sceneManager.Update(this);
-    }
-
-    /// <summary>
-    /// Handles the beginning of the draw phase.
-    /// </summary>
-    /// <param name="gameTime">The game time.</param>
-    protected virtual void OnBeginDraw(GameTime gameTime)
-    {
-        _batcher.Begin(this);
+        SceneManager.Update(this);
     }
 
     /// <summary>
@@ -174,7 +170,16 @@ public abstract class Engine : IEngine
     /// <param name="gameTime">The game time.</param>
     protected virtual void OnDraw(GameTime gameTime)
     {
-        _sceneManager.Draw(this, _batcher);
-        _batcher.End(this);
+        if (Renderer == null)
+        {
+            throw new NullReferenceException("The renderer wasn't set");
+        }
+
+        if (SceneManager.CurrentScene == null)
+        {
+            return;
+        }
+
+        Renderer.Draw(this, SceneManager.CurrentScene);
     }
 }

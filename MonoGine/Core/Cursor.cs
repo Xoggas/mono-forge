@@ -8,7 +8,7 @@ namespace MonoGine;
 /// </summary>
 public sealed class Cursor : IObject
 {
-    private Core _core;
+    private readonly Core _core;
 
     internal Cursor(Core core)
     {

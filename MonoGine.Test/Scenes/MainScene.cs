@@ -1,106 +1,43 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using MonoGine.Ecs;
-using MonoGine.Graphics;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using MonoGine.SceneGraph.Nodes;
 using MonoGine.SceneManagement;
-using System.Diagnostics;
 
-namespace MonoGine.Test.Scenes;
+namespace MonoGine.Test;
 
 public sealed class MainScene : Scene
 {
-    protected override void OnLoad(Engine engine, object[]? args)
-    {
-        
-    }
-
-    protected override void OnLoadResources(Engine engine)
-    {
-        engine.ResourceManager.Load<Effect>("Shaders/HSL.fx");
-    }
-
-    protected override void OnUnload(Engine engine, object[]? args)
-    {
-        
-    }
-}
-
-public sealed class Dummy : Entity
-{
-    public override void Start(IEngine engine)
-    {
-        base.Start(engine);
-
-        Debug.Print("Entity start!");
-    }
-
     public override void Update(IEngine engine)
     {
         base.Update(engine);
 
-        Debug.Print("Entity update!");
+        if (engine.Input.Keyboard.IsPressed(Keys.B))
+        {
+            new SpriteNode
+            {
+                Texture = engine.ResourceManager.Load<Texture2D>("Rect.png"),
+                Transform =
+                {
+                    Position = new Vector2(Random.Shared.NextSingle() * 1280, Random.Shared.NextSingle() * 720),
+                    Depth = engine.Time.ElapsedTime,
+                    Scale = Vector2.One * 80
+                }
+            }.SetParent(Root);
+        }
     }
 
-    public override void Draw(IEngine engine, IBatcher batcher)
+    protected override void OnLoadResources(IEngine engine)
     {
-        base.Draw(engine, batcher);
-
-        Debug.Print("Entity draw!");
     }
 
-    public override void Destroy()
+    protected override void OnLoad(IEngine engine, object[]? args)
     {
-        base.Destroy();
-
-        Debug.Print("Entity destroy!");
+        Camera.BackgroundColor = Color.Gray;
     }
 
-    public override void Dispose()
+    protected override void OnUnload(IEngine engine, object[]? args)
     {
-        base.Dispose();
-
-        Debug.Print("Entity dispose!");
-    }
-}
-
-public sealed class DummyComponent : Component
-{
-    public DummyComponent(IEntity entity) : base(entity)
-    {
-
-    }
-
-    public override void Start(IEngine engine)
-    {
-        base.Start(engine);
-
-        Debug.Print("Component start!");
-    }
-
-    public override void Update(IEngine engine)
-    {
-        base.Update(engine);
-
-        Debug.Print("Component update!");
-    }
-
-    public override void Draw(IEngine engine, IBatcher batcher)
-    {
-        base.Draw(engine, batcher);
-
-        Debug.Print("Component draw!");
-    }
-
-    public override void Destroy()
-    {
-        base.Destroy();
-
-        Debug.Print("Component destroy!");
-    }
-
-    public override void Dispose()
-    {
-        base.Dispose();
-
-        Debug.Print("Component dispose!");
     }
 }

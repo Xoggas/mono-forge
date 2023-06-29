@@ -1,4 +1,5 @@
-﻿using MonoGine.Graphics;
+﻿using MonoGine.Rendering;
+using MonoGine.Rendering.Batching;
 
 namespace MonoGine.Ecs;
 
@@ -58,16 +59,6 @@ public abstract class Component : IComponent
     }
 
     /// <summary>
-    /// Performs the drawing logic for the component.
-    /// </summary>
-    /// <param name="engine">The engine used for the game.</param>
-    /// <param name="batcher">The batcher used for rendering.</param>
-    public virtual void Draw(IEngine engine, IBatcher batcher)
-    {
-
-    }
-
-    /// <summary>
     /// Marks the component as destroyed and removes its reference to the entity.
     /// </summary>
     public virtual void Destroy()
@@ -81,6 +72,5 @@ public abstract class Component : IComponent
     /// </summary>
     public virtual void Dispose()
     {
-
     }
 }

@@ -1,6 +1,6 @@
-﻿using MonoGine.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using MonoGine.Rendering;
 
 namespace MonoGine.Ecs;
 
@@ -9,7 +9,7 @@ namespace MonoGine.Ecs;
 /// </summary>
 public class World : IWorld
 {
-    private List<IEntity> _entities;
+    private readonly List<IEntity> _entities;
 
     /// <summary>
     /// Initializes a new instance of the World class.
@@ -84,25 +84,7 @@ public class World : IWorld
 
         RemoveDestroyedEntities();
     }
-
-    /// <summary>
-    /// Draws all entities in the world.
-    /// </summary>
-    /// <param name="engine">The engine used for the game.</param>
-    /// <param name="batcher">The batcher used for rendering.</param>
-    public void Draw(IEngine engine, IBatcher batcher)
-    {
-        foreach (var entity in _entities)
-        {
-            if (ShouldSkip(entity))
-            {
-                continue;
-            }
-
-            entity.Draw(engine, batcher);
-        }
-    }
-
+    
     /// <summary>
     /// Disposes the world and all its entities.
     /// </summary>

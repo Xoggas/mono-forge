@@ -1,9 +1,8 @@
 ﻿namespace MonoGine.Audio;
 
-public interface IAudioManager : IObject, ISystem
+public interface IAudioManager : IObject, IUpdatable
 {
-    public AudioChannel Master { get; }
-    public AudioChannel Sfx { get; }
-
-    public AudioChannel GetOrAddChannel(int id);
+    public IAudioChannel Master { get; }
+    public IAudioChannel Sfx { get; }
+    public IAudioChannel GetOrAddChannel(int id);
 }

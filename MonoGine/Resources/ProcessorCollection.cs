@@ -6,7 +6,7 @@ namespace MonoGine.Resources;
 
 internal class ProcessorCollection : IObject
 {
-    private Dictionary<Type, IProcessor> _processors;
+    private readonly Dictionary<Type, IProcessor> _processors;
 
     internal ProcessorCollection()
     {

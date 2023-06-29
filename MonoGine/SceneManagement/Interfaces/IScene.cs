@@ -1,5 +1,6 @@
 ﻿using MonoGine.Ecs;
-using MonoGine.Graphics;
+using MonoGine.Rendering;
+using MonoGine.SceneGraph;
 using MonoGine.UI;
 using PhysicsWorld = Genbox.VelcroPhysics.Dynamics.World;
 
@@ -8,39 +9,44 @@ namespace MonoGine.SceneManagement;
 /// <summary>
 /// Represents an interface for a scene in the game.
 /// </summary>
-public interface IScene : IUpdatable, IDrawable, IObject
+public interface IScene : IUpdatable, IObject
 {
     /// <summary>
     /// Gets the world associated with the scene.
     /// </summary>
-    public IWorld? World { get; }
+    public IWorld World { get; }
+
+    /// <summary>
+    /// Gets the root of the scene hierarchy tree.
+    /// </summary>
+    public Node Root { get; }
 
     /// <summary>
     /// Gets the physics world associated with the scene.
     /// </summary>
-    public PhysicsWorld? Physics { get; }
+    public PhysicsWorld Physics { get; }
 
     /// <summary>
-    /// Gets the camera associated with the scene.
+    /// Gets the camera associated with the world.
     /// </summary>
-    public Camera? Camera { get; }
+    public ICamera Camera { get; }
 
     /// <summary>
     /// Gets the canvas associated with the scene.
     /// </summary>
-    public Canvas? Canvas { get; }
+    public ICanvas Canvas { get; }
 
     /// <summary>
     /// Loads the scene with the specified engine and optional arguments.
     /// </summary>
     /// <param name="engine">The engine used for the game.</param>
     /// <param name="args">Optional arguments passed during scene loading.</param>
-    internal void Load(Engine engine, object[]? args);
+    internal void Load(IEngine engine, object[]? args);
 
     /// <summary>
     /// Unloads the scene with the specified engine and optional arguments.
     /// </summary>
     /// <param name="engine">The engine used for the game.</param>
     /// <param name="args">Optional arguments passed during scene unloading.</param>
-    internal void Unload(Engine engine, object[]? args);
+    internal void Unload(IEngine engine, object[]? args);
 }

@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace MonoGine;
 
@@ -8,15 +8,20 @@ namespace MonoGine;
 /// </summary>
 public sealed class Window : IObject
 {
-    private Core _core;
-    private Engine _engine;
+    private readonly Core _core;
+    private readonly IViewport _viewport;
 
-    internal Window(Core core, Engine engine)
+    internal Window(Core core)
     {
         _core = core;
         _core.GraphicsDeviceManager.HardwareModeSwitch = false;
-        _engine = engine;
+        _viewport = new Viewport(this, core.GraphicsDevice);
     }
+
+    /// <summary>
+    /// Gets the window viewport.
+    /// </summary>
+    public IViewport Viewport => _viewport;
 
     /// <summary>
     /// Gets or sets the title of the window.
@@ -44,11 +49,33 @@ public sealed class Window : IObject
         get => new Point(_core.GraphicsDeviceManager.PreferredBackBufferWidth, _core.GraphicsDeviceManager.PreferredBackBufferHeight);
         set
         {
+            if (Resolution == value)
+            {
+                return;
+            }
+
             _core.GraphicsDeviceManager.PreferredBackBufferWidth = value.X;
             _core.GraphicsDeviceManager.PreferredBackBufferHeight = value.Y;
             _core.GraphicsDeviceManager.ApplyChanges();
+            
+            _viewport.Scaler.Rescale(_core.GraphicsDevice, _viewport, value);
         }
     }
+
+    /// <summary>
+    /// Gets current window width.
+    /// </summary>
+    public int Width => Resolution.X;
+
+    /// <summary>
+    /// Gets current window height.
+    /// </summary>
+    public int Height => Resolution.Y;
+
+    /// <summary>
+    /// Gets the focused state of window.
+    /// </summary>
+    public bool IsFocused => _core.IsActive;
 
     /// <summary>
     /// Gets or sets the target framerate of the window.
@@ -82,10 +109,22 @@ public sealed class Window : IObject
     }
 
     /// <summary>
+    /// Gets or sets value indicating whether the vertical synchronization is enabled.
+    /// </summary>
+    public bool UseVSync
+    {
+        get => _core.GraphicsDeviceManager.SynchronizeWithVerticalRetrace;
+        set
+        {
+            _core.GraphicsDeviceManager.SynchronizeWithVerticalRetrace = value;
+            _core.GraphicsDeviceManager.ApplyChanges();
+        }
+    }
+
+    /// <summary>
     /// Disposes the window.
     /// </summary>
     public void Dispose()
     {
-
     }
 }

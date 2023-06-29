@@ -1,16 +1,69 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using MonoGine.Rendering.Batching;
+using MonoGine.SceneGraph.Components;
 
 namespace MonoGine.SceneGraph;
 
-public class Node : IObject, IUpdatable
+public class Node : IObject, IDrawable, IUpdatable
 {
-    public void Update(IEngine engine)
+    private readonly List<Node> _children;
+
+    public Node()
     {
-        throw new NotImplementedException();
+        IsActive = true;
+        Transform = new Transform(this);
+        _children = new List<Node>();
     }
 
+    public bool IsActive { get; set; }
+    public Transform Transform { get; }
+    public Node? Parent { get; private set; }
+    public IReadOnlyList<Node> Children => _children;
+
+    public virtual void Update(IEngine engine)
+    {
+        Transform.Update(engine);
+
+        foreach (var child in Children)
+        {
+            if (child.IsActive)
+            {
+                child.Update(engine);
+            }
+        }
+    }
+
+    public virtual void Draw(IEngine engine, IBatch batch)
+    {
+        foreach (var child in Children)
+        {
+            if (child.IsActive)
+            {
+                child.Draw(engine, batch);
+            }
+        }
+    }
+
+    public void SetParent(Node? parent)
+    {
+        Parent?._children.Remove(this);
+        Parent = parent;
+        Parent?._children.Add(this);
+    }
+
+    public void SetChild(Node child)
+    {
+        child.SetParent(this);
+    }
+
+    public void Destroy()
+    {
+        SetParent(null);
+        Dispose();
+    }
+    
     public void Dispose()
     {
-        throw new NotImplementedException();
+        Transform.Dispose();
     }
 }

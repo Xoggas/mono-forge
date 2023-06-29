@@ -12,10 +12,10 @@ public sealed class Time : IObject
     /// <summary>
     /// Only affects on delta time value, doesn't change game speed
     /// </summary>
-    public float Speed { get; set; }
+    public float Speed { get; set; } = 1f;
 
     /// <summary>
-    /// Total elapsed time fromt the game launch
+    /// Total elapsed time from the game launch
     /// </summary>
     public float ElapsedTime { get; private set; }
 

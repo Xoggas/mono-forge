@@ -1,6 +1,6 @@
 ﻿namespace MonoGine.Ecs;
 
-public interface IEntityComponent : IObject, IUpdatable, IDrawable
+public interface IEntityComponent : IObject, IUpdatable
 {
     /// <summary>
     /// Gets a value indicating whether the entity has been started.
