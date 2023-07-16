@@ -122,6 +122,24 @@ public sealed class Window : IObject
     }
 
     /// <summary>
+    /// Gets or sets value indicating whether the Alt + F4 combination works. 
+    /// </summary>
+    public bool AllowAltF4
+    {
+        get => _core.Window.AllowAltF4;
+        set => _core.Window.AllowAltF4 = value;
+    }
+
+    /// <summary>
+    /// Gets or sets value indicating whether the window can be resized.
+    /// </summary>
+    public bool AllowResizing
+    {
+        get => _core.Window.AllowUserResizing;
+        set => _core.Window.AllowUserResizing = value;
+    }
+
+    /// <summary>
     /// Disposes the window.
     /// </summary>
     public void Dispose()

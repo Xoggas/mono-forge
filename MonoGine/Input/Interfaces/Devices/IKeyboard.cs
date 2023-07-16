@@ -8,6 +8,16 @@ namespace MonoGine.InputSystem;
 public interface IKeyboard : IInputDevice
 {
     /// <summary>
+    /// Returns true if Caps Lock enabled.
+    /// </summary>
+    public bool CapsLock { get; }
+    
+    /// <summary>
+    /// Returns true if Num Lock enabled.
+    /// </summary>
+    public bool NumLock { get; }
+
+    /// <summary>
     /// Checks if the specified keyboard key was pressed.
     /// </summary>
     /// <param name="key">The key to check.</param>

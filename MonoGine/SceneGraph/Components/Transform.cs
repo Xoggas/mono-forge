@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGine.Utilities;
 
-namespace MonoGine.SceneGraph.Components;
+namespace MonoGine.SceneGraph;
 
 public sealed class Transform : IObject, IUpdatable
 {

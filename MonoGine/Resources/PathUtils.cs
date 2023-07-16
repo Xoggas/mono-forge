@@ -39,7 +39,7 @@ public static class PathUtils
     }
 
     /// <summary>
-    /// Returns 
+    /// Returns the absolute path relatively to the assets folder.
     /// </summary>
     /// <param name="localPath"></param>
     /// <returns></returns>

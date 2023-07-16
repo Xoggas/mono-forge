@@ -1,6 +1,6 @@
-﻿namespace MonoGine.SceneGraph.Nodes;
+﻿namespace MonoGine.SceneGraph;
 
-public class TextNode : Node
+public sealed class TextNode : Node
 {
     
 }

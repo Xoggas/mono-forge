@@ -4,9 +4,9 @@ public class GenericDictionary<TKey> : Dictionary<TKey, object> where TKey : not
 {
     public bool TryGet<T>(TKey key, out T? value) where T : notnull
     {
-        if (TryGetValue(key, out object? result) && result is T)
+        if (TryGetValue(key, out var result) && result is T castedValue)
         {
-            value = (T)result;
+            value = castedValue;
             return true;
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
-using MonoGine.Resources;
 
-namespace MonoGine.ResourceLoading;
+namespace MonoGine.Resources;
 
 /// <summary>
 /// Represents a resource manager responsible for loading, saving, and managing resources.
@@ -27,9 +26,9 @@ public sealed class ResourceManager : IResourceManager
     /// </summary>
     /// <typeparam name="T">The type of resource.</typeparam>
     /// <param name="processor">The processor to register.</param>
-    public void RegisterProcessor<T>(IProcessor processor) where T : class
+    public void RegisterProcessor<T>(IProcessor<T> processor) where T : class
     {
-        _processors.TryAdd<T>(processor);
+        _processors.TryAdd(processor);
     }
 
     /// <summary>
@@ -54,7 +53,7 @@ public sealed class ResourceManager : IResourceManager
 
         if (_processors.TryGet<T>(out var processor))
         {
-            var result = processor.Load<T>(_engine, path);
+            var result = processor.Load(_engine, path);
 
             _resources.TryAdd(path, result);
 
@@ -84,6 +83,12 @@ public sealed class ResourceManager : IResourceManager
     /// <param name="path">The path of the resource to unload.</param>
     public void Unload(string path)
     {
+        if (_resources.TryGet<IDisposable>(path, out var cachedAsset))
+        {
+            cachedAsset.Dispose();
+        }
+
+        _resources.TryRemove(path);
     }
 
     /// <summary>

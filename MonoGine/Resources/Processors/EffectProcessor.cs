@@ -4,21 +4,21 @@ using MonoGame.Effect.Compiler;
 
 namespace MonoGine.Resources;
 
-internal sealed class EffectProcessor : IProcessor
+internal sealed class EffectProcessor : IProcessor<Effect>
 {
-    public T Load<T>(IEngine engine, string path) where T : class
+    public Effect Load(IEngine engine, string path)
     {
         var bytes = ShaderCompiler.Compile(PathUtils.GetAbsolutePath(path));
 
         if (bytes != null)
         {
-            return new Effect(engine.GraphicsDevice, bytes) as T ?? throw new InvalidCastException();
+            return new Effect(engine.GraphicsDevice, bytes);
         }
 
         throw new FileProcessingErrorException("Shader compilation error!");
     }
 
-    public void Save<T>(IEngine engine, string path, T? resource) where T : class
+    public void Save(IEngine engine, string path, Effect resource)
     {
         throw new InvalidOperationException("Shader saving is not supported!");
     }

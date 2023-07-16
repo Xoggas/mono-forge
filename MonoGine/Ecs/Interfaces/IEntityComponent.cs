@@ -1,6 +1,6 @@
 ﻿namespace MonoGine.Ecs;
 
-public interface IEntityComponent : IObject, IUpdatable
+public interface IEntityComponent : IObject, IUpdatable, IDestroyable
 {
     /// <summary>
     /// Gets a value indicating whether the entity has been started.
@@ -22,9 +22,4 @@ public interface IEntityComponent : IObject, IUpdatable
     /// </summary>
     /// <param name="engine">The engine used for starting the entity.</param>
     public void Start(IEngine engine);
-
-    /// <summary>
-    /// Destroys the entity and its components.
-    /// </summary>
-    public void Destroy();
 }

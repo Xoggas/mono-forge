@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using MonoGine.Rendering.Batching;
-using MonoGine.SceneGraph.Components;
 
 namespace MonoGine.SceneGraph;
 
-public class Node : IObject, IDrawable, IUpdatable
+public class Node : IObject, IDrawable, IUpdatable, IDestroyable
 {
     private readonly List<Node> _children;
 

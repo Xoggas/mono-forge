@@ -1,10 +1,22 @@
-﻿namespace MonoGine.InputSystem;
+﻿using System;
+
+namespace MonoGine.InputSystem;
 
 /// <summary>
 /// Interface representing an input provider. 
 /// </summary>
 public interface IInput : IObject, IUpdatable
 {
+    /// <summary>
+    /// An event for handling text input from keyboard.
+    /// </summary>
+    public event Action<char>? OnTextInput;
+
+    /// <summary>
+    /// An event for handling drag and drop files. 
+    /// </summary>
+    public event Action<string[]>? OnFileDrop;
+    
     /// <summary>
     /// Gets the keyboard input device.
     /// </summary>

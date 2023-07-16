@@ -4,13 +4,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine.Resources;
 
-internal sealed class Texture2DProcessor : IProcessor
+internal sealed class Texture2DProcessor : IProcessor<Texture2D>
 {
-    public T Load<T>(IEngine engine, string path) where T : class
+    public Texture2D Load(IEngine engine, string path)
     {
         try
         {
-            return Texture2D.FromFile(engine.GraphicsDevice, PathUtils.GetAbsolutePath(path)) as T ?? throw new InvalidCastException();
+            return Texture2D.FromFile(engine.GraphicsDevice, PathUtils.GetAbsolutePath(path));
         }
         catch
         {
@@ -18,25 +18,19 @@ internal sealed class Texture2DProcessor : IProcessor
         }
     }
 
-    public void Save<T>(IEngine engine, string path, T resource) where T : class
+    public void Save(IEngine engine, string path, Texture2D texture)
     {
-        if (resource is not T)
-        {
-            return;
-        }
-
         using var stream = File.OpenWrite(PathUtils.GetAbsolutePath(path));
         
-        var texture = resource as Texture2D;
         var extension = PathUtils.GetExtension(path);
 
         if (ExtensionEquals(extension, "jpg"))
         {
-            texture?.SaveAsJpeg(stream, texture.Width, texture.Width);
+            texture.SaveAsJpeg(stream, texture.Width, texture.Width);
         }
         else if (ExtensionEquals(extension, "png"))
         {
-            texture?.SaveAsPng(stream, texture.Width, texture.Width);
+            texture.SaveAsPng(stream, texture.Width, texture.Width);
         }
     }
 

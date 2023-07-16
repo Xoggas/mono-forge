@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Rendering;
 using MonoGine.Rendering.Batching;
 
-namespace MonoGine.SceneGraph.Nodes;
+namespace MonoGine.SceneGraph;
 
 public sealed class SpriteNode : Node
 {

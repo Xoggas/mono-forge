@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>MonoGine.ShaderCompiler</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="C:\Users\sasha\.nuget\packages\monogame.framework.content.pipeline\3.8.1.303\contentFiles\any\net6.0\CppNet.dll" />

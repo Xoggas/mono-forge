@@ -14,6 +14,8 @@ public sealed class Keyboard : IKeyboard
     }
 
     public bool IsConnected => true;
+    public bool CapsLock => _currentState.CapsLock;
+    public bool NumLock => _currentState.NumLock;
 
     public void Update(IEngine engine)
     {

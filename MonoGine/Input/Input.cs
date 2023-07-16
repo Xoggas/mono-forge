@@ -1,20 +1,30 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace MonoGine.InputSystem;
 
 public sealed class Input : IInput
 {
-    internal Input()
+    public event Action<char>? OnTextInput;
+    public event Action<string[]>? OnFileDrop;
+
+    private readonly GameWindow _window;
+
+    internal Input(GameWindow window)
     {
         Keyboard = new Keyboard();
         Mouse = new Mouse();
-        Gamepads = new IGamepad[4]
+        Gamepads = new IGamepad[]
         {
             new Gamepad(PlayerIndex.One),
             new Gamepad(PlayerIndex.Two),
             new Gamepad(PlayerIndex.Three),
             new Gamepad(PlayerIndex.Four),
         };
+
+        _window = window;
+        _window.TextInput += HandleInputFromKeyboard;
+        _window.FileDrop += HandleFileDrop;
     }
 
     public IKeyboard Keyboard { get; }
@@ -34,6 +44,17 @@ public sealed class Input : IInput
 
     public void Dispose()
     {
-        Keyboard.Dispose();
+        _window.TextInput -= HandleInputFromKeyboard;
+        _window.FileDrop -= HandleFileDrop;
+    }
+
+    private void HandleInputFromKeyboard(object? sender, TextInputEventArgs args)
+    {
+        OnTextInput?.Invoke(args.Character);
+    }
+    
+    private void HandleFileDrop(object? sender, FileDropEventArgs args)
+    {
+        OnFileDrop?.Invoke(args.Files);
     }
 }

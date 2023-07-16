@@ -10,7 +10,7 @@ public interface IResourceManager : IObject
     /// </summary>
     /// <typeparam name="T">The type of resource.</typeparam>
     /// <param name="processor">The processor responsible for handling the resource type.</param>
-    public void RegisterProcessor<T>(IProcessor processor) where T : class;
+    public void RegisterProcessor<T>(IProcessor<T> processor) where T : class;
 
     /// <summary>
     /// Loads a resource of the specified type from the given path.

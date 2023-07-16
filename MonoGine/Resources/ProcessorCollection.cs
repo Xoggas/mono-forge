@@ -6,11 +6,11 @@ namespace MonoGine.Resources;
 
 internal class ProcessorCollection : IObject
 {
-    private readonly Dictionary<Type, IProcessor> _processors;
+    private readonly GenericDictionary<Type> _processors;
 
     internal ProcessorCollection()
     {
-        _processors = new Dictionary<Type, IProcessor>();
+        _processors = new GenericDictionary<Type>();
     }
 
     public void Dispose()
@@ -18,13 +18,13 @@ internal class ProcessorCollection : IObject
         _processors.Clear();
     }
 
-    internal bool TryAdd<T>(IProcessor processor) where T : class
+    internal bool TryAdd<T>(IProcessor<T> processor) where T : class
     {
         return _processors.TryAdd(typeof(T), processor);
     }
 
-    internal bool TryGet<T>([MaybeNullWhen(false)] out IProcessor processor) where T : notnull
+    internal bool TryGet<T>([MaybeNullWhen(false)] out IProcessor<T> processor) where T : class
     {
-        return _processors.TryGetValue(typeof(T), out processor);
+        return _processors.TryGet(typeof(T), out processor);
     }
 }

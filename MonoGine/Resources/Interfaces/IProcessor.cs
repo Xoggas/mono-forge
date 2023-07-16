@@ -5,6 +5,10 @@
 /// </summary>
 public interface IProcessor
 {
+}
+
+public interface IProcessor<T> : IProcessor where T : class
+{
     /// <summary>
     /// Loads a resource of the specified type from the given path using the provided engine.
     /// </summary>
@@ -12,7 +16,7 @@ public interface IProcessor
     /// <param name="engine">The engine used for loading the resource.</param>
     /// <param name="path">The path to the resource.</param>
     /// <returns>The loaded resource, or null if it failed to load.</returns>
-    public T Load<T>(IEngine engine, string path) where T : class;
+    public T Load(IEngine engine, string path);
 
     /// <summary>
     /// Saves a resource of the specified type to the given path using the provided engine.
@@ -21,5 +25,5 @@ public interface IProcessor
     /// <param name="engine">The engine used for saving the resource.</param>
     /// <param name="path">The path to save the resource to.</param>
     /// <param name="resource">The resource to save.</param>
-    public void Save<T>(IEngine engine, string path, T resource) where T : class;
+    public void Save(IEngine engine, string path, T resource);
 }
