@@ -6,8 +6,8 @@ namespace MonoGine.Audio;
 
 public sealed class AudioManager : IAudioManager
 {
-    private readonly INativeFmodLibrary _library;
     private readonly Dictionary<int, IAudioChannel> _channels;
+    private readonly INativeFmodLibrary _library;
 
     internal AudioManager()
     {
@@ -35,10 +35,7 @@ public sealed class AudioManager : IAudioManager
 
     public IAudioChannel GetOrAddChannel(int id)
     {
-        if (_channels.TryGetValue(id, out var value))
-        {
-            return value;
-        }
+        if (_channels.TryGetValue(id, out var value)) return value;
 
         var channel = new AudioChannel();
 
@@ -85,9 +82,6 @@ public sealed class AudioManager : IAudioManager
 
     private void ExecuteCallbackForChannels(IEnumerable<IAudioChannel> channels, Action<IAudioChannel> callback)
     {
-        foreach (var channel in channels)
-        {
-            callback.Invoke(channel);
-        }
+        foreach (var channel in channels) callback.Invoke(channel);
     }
 }

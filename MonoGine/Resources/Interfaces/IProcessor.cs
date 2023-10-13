@@ -1,4 +1,4 @@
-﻿namespace MonoGine.Resources;
+﻿namespace MonoGine.ResourceLoading;
 
 /// <summary>
 /// Represents an interface for a resource processor.

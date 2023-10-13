@@ -22,7 +22,8 @@ public sealed class SpriteNode : Node
     {
         if (Texture != null)
         {
-            batch.DrawSprite(Texture, Color, Transform.WorldMatrix, Transform.Pivot, Shader, TextureRect, Transform.WorldDepth);
+            batch.DrawSprite(Texture, Color, Transform.WorldMatrix, Transform.Pivot, Shader, TextureRect,
+                Transform.WorldDepth);
         }
 
         base.Draw(engine, batch);

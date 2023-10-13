@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MonoGine.Resources;
+namespace MonoGine.ResourceLoading;
 
 internal class ResourceCollection : IObject
 {

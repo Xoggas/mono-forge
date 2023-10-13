@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MonoGine.Audio;
+using MonoGine.Ecs;
+using MonoGine.Rendering;
 using MonoGine.SceneGraph;
 using MonoGine.SceneManagement;
 
@@ -10,73 +10,67 @@ namespace MonoGine.Test;
 
 public sealed class MainScene : Scene
 {
-    private IAudioSource _source = default!;
-
-    public override void Update(IEngine engine)
-    {
-        base.Update(engine);
-
-        if (engine.Input.Keyboard.WasPressed(Keys.S))
-        {
-            _source.Stop();
-        }
-
-        if (engine.Input.Keyboard.WasPressed(Keys.P))
-        {
-            _source.Play();
-        }
-        
-        if (engine.Input.Keyboard.IsPressed(Keys.LeftShift) && engine.Input.Keyboard.WasPressed(Keys.P))
-        {
-            _source.Pause();
-        }
-        
-        if (engine.Input.Keyboard.WasPressed(Keys.End))
-        {
-            engine.AudioManager.StopAll();
-        }
-    }
+    private Texture2D _texture = null!;
+    private Effect _effect = null!;
 
     protected override void OnLoadResources(IEngine engine)
     {
+        _texture = engine.ResourceManager.Load<Texture2D>("Rect.png");
+        _effect = engine.ResourceManager.Load<Effect>("Shaders/Brightness.shader");
     }
 
     protected override void OnLoad(IEngine engine, object[]? args)
     {
-        Camera.BackgroundColor = Color.Gray;
+        for (var i = 0; i < 5000; i++)
+        {
+            var sprite = new SpriteNode
+            {
+                Texture = _texture,
+                Transform =
+                {
+                    Position = new Vector2(Random.Shared.NextSingle() * 1280f, Random.Shared.NextSingle() * 720f),
+                    Scale = Vector2.One * 100f,
+                    Depth = engine.Time.ElapsedTime
+                },
+                Shader = new Shader(_effect)
+            };
 
-        var audioClip = engine.ResourceManager.Load<AudioClip>("Liftoff.mp3");
+            sprite.SetParent(Root);
 
-        var source = engine.AudioManager.Master.CreateSource();
-
-        source.Clip = audioClip;
-
-        source.Volume = 1f;
-
-        source.Pitch = 1f;
-
-        source.IsLooping = false;
-
-        source.Id = "ambience";
-
-        source.Play();
-
-        _source = source;
-
-        var texture = engine.ResourceManager.Load<Texture2D>("Rect.png");
-
-        var spriteNode = new SpriteNode();
-
-        spriteNode.Texture = texture;
-
-        spriteNode.Transform.Position = new Vector2(640, 360);
-
-        spriteNode.Transform.Scale = new Vector2(100, 100);
-
-        spriteNode.SetParent(Root);
+            var spriteEntity = World.CreateEntity<SpriteEntity>();
+            spriteEntity.Sprite = sprite;
+            spriteEntity.Offset = i * 10f;
+        }
     }
 
     protected override void OnUnload(IEngine engine, object[]? args)
     {
+    }
+}
+
+public sealed class SpriteEntity : Entity
+{
+    public SpriteNode Sprite = null!;
+    public float Offset;
+
+    private readonly FloatProperty _brightnessProperty = new("Brightness", 0f);
+
+    public override void Start(IEngine engine)
+    {
+        base.Start(engine);
+        Sprite.Shader?.Properties.Add(_brightnessProperty);
+    }
+
+    public override void Update(IEngine engine)
+    {
+        base.Update(engine);
+        _brightnessProperty.Value = MathF.Abs(MathF.Sin(engine.Time.ElapsedTime + Offset));
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        Sprite.Shader?.Dispose();
+        Sprite.Dispose();
     }
 }

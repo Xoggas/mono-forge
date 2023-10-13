@@ -17,13 +17,13 @@ public class Node : IObject, IDrawable, IUpdatable, IDestroyable
     public bool IsActive { get; set; }
     public Transform Transform { get; }
     public Node? Parent { get; private set; }
-    public IReadOnlyList<Node> Children => _children;
+    public IEnumerable<Node> Children => _children;
 
     public virtual void Update(IEngine engine)
     {
         Transform.Update(engine);
 
-        foreach (var child in Children)
+        foreach (Node child in Children)
         {
             if (child.IsActive)
             {
@@ -34,7 +34,7 @@ public class Node : IObject, IDrawable, IUpdatable, IDestroyable
 
     public virtual void Draw(IEngine engine, IBatch batch)
     {
-        foreach (var child in Children)
+        foreach (Node child in Children)
         {
             if (child.IsActive)
             {
@@ -60,7 +60,7 @@ public class Node : IObject, IDrawable, IUpdatable, IDestroyable
         SetParent(null);
         Dispose();
     }
-    
+
     public void Dispose()
     {
         Transform.Dispose();

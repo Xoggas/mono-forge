@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace MonoGine.Resources;
+namespace MonoGine.ResourceLoading;
 
 public sealed class FileProcessingErrorException : Exception
 {

@@ -26,7 +26,7 @@ internal sealed class Batcher : IBatcher
         _vertices = new VertexPositionColorTexture[_maxPassSize * 4];
         _indices = new short[_maxPassSize * 6];
 
-        for (int i = 0; i < _maxPassSize; i++)
+        for (var i = 0; i < _maxPassSize; i++)
         {
             _indices[i * 6] = (short)(i * 4);
             _indices[i * 6 + 1] = (short)(i * 4 + 1);
@@ -63,12 +63,12 @@ internal sealed class Batcher : IBatcher
 
         Array.Sort(_batchItems, 0, _itemCount);
 
-        var lastItem = _batchItems[0];
+        BatchItem lastItem = _batchItems[0];
         var length = 0;
 
-        for (int i = 0; i < _itemCount; i++)
+        for (var i = 0; i < _itemCount; i++)
         {
-            var item = _batchItems[i];
+            BatchItem item = _batchItems[i];
 
             if (length >= _maxPassSize - 1 || !item.Equals(lastItem))
             {
@@ -103,8 +103,8 @@ internal sealed class Batcher : IBatcher
         if (shader != null)
         {
             shader.ApplyProperties();
-            
-            foreach (var pass in shader.Passes)
+
+            foreach (EffectPass pass in shader.Passes)
             {
                 pass.Apply();
                 DrawPrimitives(engine, texture, length);
@@ -132,6 +132,7 @@ internal sealed class Batcher : IBatcher
     private void DrawPrimitives(IEngine engine, Texture texture, int length)
     {
         engine.GraphicsDevice.Textures[0] = texture;
-        engine.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, length * 4, _indices, 0, length * 2, VertexPositionColorTexture.VertexDeclaration);
+        engine.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, length * 4, _indices,
+            0, length * 2, VertexPositionColorTexture.VertexDeclaration);
     }
 }

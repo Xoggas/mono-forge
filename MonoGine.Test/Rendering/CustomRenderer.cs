@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Rendering.Batching;
 using MonoGine.SceneManagement;
@@ -20,6 +21,7 @@ public sealed class CustomRenderer : IRenderer
     {
         DrawScene(engine, scene);
         DrawViewport(engine, engine.Window.Viewport);
+        Debug.WriteLine(engine.Time.IsRunningSlowly);
     }
 
     public void Dispose()
@@ -31,7 +33,8 @@ public sealed class CustomRenderer : IRenderer
     {
         _batch.SetRenderTarget(engine, engine.Window.Viewport.Target);
         _batch.Clear(engine, scene.Camera.BackgroundColor);
-        _batch.Begin(engine, transformMatrix: GetCameraMatrix(scene.Camera, engine.Window.Viewport), blendState: BlendState.NonPremultiplied);
+        _batch.Begin(engine, transformMatrix: GetCameraMatrix(scene.Camera, engine.Window.Viewport),
+            blendState: BlendState.NonPremultiplied);
 
         scene.Root.Draw(engine, _batch);
         scene.Canvas.Draw(engine, _batch);
@@ -44,7 +47,8 @@ public sealed class CustomRenderer : IRenderer
         _batch.SetRenderTarget(engine, null);
         _batch.Clear(engine, Color.Black);
         _batch.Begin(engine);
-        _batch.DrawSprite(viewport.Target, Color.White, GetViewportMatrix(engine.Window, viewport), Vector2.One * 0.5f, PostProcessingEffect, null, 0f);
+        _batch.DrawSprite(viewport.Target, Color.White, GetViewportMatrix(engine.Window, viewport), Vector2.One * 0.5f,
+            PostProcessingEffect, null, 0f);
         _batch.End(engine);
     }
 
@@ -55,6 +59,7 @@ public sealed class CustomRenderer : IRenderer
 
     private Matrix GetViewportMatrix(Window window, IViewport viewport)
     {
-        return Matrix.CreateScale(viewport.Width, viewport.Height, 0) * Matrix.CreateTranslation(new Vector3(window.Width, window.Height, 0) * 0.5f);
+        return Matrix.CreateScale(viewport.Width, viewport.Height, 0) *
+               Matrix.CreateTranslation(new Vector3(window.Width, window.Height, 0) * 0.5f);
     }
 }

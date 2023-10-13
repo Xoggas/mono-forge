@@ -13,9 +13,17 @@ public sealed class AudioSource : IAudioSource
 
     public IAudioChannel Channel { get; }
 
-    public IAudioClip? Clip { get => _fmodChannel.Clip; set => _fmodChannel.Clip = value as AudioClip; }
+    public IAudioClip? Clip
+    {
+        get => _fmodChannel.Clip;
+        set => _fmodChannel.Clip = value as AudioClip;
+    }
 
-    public float Time { get => _fmodChannel.Time; set => _fmodChannel.Time = value; }
+    public float Time
+    {
+        get => _fmodChannel.Time;
+        set => _fmodChannel.Time = value;
+    }
 
     public string Id { get; set; }
 

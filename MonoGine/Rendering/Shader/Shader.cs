@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine.Rendering;
 
-public sealed class Shader : IObject
+public sealed class Shader : IObject, IEquatable<Shader>, IDeepCopyable<Shader>
 {
     private readonly Effect _effect;
     private readonly PropertyCollection _properties;
@@ -10,7 +11,13 @@ public sealed class Shader : IObject
     public Shader(Effect effect)
     {
         _effect = effect;
-        _properties = new PropertyCollection(effect.Parameters);
+        _properties = new PropertyCollection();
+    }
+
+    private Shader(Effect effect, PropertyCollection properties)
+    {
+        _effect = effect;
+        _properties = properties.DeepCopy();
     }
 
     public PropertyCollection Properties => _properties;
@@ -20,14 +27,23 @@ public sealed class Shader : IObject
     {
         Properties.ApplyTo(_effect);
     }
-    
-    public static bool Equals(Shader? a, Shader? b)
+
+    public Shader DeepCopy()
     {
-        return a == b || a != null && b != null && a._properties.Equals(b._properties);
+        return new Shader(_effect, _properties);
+    }
+
+    public bool Equals(Shader? other)
+    {
+        return ReferenceEquals(this, other) || (other != null && _properties.Equals(other._properties));
+    }
+
+    public override bool Equals(object obj)
+    {
+        return Equals(obj as Shader);
     }
 
     public void Dispose()
     {
-        _effect.Dispose();
     }
 }

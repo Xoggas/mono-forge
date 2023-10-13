@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Audio;
 using MonoGine.InputSystem;
 using MonoGine.Rendering;
-using MonoGine.Resources;
+using MonoGine.ResourceLoading;
 using MonoGine.SceneManagement;
 
 namespace MonoGine;
@@ -42,7 +42,7 @@ public interface IEngine : IObject
     /// Gets the input provider.
     /// </summary>
     public IInput Input { get; }
-    
+
     /// <summary>
     /// Gets the cursor information of the engine.
     /// </summary>
@@ -57,12 +57,12 @@ public interface IEngine : IObject
     /// Gets the scene manager associated with the engine.
     /// </summary>
     public ISceneManager SceneManager { get; }
-    
+
     /// <summary>
     /// Gets the audio manager associated with the engine.
     /// </summary>
     public IAudioManager AudioManager { get; }
-    
+
     /// <summary>
     /// Gets the renderer.
     /// </summary>

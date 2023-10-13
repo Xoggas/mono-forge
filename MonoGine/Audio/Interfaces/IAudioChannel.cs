@@ -25,15 +25,39 @@ public interface IAudioChannel : IObject, IUpdatable
     /// <param name="source">A source to remove.</param>
     public void RemoveSource(IAudioSource source);
     
+    /// <summary>
+    /// Pauses all Audio Sources by the specified id.
+    /// </summary>
+    /// <param name="id">The id of sources to pause.</param>
+    /// <param name="comparison">String comparator.</param>
     public void PauseById(string id, StringComparison comparison);
 
+    /// <summary>
+    /// Stops all Audio Sources by the specified id.
+    /// </summary>
+    /// <param name="id">The id of sources to stop.</param>
+    /// <param name="comparison">String comparator.</param>
     public void StopById(string id, StringComparison comparison);
 
+    /// <summary>
+    /// Destroys all Audio Sources by the specified id.
+    /// </summary>
+    /// <param name="id">The id of sources to stop.</param>
+    /// <param name="comparison">String comparator.</param>
     public void DestroyById(string id, StringComparison comparison);
     
+    /// <summary>
+    /// Pauses all Audio Sources.
+    /// </summary>
     public void PauseAll();
 
+    /// <summary>
+    /// Stops all Audio Sources.
+    /// </summary>
     public void StopAll();
 
+    /// <summary>
+    /// Destroys all Audio Sources.
+    /// </summary>
     public void DestroyAll();
 }

@@ -2,8 +2,6 @@
 
 public interface IAudioClip : IObject
 {
-    
-
     /// <summary>
     /// Gets the duration of the clip in milliseconds.
     /// </summary>

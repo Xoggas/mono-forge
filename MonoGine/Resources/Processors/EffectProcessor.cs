@@ -1,21 +1,15 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Effect.Compiler;
 
-namespace MonoGine.Resources;
+namespace MonoGine.ResourceLoading;
 
 internal sealed class EffectProcessor : IProcessor<Effect>
 {
     public Effect Load(IEngine engine, string path)
     {
-        var bytes = ShaderCompiler.Compile(PathUtils.GetAbsolutePath(path));
-
-        if (bytes != null)
-        {
-            return new Effect(engine.GraphicsDevice, bytes);
-        }
-
-        throw new FileProcessingErrorException("Shader compilation error!");
+        var bytes = File.ReadAllBytes(PathUtils.GetAbsolutePath(path));
+        return new Effect(engine.GraphicsDevice, bytes);
     }
 
     public void Save(IEngine engine, string path, Effect resource)

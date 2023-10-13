@@ -29,7 +29,9 @@ public sealed class Batch : IBatch
         engine.GraphicsDevice.SetRenderTarget(target);
     }
 
-    public void Begin(IEngine engine, BlendState? blendState = null, SamplerState? samplerState = null, DepthStencilState? depthStencilState = null, RasterizerState? rasterizerState = null, Matrix? transformMatrix = null)
+    public void Begin(IEngine engine, BlendState? blendState = null, SamplerState? samplerState = null,
+        DepthStencilState? depthStencilState = null, RasterizerState? rasterizerState = null,
+        Matrix? transformMatrix = null)
     {
         if (_batchHasBegun)
         {
@@ -40,14 +42,16 @@ public sealed class Batch : IBatch
         engine.GraphicsDevice.SamplerStates[0] = samplerState ?? SamplerState.LinearClamp;
         engine.GraphicsDevice.DepthStencilState = depthStencilState ?? DepthStencilState.None;
         engine.GraphicsDevice.RasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
-        
+
         _batcher.Begin(engine, transformMatrix);
         _batchHasBegun = true;
     }
 
-    public void DrawSprite(Texture2D texture, Color color, Matrix matrix, Vector2 pivot, Shader? shader, Rectangle? textureRect, float depth)
+    public void DrawSprite(Texture2D texture, Color color, Matrix matrix, Vector2 pivot, Shader? shader,
+        Rectangle? textureRect, float depth)
     {
-        _batcher.Push(new BatchItem(texture, shader, color, matrix, pivot, textureRect ?? new Rectangle(0, 0, 1, 1), depth));
+        _batcher.Push(new BatchItem(texture, shader, color, matrix, pivot, textureRect ?? new Rectangle(0, 0, 1, 1),
+            depth));
     }
 
     public void End(IEngine engine)

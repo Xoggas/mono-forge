@@ -2,7 +2,6 @@
 using MonoGine.Rendering;
 using MonoGine.SceneGraph;
 using MonoGine.UI;
-using PhysicsWorld = Genbox.VelcroPhysics.Dynamics.World;
 
 namespace MonoGine.SceneManagement;
 
@@ -20,11 +19,11 @@ public interface IScene : IUpdatable, IObject
     /// Gets the root of the scene hierarchy tree.
     /// </summary>
     public Node Root { get; }
-
+    
     /// <summary>
-    /// Gets the physics world associated with the scene.
+    /// Gets the physics module.
     /// </summary>
-    public PhysicsWorld Physics { get; }
+    public Box2DX.Dynamics.World Physics { get; }
 
     /// <summary>
     /// Gets the camera associated with the world.

@@ -9,7 +9,7 @@ public interface IWorld : IObject, IUpdatable
     /// </summary>
     /// <typeparam name="T">The type of entity to create.</typeparam>
     /// <returns>The created entity.</returns>
-    public T CreateEntity<T>() where T : IEntity;
+    public T CreateEntity<T>() where T : IEntity, new();
 
     /// <summary>
     /// Gets all entities of the specified type from the world.

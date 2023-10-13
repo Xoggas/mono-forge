@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace MonoGine.Resources;
+namespace MonoGine.ResourceLoading;
 
 public static class PathUtils
 {

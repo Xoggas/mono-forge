@@ -1,9 +1,9 @@
-﻿namespace MonoGine.Resources;
+﻿namespace MonoGine.ResourceLoading;
 
 /// <summary>
 /// Represents an interface for a resource manager.
 /// </summary>
-public interface IResourceManager : IObject
+public interface IResourceManager : IObject, IInitializable
 {
     /// <summary>
     /// Registers a processor for handling a specific resource type.

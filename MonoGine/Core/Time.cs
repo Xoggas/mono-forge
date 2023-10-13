@@ -6,7 +6,6 @@ public sealed class Time : IObject
 {
     internal Time()
     {
-
     }
 
     /// <summary>
@@ -24,14 +23,19 @@ public sealed class Time : IObject
     /// </summary>
     public float DeltaTime { get; private set; }
 
+    /// <summary>
+    /// Returns true if the game runs slow.
+    /// </summary>
+    public bool IsRunningSlowly { get; private set; }
+
     public void Update(GameTime gameTime)
     {
         ElapsedTime = (float)gameTime.TotalGameTime.TotalSeconds;
         DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * Speed;
+        IsRunningSlowly = gameTime.IsRunningSlowly;
     }
 
     public void Dispose()
     {
-
     }
 }

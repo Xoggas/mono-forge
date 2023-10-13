@@ -24,9 +24,9 @@ public class World : IWorld
     /// </summary>
     /// <typeparam name="T">The type of entity to create.</typeparam>
     /// <returns>The created entity.</returns>
-    public T CreateEntity<T>() where T : IEntity
+    public T CreateEntity<T>() where T : IEntity, new()
     {
-        var entity = Activator.CreateInstance<T>();
+        var entity = new T();
 
         _entities.Add(entity);
 

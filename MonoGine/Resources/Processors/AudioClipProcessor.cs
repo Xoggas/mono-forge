@@ -2,7 +2,7 @@
 using FmodForFoxes;
 using MonoGine.Audio;
 
-namespace MonoGine.Resources;
+namespace MonoGine.ResourceLoading;
 
 public sealed class AudioClipProcessor : IProcessor<AudioClip>
 {

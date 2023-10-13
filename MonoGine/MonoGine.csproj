@@ -1,36 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
-	<ItemGroup>
-		<Compile Remove="Libraries\FMOD\**" />
-		<EmbeddedResource Remove="Libraries\FMOD\**" />
-		<None Remove="Libraries\FMOD\**" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="FmodForFoxes" Version="3.0.0" />
-		<PackageReference Include="FmodForFoxes.Desktop" Version="3.0.0" />
-		<PackageReference Include="Genbox.VelcroPhysics.MonoGame" Version="0.1.0-alpha.2" />
-		<PackageReference Include="Genbox.VelcroPhysics.MonoGame.Content.TextureToVertices" Version="0.1.0-alpha.2" />
-		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
-			<PrivateAssets>All</PrivateAssets>
-		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\MGFXC\MGFXC.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Reference Include="CppNet">
-	    <HintPath>Libraries\CppNet.dll</HintPath>
-	  </Reference>
-	  <Reference Include="SharpDX">
-	    <HintPath>Libraries\SharpDX.dll</HintPath>
-	  </Reference>
-	  <Reference Include="SharpDX.D3DCompiler">
-	    <HintPath>Libraries\SharpDX.D3DCompiler.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Box2DX" Version="2.0.2" />
+        <PackageReference Include="FmodForFoxes" Version="3.0.0" />
+        <PackageReference Include="FmodForFoxes.Desktop" Version="3.0.0" />
+        <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
+            <PrivateAssets>All</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\MonoGine.ShaderCompiler\MonoGine.ShaderCompiler.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Libraries\fmod.dll">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <TargetPath>fmod.dll</TargetPath>
+        </None>
+    </ItemGroup>
 </Project>

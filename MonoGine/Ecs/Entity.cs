@@ -1,5 +1,4 @@
-﻿using MonoGine.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace MonoGine.Ecs;
@@ -39,20 +38,13 @@ public abstract class Entity : IEntity
     /// </summary>
     /// <typeparam name="T">The type of component to add.</typeparam>
     /// <returns>The added component.</returns>
-    public T AddComponent<T>() where T : notnull, IComponent
+    public T AddComponent<T>() where T : IComponent
     {
-        var component = (T?) Activator.CreateInstance(typeof(T), this);
+        var component = (T)Activator.CreateInstance(typeof(T), this)!;
 
-        if (component != null)
-        {
-            _components.Add(component);
+        _components.Add(component);
 
-            return component;
-        }
-        else
-        {
-            throw new Exception("Error occured when creating a new component!");
-        }
+        return component;
     }
 
     /// <summary>
@@ -62,7 +54,7 @@ public abstract class Entity : IEntity
     /// <returns>The first component of the specified type, or null if not found.</returns>
     public T? GetFirstComponent<T>() where T : IComponent
     {
-        return (T?) _components.Find(component => component is T);
+        return (T?)_components.Find(component => component is T);
     }
 
     /// <summary>
@@ -72,7 +64,7 @@ public abstract class Entity : IEntity
     /// <returns>An enumerable collection of components of the specified type.</returns>
     public IEnumerable<T> GetComponentsOfType<T>() where T : IComponent
     {
-        return (IEnumerable<T>) _components.FindAll(component => component is T);
+        return (IEnumerable<T>)_components.FindAll(component => component is T);
     }
 
     /// <summary>
@@ -157,7 +149,7 @@ public abstract class Entity : IEntity
             {
                 return false;
             }
-            
+
             component.Dispose();
             return true;
         });

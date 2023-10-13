@@ -2,87 +2,58 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
+namespace MonoGame.Effect.Compiler;
 
-namespace MonoGame.Effect.Compiler
+public sealed class ShaderCompiler : IDisposable
 {
-    public sealed class ShaderCompiler : IDisposable
+    private static EffectCompilerOutput s_output = new();
+
+    public void Dispose()
     {
-        private class EffectCompilerOutput : IEffectCompilerOutput
-        {
-            public void WriteWarning(string file, int line, int column, string message)
-            {
-                Debug.Print("Warning: {0}({1},{2}): {3}", file, line, column, message);
-            }
+        s_output = null;
+    }
 
-            public void WriteError(string file, int line, int column, string message)
-            {
-                throw new Exception($"Error: {file}({line},{column}): {message}");
-            }
+    public static void CompileAllShaders(string path)
+    {
+        var paths = Directory.GetFiles(path, "*.fx", SearchOption.AllDirectories);
+        foreach (var shaderFilePath in paths)
+            Compile(shaderFilePath);
+    }
+
+    private static void Compile(string path)
+    {
+        var options = new Options {SourceFile = path, OutputFile = Path.ChangeExtension(path, "shader")};
+        GetShaderBytecode(options);
+    }
+
+    private static void GetShaderBytecode(Options options)
+    {
+        using var stream = File.OpenWrite(options.OutputFile);
+        using var writer = new BinaryWriter(stream);
+
+        CompileShader(options).Write(writer, options);
+    }
+
+    private static EffectObject CompileShader(Options options)
+    {
+        return EffectObject.CompileEffect(GetShaderResult(options), out _);
+    }
+
+    private static ShaderResult GetShaderResult(Options options)
+    {
+        return ShaderResult.FromFile(options.SourceFile, options, s_output);
+    }
+
+    private class EffectCompilerOutput : IEffectCompilerOutput
+    {
+        public void WriteWarning(string file, int line, int column, string message)
+        {
+            Debug.Print("Warning: {0}({1},{2}): {3}", file, line, column, message);
         }
 
-        private static EffectCompilerOutput s_output = new EffectCompilerOutput();
-
-        public static byte[] Compile(string path)
+        public void WriteError(string file, int line, int column, string message)
         {
-            Options options = new Options() { SourceFile = path };
-
-            if (File.Exists(path))
-            {
-                return GetShaderBytecode(options);
-            }
-            else
-            {
-                return null;
-            }
+            throw new Exception($"Error: {file}({line},{column}): {message}");
         }
-
-        public void Dispose()
-        {
-            s_output = null;
-        }
-
-        private static byte[] GetShaderBytecode(Options options)
-        {
-            try
-            {
-                using (var stream = new MemoryStream())
-                {
-                    using (var writer = new BinaryWriter(stream))
-                    {
-                        CompileShader(options).Write(writer, options);
-
-                        return stream.ToArray();
-                    }
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        private static EffectObject CompileShader(Options options)
-        {
-            try
-            {
-                return EffectObject.CompileEffect(GetShaderResult(options), out _);
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        private static ShaderResult GetShaderResult(Options options)
-        {
-            try
-            {
-                return ShaderResult.FromFile(options.SourceFile, options, s_output);
-            }
-            catch
-            {
-                throw;
-            }
-        }
-    } 
+    }
 }

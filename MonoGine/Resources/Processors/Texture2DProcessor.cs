@@ -2,7 +2,7 @@
 using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonoGine.Resources;
+namespace MonoGine.ResourceLoading;
 
 internal sealed class Texture2DProcessor : IProcessor<Texture2D>
 {

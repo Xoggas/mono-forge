@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonoGine.Resources;
+namespace MonoGine.ResourceLoading;
 
 /// <summary>
 /// Represents a resource manager responsible for loading, saving, and managing resources.
@@ -19,6 +19,18 @@ public sealed class ResourceManager : IResourceManager
         _engine = engine;
         _resources = new ResourceCollection();
         _processors = new ProcessorCollection();
+    }
+
+    /// <summary>
+    /// Initializes the resource manager.
+    /// </summary>
+    /// <param name="engine"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void Initialize(IEngine engine)
+    {
+        RegisterProcessor(new Texture2DProcessor());
+        RegisterProcessor(new EffectProcessor());
+        RegisterProcessor(new AudioClipProcessor());
     }
 
     /// <summary>
@@ -44,7 +56,7 @@ public sealed class ResourceManager : IResourceManager
             throw new InvalidOperationException("The engine is null!");
         }
 
-        if (_resources.TryGet<T>(path, out var cachedAsset))
+        if (_resources.TryGet<T>(path, out T? cachedAsset))
         {
             return cachedAsset;
         }
@@ -53,7 +65,7 @@ public sealed class ResourceManager : IResourceManager
 
         if (_processors.TryGet<T>(out var processor))
         {
-            var result = processor.Load(_engine, path);
+            T result = processor.Load(_engine, path);
 
             _resources.TryAdd(path, result);
 
@@ -83,7 +95,7 @@ public sealed class ResourceManager : IResourceManager
     /// <param name="path">The path of the resource to unload.</param>
     public void Unload(string path)
     {
-        if (_resources.TryGet<IDisposable>(path, out var cachedAsset))
+        if (_resources.TryGet<IDisposable>(path, out IDisposable? cachedAsset))
         {
             cachedAsset.Dispose();
         }
