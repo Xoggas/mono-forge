@@ -47,11 +47,9 @@ public sealed class Batch : IBatch
         _batchHasBegun = true;
     }
 
-    public void DrawSprite(Texture2D texture, Color color, Matrix matrix, Vector2 pivot, Shader? shader,
-        Rectangle? textureRect, float depth)
+    public void DrawTexturedMesh(Texture2D texture, Mesh mesh, Shader? shader, float depth)
     {
-        _batcher.Push(new BatchItem(texture, shader, color, matrix, pivot, textureRect ?? new Rectangle(0, 0, 1, 1),
-            depth));
+        _batcher.Push(new BatchItem(texture, mesh, shader, depth));
     }
 
     public void End(IEngine engine)

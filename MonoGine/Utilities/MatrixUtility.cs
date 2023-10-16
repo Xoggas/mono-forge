@@ -6,15 +6,13 @@ public static class MatrixUtility
 {
     public static Matrix CreateSkewMatrix(float skewX, float skewY)
     {
-        var matrix = Matrix.Identity;
-
+        Matrix matrix = Matrix.Identity;
         matrix.M21 = skewX;
         matrix.M12 = skewY;
-
         return matrix;
     }
 
-    public static Matrix CreateTRSSMatrix(Vector2 position, Vector3 rotation, Vector2 scale, Vector2 skew)
+    public static Matrix CreateTrssMatrix(Vector2 position, Vector3 rotation, Vector2 scale, Vector2 skew)
     {
         return Matrix.CreateScale(new Vector3(scale, 0f)) *
                CreateSkewMatrix(MathHelper.ToRadians(skew.X), MathHelper.ToRadians(skew.Y)) *

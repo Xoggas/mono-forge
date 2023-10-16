@@ -1,36 +1,29 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine.Rendering;
 
-public sealed class IntProperty : IProperty, IEquatable<IntProperty>
+public sealed class FloatProperty : Property<float>
 {
-    public IntProperty(string name, int value)
+    public override void ApplyProperty(Effect effect, string propertyName)
     {
-        Name = name;
-        Value = value;
+        effect.Parameters[propertyName].SetValue(Value);
     }
 
-    public string Name { get; }
-    public int Value { get; set; }
-
-    public void ApplyValueToEffect(Effect effect)
+    public override Property<float> DeepCopy()
     {
-        effect.Parameters[Name].SetValue(Value);
+        return new FloatProperty { Value = Value };
+    }
+}
+
+public sealed class FloatBufferProperty : Property<float[]>
+{
+    public override void ApplyProperty(Effect effect, string propertyName)
+    {
+        effect.Parameters[propertyName].SetValue(Value);
     }
 
-    public IProperty DeepCopy()
+    public override Property<float[]> DeepCopy()
     {
-        return new IntProperty(Name, Value);
-    }
-
-    public bool Equals(IntProperty? other)
-    {
-        return ReferenceEquals(this, other) || (other != null && Value == other.Value);
-    }
-
-    public bool Equals(IProperty? other)
-    {
-        return Equals(other as IntProperty);
+        return new FloatBufferProperty { Value = (float[])Value.Clone() };
     }
 }

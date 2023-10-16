@@ -48,7 +48,10 @@ public sealed class Renderer : IRenderer
         _batch.SetRenderTarget(engine, null);
         _batch.Clear(engine, Color.Black);
         _batch.Begin(engine, samplerState: SamplerState.LinearWrap, rasterizerState: _rasterizerState);
-        _batch.DrawSprite(viewport.Target, Color.White, GetViewportMatrix(engine.Window, viewport), Vector2.One * 0.5f, null, null, 0f);
+
+        //TODO: Fix rendering
+        //_batch.DrawTexturedMesh(viewport.Target, Color.White, GetViewportMatrix(engine.Window, viewport), Vector2.One * 0.5f, null, null, 0f);
+        
         _batch.End(engine);
     }
 

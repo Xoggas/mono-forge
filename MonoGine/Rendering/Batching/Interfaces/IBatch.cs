@@ -13,8 +13,6 @@ public interface IBatch : IObject
         DepthStencilState? depthStencilState = null, RasterizerState? rasterizerState = null,
         Matrix? transformMatrix = null);
 
-    public void DrawSprite(Texture2D texture, Color color, Matrix matrix, Vector2 pivot, Shader? shader,
-        Rectangle? textureRect, float depth);
-
+    public void DrawTexturedMesh(Texture2D texture, Mesh mesh, Shader? shader, float depth);
     public void End(IEngine engine);
 }

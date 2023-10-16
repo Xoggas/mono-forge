@@ -6,21 +6,21 @@ namespace MonoGine.Rendering;
 public sealed class Shader : IObject, IEquatable<Shader>, IDeepCopyable<Shader>
 {
     private readonly Effect _effect;
-    private readonly PropertyCollection _properties;
+    private readonly Properties _properties;
 
     public Shader(Effect effect)
     {
         _effect = effect;
-        _properties = new PropertyCollection();
+        _properties = new Properties();
     }
 
-    private Shader(Effect effect, PropertyCollection properties)
+    private Shader(Effect effect, Properties properties)
     {
         _effect = effect;
-        _properties = properties.DeepCopy();
+        _properties = properties;
     }
 
-    public PropertyCollection Properties => _properties;
+    public Properties Properties => _properties;
     public EffectPassCollection Passes => _effect.CurrentTechnique.Passes;
 
     public void ApplyProperties()
@@ -30,7 +30,7 @@ public sealed class Shader : IObject, IEquatable<Shader>, IDeepCopyable<Shader>
 
     public Shader DeepCopy()
     {
-        return new Shader(_effect, _properties);
+        return new Shader(_effect, _properties.DeepCopy());
     }
 
     public bool Equals(Shader? other)
@@ -38,12 +38,8 @@ public sealed class Shader : IObject, IEquatable<Shader>, IDeepCopyable<Shader>
         return ReferenceEquals(this, other) || (other != null && _properties.Equals(other._properties));
     }
 
-    public override bool Equals(object obj)
-    {
-        return Equals(obj as Shader);
-    }
-
     public void Dispose()
     {
+        _effect.Dispose();
     }
 }

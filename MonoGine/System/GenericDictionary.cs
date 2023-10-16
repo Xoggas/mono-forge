@@ -1,5 +1,6 @@
 ﻿namespace System.Collections.Generic;
 
+//TODO: Get rid of this type
 public class GenericDictionary<TKey> : Dictionary<TKey, object> where TKey : notnull
 {
     public bool TryGet<T>(TKey key, out T? value) where T : notnull

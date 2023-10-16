@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Animations;
 using MonoGine.Ecs;
-using MonoGine.Rendering;
 using MonoGine.SceneGraph;
 using MonoGine.SceneManagement;
 
@@ -10,37 +9,30 @@ namespace MonoGine.Test;
 
 public sealed class MainScene : Scene
 {
-    private Texture2D _texture = null!;
-    private Effect _effect = null!;
+    private Texture2D _texture = default!;
 
     protected override void OnLoadResources(IEngine engine)
     {
         _texture = engine.ResourceManager.Load<Texture2D>("Rect.png");
-        _effect = engine.ResourceManager.Load<Effect>("Shaders/Brightness.shader");
     }
 
     protected override void OnLoad(IEngine engine, object[]? args)
     {
-        for (var i = 0; i < 5000; i++)
+        Camera.BackgroundColor = Color.Gray;
+
+        var sprite = new SpriteNode
         {
-            var sprite = new SpriteNode
+            Texture = _texture,
+            Transform =
             {
-                Texture = _texture,
-                Transform =
-                {
-                    Position = new Vector2(Random.Shared.NextSingle() * 1280f, Random.Shared.NextSingle() * 720f),
-                    Scale = Vector2.One * 100f,
-                    Depth = engine.Time.ElapsedTime
-                },
-                Shader = new Shader(_effect)
-            };
+                Position = new Vector2(640f, 360f),
+                Scale = Vector2.One * 100f
+            }
+        };
 
-            sprite.SetParent(Root);
+        sprite.SetParent(Root);
 
-            var spriteEntity = World.CreateEntity<SpriteEntity>();
-            spriteEntity.Sprite = sprite;
-            spriteEntity.Offset = i * 10f;
-        }
+        World.AddEntity(new SpriteEntity(sprite));
     }
 
     protected override void OnUnload(IEngine engine, object[]? args)
@@ -50,27 +42,38 @@ public sealed class MainScene : Scene
 
 public sealed class SpriteEntity : Entity
 {
-    public SpriteNode Sprite = null!;
-    public float Offset;
+    private readonly Node _node;
+    private readonly Sequence _xSequence;
+    private readonly Sequence _ySequence;
 
-    private readonly FloatProperty _brightnessProperty = new("Brightness", 0f);
-
-    public override void Start(IEngine engine)
+    public SpriteEntity(Node node)
     {
-        base.Start(engine);
-        Sprite.Shader?.Properties.Add(_brightnessProperty);
+        _node = node;
+
+        _xSequence = new Sequence(new[]
+        {
+            new Keyframe(0f, 50f, Ease.Linear),
+            new Keyframe(1f, 150f, Ease.Linear),
+            new Keyframe(2f, 50f, Ease.Linear),
+            new Keyframe(3f, 150f, Ease.Linear)
+        });
+
+        _ySequence = new Sequence(new[]
+        {
+            new Keyframe(0f, 150f, Ease.Linear),
+            new Keyframe(1f, 50f, Ease.Linear),
+            new Keyframe(2f, 150f, Ease.Linear),
+            new Keyframe(3f, 50f, Ease.Linear)
+        });
     }
 
     public override void Update(IEngine engine)
     {
         base.Update(engine);
-        _brightnessProperty.Value = MathF.Abs(MathF.Sin(engine.Time.ElapsedTime + Offset));
-    }
 
-    public override void Dispose()
-    {
-        base.Dispose();
-        Sprite.Shader?.Dispose();
-        Sprite.Dispose();
+        var x = _xSequence.Evaluate(engine.Time.ElapsedTime % 2f);
+        var y = _ySequence.Evaluate(engine.Time.ElapsedTime % 2f);
+
+        _node.Transform.Scale = new Vector2(x, y);
     }
 }

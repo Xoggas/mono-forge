@@ -1,79 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using MonoGine.Rendering;
+﻿using System.Collections.Generic;
 
 namespace MonoGine.Ecs;
 
-/// <summary>
-/// Represents a game world that contains entities.
-/// </summary>
 public class World : IWorld
 {
     private readonly List<IEntity> _entities;
 
-    /// <summary>
-    /// Initializes a new instance of the World class.
-    /// </summary>
     internal World()
     {
         _entities = new List<IEntity>();
     }
 
-    /// <summary>
-    /// Creates a new entity of the specified type and adds it to the world.
-    /// </summary>
-    /// <typeparam name="T">The type of entity to create.</typeparam>
-    /// <returns>The created entity.</returns>
-    public T CreateEntity<T>() where T : IEntity, new()
+    public void AddEntity(IEntity entity)
     {
-        var entity = new T();
-
         _entities.Add(entity);
-
-        return entity;
     }
 
-    /// <summary>
-    /// Gets all entities of the specified type from the world.
-    /// </summary>
-    /// <typeparam name="T">The type of entities to retrieve.</typeparam>
-    /// <returns>An IEnumerable of entities of the specified type.</returns>
     public IEnumerable<T> GetEntitiesOfType<T>() where T : IEntity
     {
         return (IEnumerable<T>)_entities.FindAll(entity => entity is T);
     }
 
-    /// <summary>
-    /// Destroys all entities of the specified type in the world.
-    /// </summary>
-    /// <typeparam name="T">The type of entities to destroy.</typeparam>
     public void DestroyEntitiesOfType<T>() where T : IEntity
     {
-        foreach (var entity in GetEntitiesOfType<T>())
+        foreach (T entity in GetEntitiesOfType<T>())
         {
             entity.Destroy();
         }
     }
 
-    /// <summary>
-    /// Destroys all entities in the world.
-    /// </summary>
     public void DestroyAllEntities()
     {
-        foreach (var entity in _entities)
+        for (var i = 0; i < _entities.Count; i++)
         {
+            IEntity entity = _entities[i];
             entity.Destroy();
         }
     }
 
-    /// <summary>
-    /// Updates all entities in the world.
-    /// </summary>
-    /// <param name="engine">The engine used for the game.</param>
     public void Update(IEngine engine)
     {
-        foreach (var entity in _entities)
+        for (var i = 0; i < _entities.Count; i++)
         {
+            IEntity entity = _entities[i];
+
             if (ShouldSkip(entity))
             {
                 continue;
@@ -84,14 +54,12 @@ public class World : IWorld
 
         RemoveDestroyedEntities();
     }
-    
-    /// <summary>
-    /// Disposes the world and all its entities.
-    /// </summary>
+
     public void Dispose()
     {
-        foreach (var entity in _entities)
+        for (var i = 0; i < _entities.Count; i++)
         {
+            IEntity entity = _entities[i];
             entity.Dispose();
         }
     }

@@ -5,6 +5,5 @@ namespace MonoGine.Rendering;
 
 public interface IProperty : IEquatable<IProperty>, IDeepCopyable<IProperty>
 {
-    public string Name { get; }
-    public void ApplyValueToEffect(Effect effect);
+    public void ApplyProperty(Effect effect, string propertyName);
 }

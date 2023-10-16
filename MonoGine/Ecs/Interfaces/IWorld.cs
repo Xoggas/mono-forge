@@ -5,11 +5,10 @@ namespace MonoGine.Ecs;
 public interface IWorld : IObject, IUpdatable
 {
     /// <summary>
-    /// Creates a new entity of the specified type and adds it to the world.
+    /// Adds the entity to the update list.
     /// </summary>
-    /// <typeparam name="T">The type of entity to create.</typeparam>
-    /// <returns>The created entity.</returns>
-    public T CreateEntity<T>() where T : IEntity, new();
+    /// <param name="entity"></param>
+    public void AddEntity(IEntity entity);
 
     /// <summary>
     /// Gets all entities of the specified type from the world.

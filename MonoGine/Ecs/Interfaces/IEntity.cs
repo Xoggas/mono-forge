@@ -7,9 +7,14 @@ public interface IEntity : IEntityComponent
     /// <summary>
     /// Adds a component of type T to the entity.
     /// </summary>
-    /// <typeparam name="T">The type of component to add.</typeparam>
-    /// <returns>The added component.</returns>
-    public T AddComponent<T>() where T : IComponent;
+    public void AddComponent(IComponent component);
+
+    /// <summary>
+    /// Checks if entity contains a component.
+    /// </summary>
+    /// <param name="component">The component to search in the entity.</param>
+    /// <returns>True if component is attached to the entity.</returns>
+    public bool ContainsComponent(IComponent component);
 
     /// <summary>
     /// Gets the first component of type T from the entity.

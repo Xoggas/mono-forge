@@ -2,6 +2,6 @@
 
 public enum LoopType
 {
-    Repeat, 
+    Repeat,
     PingPong
 }

@@ -37,7 +37,7 @@ public sealed class Transform : IObject, IUpdatable
 
     private void UpdateLocalMatrix()
     {
-        LocalMatrix = MatrixUtility.CreateTRSSMatrix(Position, Rotation, Scale, Skew);
+        LocalMatrix = MatrixUtility.CreateTrssMatrix(Position, Rotation, Scale, Skew);
     }
 
     private void UpdateWorldMatrix()
