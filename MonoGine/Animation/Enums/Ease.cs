@@ -2,6 +2,7 @@
 
 public enum Ease
 {
+    Instant,
     InQuad,
     OutQuad,
     InOutQuad,

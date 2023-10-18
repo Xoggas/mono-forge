@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace MonoGine.InputSystem;
@@ -15,6 +16,8 @@ public sealed class Gamepad : IGamepad
         _playerIndex = playerIndex;
     }
 
+    public event Action? Connected;
+    public event Action? Disconnected;
     public bool IsConnected { get; private set; }
     public Vector2 LeftStickValue { get; private set; }
     public Vector2 RightStickValue { get; private set; }
@@ -24,6 +27,7 @@ public sealed class Gamepad : IGamepad
     public void Update(IEngine engine)
     {
         UpdateStates();
+        HandleEvents();
         UpdateValues();
     }
 
@@ -64,5 +68,18 @@ public sealed class Gamepad : IGamepad
         LeftShoulderValue = _currentState.Triggers.Left;
         RightStickValue = _currentState.ThumbSticks.Right;
         RightShoulderValue = _currentState.Triggers.Right;
+    }
+
+    private void HandleEvents()
+    {
+        if (!_lastState.IsConnected && _currentState.IsConnected)
+        {
+            Connected?.Invoke();
+        }
+
+        if (_lastState.IsConnected && !_currentState.IsConnected)
+        {
+            Disconnected?.Invoke();
+        }
     }
 }

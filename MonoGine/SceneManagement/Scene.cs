@@ -4,26 +4,18 @@ using MonoGine.Ecs;
 using MonoGine.Rendering;
 using MonoGine.SceneGraph;
 using MonoGine.UI;
-using World = Box2DX.Dynamics.World;
 
 namespace MonoGine.SceneManagement;
 
 public abstract class Scene : IScene
 {
-    protected Scene()
-    {
-        World = new Ecs.World();
-        Physics = new World(new AABB {LowerBound = Vec2.Zero, UpperBound = Vec2.Zero}, Vec2.Zero, true);
-        Root = new Node();
-        Camera = new Camera();
-        Canvas = new Canvas();
-    }
+    public Node Root { get; } = new();
+    public ICamera Camera { get; } = new Camera();
+    public ICanvas Canvas { get; } = new Canvas();
+    public IWorld World { get; } = new World();
 
-    public IWorld World { get; }
-    public World Physics { get; }
-    public Node Root { get; }
-    public ICamera Camera { get; }
-    public ICanvas Canvas { get; }
+    public Box2DX.Dynamics.World Physics { get; } =
+        new(new AABB { LowerBound = Vec2.Zero, UpperBound = Vec2.Zero }, Vec2.Zero, true);
 
     public virtual void Update(IEngine engine)
     {
@@ -55,21 +47,21 @@ public abstract class Scene : IScene
     }
 
     /// <summary>
-    ///     Called when the scene is loaded.
+    /// Called when the scene is loaded.
     /// </summary>
     /// <param name="engine">The engine used for the game.</param>
     /// <param name="args">Optional arguments passed during scene loading.</param>
     protected abstract void OnLoad(IEngine engine, object[]? args);
 
     /// <summary>
-    ///     Called when the scene is unloaded.
+    /// Called when the scene is unloaded.
     /// </summary>
     /// <param name="engine">The engine used for the game.</param>
     /// <param name="args">Optional arguments passed during scene unloading.</param>
     protected abstract void OnUnload(IEngine engine, object[]? args);
 
     /// <summary>
-    ///     Called when the scene's resources are loaded.
+    /// Called when the scene's resources are loaded.
     /// </summary>
     /// <param name="engine">The engine used for the game.</param>
     protected abstract void OnLoadResources(IEngine engine);

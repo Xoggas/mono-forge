@@ -2,5 +2,5 @@
 
 public interface IAnimatable
 {
-    public void ApplyProperty(string name, float value);
+    public float this[string propertyName] { set; }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoGine.Ecs;
 
@@ -18,7 +19,7 @@ public class World : IWorld
 
     public IEnumerable<T> GetEntitiesOfType<T>() where T : IEntity
     {
-        return (IEnumerable<T>)_entities.FindAll(entity => entity is T);
+        return (IEnumerable<T>)from entity in _entities where entity is T select entity;
     }
 
     public void DestroyEntitiesOfType<T>() where T : IEntity
@@ -64,7 +65,7 @@ public class World : IWorld
         }
     }
 
-    private bool ShouldSkip(IEntity entity)
+    private static bool ShouldSkip(IEntityComponent entity)
     {
         return entity.IsDestroyed || !entity.IsActive;
     }
@@ -76,10 +77,9 @@ public class World : IWorld
             if (entity.IsDestroyed)
             {
                 entity.Dispose();
-                return true;
             }
 
-            return false;
+            return entity.IsDestroyed;
         });
     }
 }

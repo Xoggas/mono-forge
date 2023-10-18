@@ -13,6 +13,8 @@ public sealed class Mouse : IMouse
     {
     }
 
+    public event Action? Connected;
+    public event Action? Disconnected;
     public bool IsConnected => true;
     public Vector2 Position { get; private set; }
     public Vector2 Delta { get; private set; }

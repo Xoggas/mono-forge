@@ -11,6 +11,7 @@ public static class EasingFunctions
     {
         return easingFunction switch
         {
+            Ease.Instant => Instant,
             Ease.InQuad => InQuad,
             Ease.OutQuad => OutQuad,
             Ease.InOutQuad => InOutQuad,
@@ -45,6 +46,11 @@ public static class EasingFunctions
             Ease.InOutElastic => InOutElastic,
             _ => Linear
         };
+    }
+
+    private static float Instant(float start, float end, float value)
+    {
+        return MathHelper.Lerp(start, end, (int)value >= 1 ? 1 : 0);
     }
 
     private static float Linear(float start, float end, float value)

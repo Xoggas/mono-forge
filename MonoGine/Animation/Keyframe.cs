@@ -17,6 +17,13 @@ public struct Keyframe : IComparable<Keyframe>
         Ease = ease;
     }
 
+    public Keyframe(float time, bool value, Ease ease)
+    {
+        Time = time;
+        Value = value ? 1 : 0;
+        Ease = ease;
+    }
+
     public float Interpolate(Keyframe other, float time)
     {
         var progress = MathExtensions.InverseLerp(Time, other.Time, time);

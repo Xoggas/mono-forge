@@ -15,6 +15,8 @@ public sealed class Sequence
         Array.Sort(_keyframes);
     }
 
+    public IEnumerable<Keyframe> Keyframes => _keyframes;
+
     public float Evaluate(float time)
     {
         switch (_keyframes.Length)
@@ -38,7 +40,7 @@ public sealed class Sequence
         }
 
         var keyframeIndex = FindKeyframe(time);
-        
+
         return _keyframes[keyframeIndex].Interpolate(_keyframes[keyframeIndex + 1], time);
     }
 

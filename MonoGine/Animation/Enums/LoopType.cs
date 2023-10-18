@@ -1,7 +1,8 @@
-﻿namespace MonoGine.Animations.Tweening;
+﻿namespace MonoGine.Animations;
 
 public enum LoopType
 {
+    Once,
     Repeat,
     PingPong
 }

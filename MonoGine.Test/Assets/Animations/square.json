@@ -1,0 +1,28 @@
+﻿{
+  "warning": {
+    "alpha": [
+      {
+        "time": 0,
+        "value": 0,
+        "ease": 0
+      },
+      {
+        "time": 1,
+        "value": 0.4,
+        "ease": 0
+      }
+    ],
+    "isActive": [
+      {
+        "time": 0,
+        "value": 1,
+        "ease": 0
+      },
+      {
+        "time": 1,
+        "value": 0,
+        "ease": 0
+      }
+    ]
+  }
+}

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Rendering;
 
 namespace MonoGine.Test;
@@ -28,7 +27,7 @@ public sealed class Game : Engine
     private void SetupCursor()
     {
         Cursor.IsVisible = true;
-        Cursor.Texture = ResourceManager.Load<Texture2D>("Cursor.png");
+        Cursor.Texture = ResourceManager.LoadFromFile<Sprite>("Cursor.png");
     }
 
     private void SetupRenderer()

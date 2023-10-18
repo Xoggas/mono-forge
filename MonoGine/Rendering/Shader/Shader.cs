@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGine.ResourceLoading;
 
 namespace MonoGine.Rendering;
 
-public sealed class Shader : IObject, IEquatable<Shader>, IDeepCopyable<Shader>
+public sealed class Shader : IResource, IEquatable<Shader>, IDeepCopyable<Shader>
 {
     private readonly Effect _effect;
     private readonly Properties _properties;

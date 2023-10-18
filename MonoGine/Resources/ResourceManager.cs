@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using MonoGine.Audio;
+using MonoGine.Rendering;
 
 namespace MonoGine.ResourceLoading;
 
@@ -9,7 +12,7 @@ public sealed class ResourceManager : IResourceManager
 {
     private readonly IEngine _engine;
     private readonly ResourceCollection _resources;
-    private readonly ProcessorCollection _processors;
+    private readonly Dictionary<Type, IResourceProcessor> _processors = new();
 
     /// <summary>
     /// Initializes a new instance of the ResourceManager class.
@@ -18,7 +21,6 @@ public sealed class ResourceManager : IResourceManager
     {
         _engine = engine;
         _resources = new ResourceCollection();
-        _processors = new ProcessorCollection();
     }
 
     /// <summary>
@@ -28,19 +30,19 @@ public sealed class ResourceManager : IResourceManager
     /// <exception cref="NotImplementedException"></exception>
     public void Initialize(IEngine engine)
     {
-        RegisterProcessor(new Texture2DProcessor());
-        RegisterProcessor(new EffectProcessor());
-        RegisterProcessor(new AudioClipProcessor());
+        RegisterProcessor<Sprite>(new SpriteResourceProcessor());
+        RegisterProcessor<Shader>(new ShaderResourceProcessor());
+        RegisterProcessor<AudioClip>(new AudioClipResourceProcessor());
     }
 
     /// <summary>
     /// Registers a processor for handling the loading and saving of resources of type T.
     /// </summary>
     /// <typeparam name="T">The type of resource.</typeparam>
-    /// <param name="processor">The processor to register.</param>
-    public void RegisterProcessor<T>(IProcessor<T> processor) where T : class
+    /// <param name="resourceProcessor">The processor to register.</param>
+    public void RegisterProcessor<T>(IResourceProcessor resourceProcessor) where T : class, IResource
     {
-        _processors.TryAdd(processor);
+        _processors.Add<T>(resourceProcessor);
     }
 
     /// <summary>
@@ -49,7 +51,7 @@ public sealed class ResourceManager : IResourceManager
     /// <typeparam name="T">The type of resource.</typeparam>
     /// <param name="path">The path to the resource.</param>
     /// <returns>The loaded resource, or null if it failed to load.</returns>
-    public T Load<T>(string path) where T : class
+    public T LoadFromFile<T>(string path) where T : class, IResource
     {
         if (_engine == null)
         {
@@ -63,9 +65,9 @@ public sealed class ResourceManager : IResourceManager
 
         PathUtils.ValidatePath(path);
 
-        if (_processors.TryGet<T>(out var processor))
+        if (_processors.TryGetReader<T>(out var reader))
         {
-            T result = processor.Load(_engine, path);
+            T result = reader.Read(_engine, path);
 
             _resources.TryAdd(path, result);
 
@@ -81,11 +83,11 @@ public sealed class ResourceManager : IResourceManager
     /// <typeparam name="T">The type of resource.</typeparam>
     /// <param name="path">The path to save the resource to.</param>
     /// <param name="resource">The resource to save.</param>
-    public void Save<T>(string path, T resource) where T : class
+    public void SaveToFile<T>(string path, T resource) where T : class, IResource
     {
-        if (_processors.TryGet<T>(out var processor))
+        if (_processors.TryGeWriter<T>(out var writer))
         {
-            processor.Save(_engine, path, resource);
+            writer.Write(_engine, path, resource);
         }
     }
 
@@ -108,7 +110,6 @@ public sealed class ResourceManager : IResourceManager
     /// </summary>
     public void Dispose()
     {
-        _processors.Dispose();
         _resources.Dispose();
     }
 }

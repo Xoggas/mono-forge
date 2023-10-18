@@ -35,7 +35,10 @@ public sealed class AudioManager : IAudioManager
 
     public IAudioChannel GetOrAddChannel(int id)
     {
-        if (_channels.TryGetValue(id, out var value)) return value;
+        if (_channels.TryGetValue(id, out IAudioChannel? value))
+        {
+            return value;
+        }
 
         var channel = new AudioChannel();
 
@@ -82,6 +85,9 @@ public sealed class AudioManager : IAudioManager
 
     private void ExecuteCallbackForChannels(IEnumerable<IAudioChannel> channels, Action<IAudioChannel> callback)
     {
-        foreach (var channel in channels) callback.Invoke(channel);
+        foreach (IAudioChannel channel in channels)
+        {
+            callback.Invoke(channel);
+        }
     }
 }

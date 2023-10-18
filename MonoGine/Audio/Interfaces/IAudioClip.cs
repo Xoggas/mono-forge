@@ -1,6 +1,8 @@
-﻿namespace MonoGine.Audio;
+﻿using MonoGine.ResourceLoading;
 
-public interface IAudioClip : IObject
+namespace MonoGine.Audio;
+
+public interface IAudioClip : IResource
 {
     /// <summary>
     /// Gets the duration of the clip in milliseconds.

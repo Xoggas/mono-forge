@@ -9,8 +9,8 @@ public interface IResourceManager : IObject, IInitializable
     /// Registers a processor for handling a specific resource type.
     /// </summary>
     /// <typeparam name="T">The type of resource.</typeparam>
-    /// <param name="processor">The processor responsible for handling the resource type.</param>
-    public void RegisterProcessor<T>(IProcessor<T> processor) where T : class;
+    /// <param name="resourceProcessor">The processor responsible for handling the resource type.</param>
+    public void RegisterProcessor<T>(IResourceProcessor resourceProcessor) where T : class, IResource;
 
     /// <summary>
     /// Loads a resource of the specified type from the given path.
@@ -18,7 +18,7 @@ public interface IResourceManager : IObject, IInitializable
     /// <typeparam name="T">The type of resource to load.</typeparam>
     /// <param name="path">The path to the resource.</param>
     /// <returns>The loaded resource.</returns>
-    public T Load<T>(string path) where T : class;
+    public T LoadFromFile<T>(string path) where T : class, IResource;
 
     /// <summary>
     /// Saves a resource of the specified type to the given path.
@@ -26,7 +26,7 @@ public interface IResourceManager : IObject, IInitializable
     /// <typeparam name="T">The type of resource to save.</typeparam>
     /// <param name="path">The path to save the resource to.</param>
     /// <param name="resource">The resource to save.</param>
-    public void Save<T>(string path, T resource) where T : class;
+    public void SaveToFile<T>(string path, T resource) where T : class, IResource;
 
     /// <summary>
     /// Unloads a resource at the given path.

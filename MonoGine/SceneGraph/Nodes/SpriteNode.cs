@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Rendering;
 using MonoGine.Rendering.Batching;
 
@@ -7,23 +6,25 @@ namespace MonoGine.SceneGraph;
 
 public sealed class SpriteNode : Node
 {
-    private readonly Mesh _mesh = Mesh.NewQuad;
-
-    public Texture2D? Texture { get; set; }
+    public Sprite? Sprite { get; set; }
     public Shader? Shader { get; set; }
     public Color Color { get; set; } = Color.White;
+    public Rectangle TextureRect { get; set; } = new(0, 0, 1, 1);
+
+    private readonly Mesh _mesh = Mesh.NewQuad;
 
     public override void Update(IEngine engine)
     {
         base.Update(engine);
         UpdateMesh();
+        UpdateUv();
     }
 
     public override void Draw(IEngine engine, IBatch batch)
     {
-        if (Texture != null)
+        if (Sprite != null)
         {
-            batch.DrawTexturedMesh(Texture, _mesh, Shader, Transform.WorldDepth);
+            batch.DrawTexturedMesh(Sprite, _mesh, Shader, Transform.WorldDepth);
         }
 
         base.Draw(engine, batch);
@@ -39,5 +40,13 @@ public sealed class SpriteNode : Node
             Transform.WorldMatrix), Color);
         _mesh.Vertices[3] = new Vertex(Vector3.Transform(new Vector3(Vector2.One - Transform.Pivot, 0f),
             Transform.WorldMatrix), Color);
+    }
+
+    private void UpdateUv()
+    {
+        _mesh.Uvs[0] = new Vector2(TextureRect.X, TextureRect.Y);
+        _mesh.Uvs[1] = new Vector2(TextureRect.X, TextureRect.Y + TextureRect.Height);
+        _mesh.Uvs[2] = new Vector2(TextureRect.X + TextureRect.Width, TextureRect.Y);
+        _mesh.Uvs[3] = new Vector2(TextureRect.X + TextureRect.Width, TextureRect.Y + TextureRect.Height);
     }
 }

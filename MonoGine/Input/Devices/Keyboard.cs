@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System;
+using Microsoft.Xna.Framework.Input;
 
 namespace MonoGine.InputSystem;
 
@@ -13,6 +14,8 @@ public sealed class Keyboard : IKeyboard
         _lastState = _currentState;
     }
 
+    public event Action? Connected;
+    public event Action? Disconnected;
     public bool IsConnected => true;
     public bool CapsLock => _currentState.CapsLock;
     public bool NumLock => _currentState.NumLock;

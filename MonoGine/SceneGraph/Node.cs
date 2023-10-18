@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using MonoGine.Animations;
 using MonoGine.Rendering.Batching;
 
 namespace MonoGine.SceneGraph;
 
-public class Node : IObject, IDrawable, IUpdatable, IDestroyable
+public class Node : IObject, IDrawable, IUpdatable, IDestroyable, IAnimatable
 {
     private readonly List<Node> _children;
 
@@ -19,12 +20,29 @@ public class Node : IObject, IDrawable, IUpdatable, IDestroyable
     public Node? Parent { get; private set; }
     public IEnumerable<Node> Children => _children;
 
+    public float this[string propertyName]
+    {
+        set
+        {
+            if (propertyName.Equals("isActive"))
+            {
+                IsActive = (int)value >= 1;
+            }
+            else
+            {
+                throw new KeyNotFoundException(propertyName);
+            }
+        }
+    }
+
     public virtual void Update(IEngine engine)
     {
         Transform.Update(engine);
 
-        foreach (Node child in Children)
+        for (var index = 0; index < _children.Count; index++)
         {
+            Node child = _children[index];
+
             if (child.IsActive)
             {
                 child.Update(engine);
@@ -34,8 +52,10 @@ public class Node : IObject, IDrawable, IUpdatable, IDestroyable
 
     public virtual void Draw(IEngine engine, IBatch batch)
     {
-        foreach (Node child in Children)
+        for (var index = 0; index < _children.Count; index++)
         {
+            Node child = _children[index];
+
             if (child.IsActive)
             {
                 child.Draw(engine, batch);

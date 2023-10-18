@@ -5,6 +5,8 @@ namespace MonoGine.InputSystem;
 
 public sealed class Input : IInput
 {
+    public event Action<IInputDevice>? AnyDeviceConnected;
+    public event Action<IInputDevice>? AnyDeviceDisconnected;
     public event Action<char>? OnTextInput;
     public event Action<string[]>? OnFileDrop;
 
@@ -12,31 +14,34 @@ public sealed class Input : IInput
 
     internal Input(GameWindow window)
     {
-        Keyboard = new Keyboard();
-        Mouse = new Mouse();
-        Gamepads = new IGamepad[]
-        {
-            new Gamepad(PlayerIndex.One),
-            new Gamepad(PlayerIndex.Two),
-            new Gamepad(PlayerIndex.Three),
-            new Gamepad(PlayerIndex.Four),
-        };
-
         _window = window;
         _window.TextInput += HandleInputFromKeyboard;
         _window.FileDrop += HandleFileDrop;
+
+        foreach (IGamepad gamepad in Gamepads)
+        {
+            gamepad.Connected += () => AnyDeviceConnected?.Invoke(gamepad);
+            gamepad.Disconnected += () => AnyDeviceDisconnected?.Invoke(gamepad);
+        }
     }
 
-    public IKeyboard Keyboard { get; }
-    public IMouse Mouse { get; }
-    public IGamepad[] Gamepads { get; }
+    public IKeyboard Keyboard { get; } = new Keyboard();
+    public IMouse Mouse { get; } = new Mouse();
+
+    public IGamepad[] Gamepads { get; } =
+    {
+        new Gamepad(PlayerIndex.One),
+        new Gamepad(PlayerIndex.Two),
+        new Gamepad(PlayerIndex.Three),
+        new Gamepad(PlayerIndex.Four)
+    };
 
     public void Update(IEngine engine)
     {
         Keyboard.Update(engine);
         Mouse.Update(engine);
 
-        for (int i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
             Gamepads[i].Update(engine);
         }
@@ -52,7 +57,7 @@ public sealed class Input : IInput
     {
         OnTextInput?.Invoke(args.Character);
     }
-    
+
     private void HandleFileDrop(object? sender, FileDropEventArgs args)
     {
         OnFileDrop?.Invoke(args.Files);

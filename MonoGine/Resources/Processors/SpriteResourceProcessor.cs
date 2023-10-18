@@ -1,16 +1,17 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Rendering;
 
 namespace MonoGine.ResourceLoading;
 
-internal sealed class Texture2DProcessor : IProcessor<Texture2D>
+internal sealed class SpriteResourceProcessor : IResourceReader<Sprite>, IResourceWriter<Sprite>
 {
-    public Texture2D Load(IEngine engine, string path)
+    public Sprite Read(IEngine engine, string path)
     {
         try
         {
-            return Texture2D.FromFile(engine.GraphicsDevice, PathUtils.GetAbsolutePath(path));
+            return new Sprite(Texture2D.FromFile(engine.GraphicsDevice, PathUtils.GetAbsolutePath(path)));
         }
         catch
         {
@@ -18,10 +19,11 @@ internal sealed class Texture2DProcessor : IProcessor<Texture2D>
         }
     }
 
-    public void Save(IEngine engine, string path, Texture2D texture)
+    public void Write(IEngine engine, string path, Sprite sprite)
     {
-        using var stream = File.OpenWrite(PathUtils.GetAbsolutePath(path));
-        
+        using FileStream stream = File.OpenWrite(PathUtils.GetAbsolutePath(path));
+
+        var texture = (Texture2D)sprite;
         var extension = PathUtils.GetExtension(path);
 
         if (ExtensionEquals(extension, "jpg"))
