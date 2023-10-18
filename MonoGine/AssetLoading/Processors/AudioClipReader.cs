@@ -1,9 +1,9 @@
 ﻿using FmodForFoxes;
 using MonoGine.Audio;
 
-namespace MonoGine.ResourceLoading;
+namespace MonoGine.AssetLoading;
 
-public sealed class AudioClipResourceProcessor : IResourceReader<AudioClip>
+public sealed class AudioClipReader : IAssetReader<AudioClip>
 {
     public AudioClip Read(IEngine engine, string path)
     {

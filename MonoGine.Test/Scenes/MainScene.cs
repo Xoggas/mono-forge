@@ -12,7 +12,7 @@ public sealed class MainScene : Scene
 
     protected override void OnLoadResources(IEngine engine)
     {
-        _sprite = engine.ResourceManager.LoadFromFile<Sprite>("Rect.png");
+        _sprite = engine.AssetManager.LoadFromFile<Sprite>("Rect.png");
     }
 
     protected override void OnLoad(IEngine engine, object[]? args)

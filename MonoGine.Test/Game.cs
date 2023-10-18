@@ -27,7 +27,7 @@ public sealed class Game : Engine
     private void SetupCursor()
     {
         Cursor.IsVisible = true;
-        Cursor.Texture = ResourceManager.LoadFromFile<Sprite>("Cursor.png");
+        Cursor.Texture = AssetManager.LoadFromFile<Sprite>("Cursor.png");
     }
 
     private void SetupRenderer()

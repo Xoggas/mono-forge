@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Audio;
 using MonoGine.InputSystem;
 using MonoGine.Rendering;
-using MonoGine.ResourceLoading;
+using MonoGine.AssetLoading;
 using MonoGine.SceneManagement;
 
 namespace MonoGine;
@@ -35,7 +35,7 @@ public abstract class Engine : IEngine
         Input = new Input(_core.Window);
         SceneManager = new SceneManager();
         AudioManager = new AudioManager();
-        ResourceManager = new ResourceManager(this);
+        AssetManager = new AssetManager(this);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public abstract class Engine : IEngine
     /// <summary>
     /// Gets or sets the resource manager instance associated with the engine.
     /// </summary>
-    public IResourceManager ResourceManager { get; protected set; }
+    public IAssetManager AssetManager { get; protected set; }
 
     /// <summary>
     /// Gets or sets the scene manager instance associated with the engine.
@@ -110,7 +110,7 @@ public abstract class Engine : IEngine
         Window.Dispose();
         Input.Dispose();
         Cursor.Dispose();
-        ResourceManager.Dispose();
+        AssetManager.Dispose();
         SceneManager.Dispose();
         AudioManager.Dispose();
         Renderer.Dispose();
@@ -132,7 +132,7 @@ public abstract class Engine : IEngine
         Window = new Window(_core);
         Renderer = new Renderer(this);
         AudioManager.Initialize(this);
-        ResourceManager.Initialize(this);
+        AssetManager.Initialize(this);
     }
 
     /// <summary>

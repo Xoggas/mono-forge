@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Rendering;
 
-namespace MonoGine.ResourceLoading;
+namespace MonoGine.AssetLoading;
 
-internal sealed class ShaderResourceProcessor : IResourceReader<Shader>
+internal sealed class ShaderReader : IAssetReader<Shader>
 {
     public Shader Read(IEngine engine, string path)
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using MonoGine.ResourceLoading;
+using MonoGine.AssetLoading;
 
 namespace MonoGine.Rendering;
 
-public sealed class Sprite : IResource
+public sealed class Sprite : IAsset
 {
     public int Width => _texture.Width;
     public int Height => _texture.Height;
