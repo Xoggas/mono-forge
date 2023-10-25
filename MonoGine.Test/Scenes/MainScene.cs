@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MonoGine.Animations;
+using MonoGine.Audio;
 using MonoGine.Ecs;
 using MonoGine.Rendering;
 using MonoGine.SceneGraph;
@@ -14,6 +15,14 @@ public sealed class MainScene : Scene
     private Sprite _rectangleWithBlackInner = default!;
     private Shader _brightnessShader = default!;
     private AnimationClip _animationClip = default!;
+    private AudioClip _audioClip = default!;
+
+    public override void Update(IEngine engine)
+    {
+        base.Update(engine);
+
+        //Camera.Position += new Vector2(1, 0);
+    }
 
     protected override void OnLoadResources(IEngine engine)
     {
@@ -21,10 +30,17 @@ public sealed class MainScene : Scene
         _rectangleWithBlackInner = engine.AssetManager.LoadFromFile<Sprite>("RectangleWithBlackInner.png");
         _brightnessShader = engine.AssetManager.LoadFromFile<Shader>("Shaders/Brightness.shader");
         _animationClip = engine.AssetManager.LoadFromFile<AnimationClip>("Animations/square.json");
+        _audioClip = engine.AssetManager.LoadFromFile<AudioClip>("Liftoff.mp3");
     }
 
     protected override void OnLoad(IEngine engine, object[]? args)
     {
+        IAudioSource source = engine.AudioManager.Master.CreateSource();
+
+        source.Clip = _audioClip;
+
+        source.Play();
+
         for (var i = 0; i < 10; i++)
         {
             CreateLine(new Vector2(640, 360), 36f * i);
@@ -65,15 +81,13 @@ public sealed class MainScene : Scene
         var warningSprite = new SpriteNode
         {
             Name = "warning",
-            Sprite = _rectangle,
-            Shader = _brightnessShader.DeepCopy()
+            Sprite = _rectangle
         };
 
         var activeSprite = new SpriteNode
         {
             Name = "active",
             Sprite = _rectangleWithBlackInner,
-            Shader = _brightnessShader.DeepCopy(),
             Transform =
             {
                 Depth = 1
@@ -114,16 +128,5 @@ public class SquareEntity : Entity
         animator.Play();
 
         AddComponent(animator);
-    }
-
-    public override void Update(IEngine engine)
-    {
-        base.Update(engine);
-
-        var limit = 0.1f;
-        var speed = 15f;
-        var brightness = MathF.Round(MathF.Abs(MathF.Sin(_time * speed + engine.Time.ElapsedTime * speed))) * limit;
-
-        _warningNode.Shader?.Properties.Set("Brightness", brightness);
     }
 }

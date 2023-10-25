@@ -36,7 +36,7 @@ public sealed class Shader : IAsset, IEquatable<Shader>, IDeepCopyable<Shader>
 
     public bool Equals(Shader? other)
     {
-        return this == other || (other != null && _properties.Equals(other._properties));
+        return other != null && _properties.Equals(other._properties);
     }
 
     public void Dispose()

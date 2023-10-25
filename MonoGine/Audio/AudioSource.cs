@@ -27,8 +27,8 @@ public sealed class AudioSource : IAudioSource
 
     public string Id { get; set; }
     public bool IsPlaying => _fmodChannel.IsPlaying;
-    public float Volume { get; set; }
-    public float Pitch { get; set; }
+    public float Volume { get; set; } = 1f;
+    public float Pitch { get; set; } = 1f;
     public bool IsLooping { get; set; }
 
     public void Update(IEngine engine)

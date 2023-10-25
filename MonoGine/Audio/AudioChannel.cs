@@ -17,8 +17,10 @@ public sealed class AudioChannel : IAudioChannel
 
     public void Update(IEngine engine)
     {
-        foreach (var source in _sources)
+        foreach (IAudioSource source in _sources)
+        {
             source.Update(engine);
+        }
     }
 
     public IAudioSource CreateSource()
@@ -77,6 +79,9 @@ public sealed class AudioChannel : IAudioChannel
 
     private void ExecuteCallbackForSources(IEnumerable<IAudioSource> sources, Action<IAudioSource> callback)
     {
-        foreach (var source in sources) callback.Invoke(source);
+        foreach (IAudioSource source in sources)
+        {
+            callback.Invoke(source);
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using MonoGine.Animations;
 
 namespace MonoGine.Rendering;
 
@@ -30,13 +32,27 @@ public sealed class Camera : ICamera
 
     private void UpdateMatrix(IViewport viewport)
     {
-        int width = viewport.Width;
-        int height = viewport.Height;
+        var width = viewport.Width;
+        var height = viewport.Height;
 
         TransformMatrix = Matrix.CreateTranslation(-Position.X, -Position.Y, 0f) *
                           Matrix.CreateTranslation(-width * 0.5f, -height * 0.5f, 0f) *
                           Matrix.CreateRotationZ(MathHelper.ToRadians(Rotation)) *
                           Matrix.CreateScale(Zoom, Zoom, 1f) *
                           Matrix.CreateTranslation(width * 0.5f, height * 0.5f, 0f);
+    }
+
+    //TODO: Rework this shit as well
+    public string? Name { get; set; }
+
+    //TODO: Rework this method
+    public IAnimatable? FindChildByName(string name)
+    {
+        return null;
+    }
+
+    public void SetProperty(string name, float value)
+    {
+        throw new NotImplementedException();
     }
 }

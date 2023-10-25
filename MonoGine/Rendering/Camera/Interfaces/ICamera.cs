@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoGine.Animations;
 
 namespace MonoGine.Rendering;
 
-public interface ICamera : IObject, IUpdatable
+public interface ICamera : IObject, IUpdatable, IAnimatable
 {
     /// <summary>
     /// Gets or sets the camera position,
