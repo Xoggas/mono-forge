@@ -16,21 +16,23 @@ public sealed class ShaderCompiler : IDisposable
     public static void CompileAllShaders(string path)
     {
         var paths = Directory.GetFiles(path, "*.fx", SearchOption.AllDirectories);
+
         foreach (var shaderFilePath in paths)
+        {
             Compile(shaderFilePath);
+        }
     }
 
     private static void Compile(string path)
     {
-        var options = new Options {SourceFile = path, OutputFile = Path.ChangeExtension(path, "shader")};
+        var options = new Options { SourceFile = path, OutputFile = Path.ChangeExtension(path, "shader") };
         GetShaderBytecode(options);
     }
 
     private static void GetShaderBytecode(Options options)
     {
-        using var stream = File.OpenWrite(options.OutputFile);
+        using FileStream stream = File.OpenWrite(options.OutputFile);
         using var writer = new BinaryWriter(stream);
-
         CompileShader(options).Write(writer, options);
     }
 

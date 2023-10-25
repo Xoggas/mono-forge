@@ -1,28 +1,119 @@
-﻿{
-  "warning": {
-    "alpha": [
-      {
-        "time": 0,
-        "value": 0,
-        "ease": 0
-      },
-      {
-        "time": 1,
-        "value": 0.4,
-        "ease": 0
-      }
-    ],
-    "isActive": [
-      {
-        "time": 0,
-        "value": 1,
-        "ease": 0
-      },
-      {
-        "time": 1,
-        "value": 0,
-        "ease": 0
-      }
-    ]
-  }
+{
+  "_sequences": {
+    "warning/color.a": {
+      "_keyframes": [
+        {
+          "Time": 0.0,
+          "Value": 0.0,
+          "Ease": 22
+        },
+        {
+          "Time": 1.0,
+          "Value": 0.4,
+          "Ease": 22
+        }
+      ]
+    },
+    "warning/isActive": {
+      "_keyframes": [
+        {
+          "Time": 0.0,
+          "Value": 1.0,
+          "Ease": 0
+        },
+        {
+          "Time": 1.0,
+          "Value": 0.0,
+          "Ease": 0
+        }
+      ]
+    },
+    "active/isActive": {
+      "_keyframes": [
+        {
+          "Time": 0.0,
+          "Value": 0.0,
+          "Ease": 0
+        },
+        {
+          "Time": 1.0,
+          "Value": 1.0,
+          "Ease": 0
+        },
+        {
+          "Time": 2.0,
+          "Value": 0.0,
+          "Ease": 0
+        }
+      ]
+    },
+    "active/scale.x": {
+      "_keyframes": [
+        {
+          "Time": 1.0,
+          "Value": 1.5,
+          "Ease": 22
+        },
+        {
+          "Time": 1.1,
+          "Value": 1.0,
+          "Ease": 22
+        },
+        {
+          "Time": 1.9,
+          "Value": 1.0,
+          "Ease": 22
+        },
+        {
+          "Time": 2.0,
+          "Value": 0.0,
+          "Ease": 27
+        }
+      ]
+    },
+    "active/scale.y": {
+      "_keyframes": [
+        {
+          "Time": 1.0,
+          "Value": 1.5,
+          "Ease": 22
+        },
+        {
+          "Time": 1.1,
+          "Value": 1.0,
+          "Ease": 22
+        },
+        {
+          "Time": 1.9,
+          "Value": 1.0,
+          "Ease": 22
+        },
+        {
+          "Time": 2.0,
+          "Value": 0.0,
+          "Ease": 27
+        }
+      ]
+    },
+    "active/_Brightness": {
+      "_keyframes": [
+        {
+          "Time": 0.0,
+          "Value": 0.0,
+          "Ease": 0
+        },
+        {
+          "Time": 1.0,
+          "Value": 1.0,
+          "Ease": 0
+        },
+        {
+          "Time": 1.1,
+          "Value": 0.0,
+          "Ease": 22
+        }
+      ]
+    }
+  },
+  "_duration": 2.0
 }

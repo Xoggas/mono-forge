@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using MonoGame.Effect.Compiler;
+using MonoGine.Animations;
 using MonoGine.Audio;
 using MonoGine.Rendering;
 
@@ -20,9 +22,11 @@ public sealed class AssetManager : IAssetManager
     public void Initialize(IEngine engine)
     {
         Directory.CreateDirectory(PathUtils.AssetsPath);
+        ShaderCompiler.CompileAllShaders(PathUtils.AssetsPath);
         RegisterProcessor<Sprite>(new SpriteReader());
         RegisterProcessor<Shader>(new ShaderReader());
         RegisterProcessor<AudioClip>(new AudioClipReader());
+        RegisterProcessor<AnimationClip>(new AnimationClipProcessor());
     }
 
     public void RegisterProcessor<T>(IAssetProcessor assetProcessor) where T : class, IAsset

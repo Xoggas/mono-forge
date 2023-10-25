@@ -13,7 +13,7 @@ public sealed class Renderer : IRenderer
     public Renderer(IEngine engine)
     {
         _batch = new Batch(engine);
-        _rasterizerState = new RasterizerState()
+        _rasterizerState = new RasterizerState
         {
             CullMode = CullMode.CullCounterClockwiseFace,
             MultiSampleAntiAlias = true

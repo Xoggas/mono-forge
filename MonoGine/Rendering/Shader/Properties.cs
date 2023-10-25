@@ -39,10 +39,13 @@ public sealed class Properties : IDeepCopyable<Properties>, IEquatable<Propertie
         throw new InvalidCastException($"Can't cast property {name} to type {typeof(T)}");
     }
 
-    //TODO: Add property instantiation
     public void Set<T>(string name, T value)
     {
-        if (_properties[name] is Property<T> specificProperty)
+        if (!_properties.TryGetValue(name, out IProperty? property))
+        {
+            AddNewPropertyForType(name, value);
+        }
+        else if (property is Property<T> specificProperty)
         {
             specificProperty.Value = value;
         }
@@ -67,12 +70,7 @@ public sealed class Properties : IDeepCopyable<Properties>, IEquatable<Propertie
 
     public bool Equals(Properties? other)
     {
-        if (other == null)
-        {
-            return false;
-        }
-
-        if (_properties.Count != other._properties.Count)
+        if (other == null || _properties.Count != other._properties.Count)
         {
             return false;
         }
@@ -93,5 +91,20 @@ public sealed class Properties : IDeepCopyable<Properties>, IEquatable<Propertie
 
     private void AddNewPropertyForType<T>(string name, T value)
     {
+        if (s_propertyTypeLookup.TryGetValue(typeof(T), out var propertyCreationFunction))
+        {
+            if (propertyCreationFunction.Invoke() is not Property<T> property)
+            {
+                throw new InvalidCastException();
+            }
+
+            property.Value = value;
+
+            _properties.Add(name, property);
+        }
+        else
+        {
+            throw new InvalidOperationException();
+        }
     }
 }

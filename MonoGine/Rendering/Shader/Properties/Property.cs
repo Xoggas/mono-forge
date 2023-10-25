@@ -23,7 +23,7 @@ public abstract class Property<T> : IProperty, IDeepCopyable<Property<T>>
             return leftCollection.SequenceEqual(rightCollection);
         }
 
-        return ReferenceEquals(this, other) || (Value != null && Value.Equals(otherProperty.Value));
+        return Value != null && Value.Equals(otherProperty.Value);
     }
 
     IProperty IDeepCopyable<IProperty>.DeepCopy()

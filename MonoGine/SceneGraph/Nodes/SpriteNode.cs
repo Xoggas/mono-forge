@@ -20,6 +20,36 @@ public sealed class SpriteNode : Node
         UpdateUv();
     }
 
+    public override void SetProperty(string name, float value)
+    {
+        switch (name)
+        {
+            case "color.r":
+                Color = new Color(value, Color.G, Color.B, Color.A);
+                break;
+            case "color.g":
+                Color = new Color(Color.R, value, Color.B, Color.A);
+                break;
+            case "color.b":
+                Color = new Color(Color.R, Color.G, value, Color.A);
+                break;
+            case "color.a":
+                Color = new Color(Color.R, Color.G, Color.B, value);
+                break;
+            default:
+                if (name.StartsWith('_'))
+                {
+                    Shader?.Properties.Set(name[1..], value);
+                }
+                else
+                {
+                    base.SetProperty(name, value);
+                }
+
+                break;
+        }
+    }
+
     public override void Draw(IEngine engine, IBatch batch)
     {
         if (Sprite != null)

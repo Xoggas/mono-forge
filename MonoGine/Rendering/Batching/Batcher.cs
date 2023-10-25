@@ -58,26 +58,23 @@ internal sealed class Batcher : IBatcher
         {
             BatchItem currentItem = _itemsToBatch[i];
 
-            if (lastItem.Equals(currentItem))
-            {
-                PushVerticesFromItem(currentItem, verticesCount);
-                verticesCount += currentItem._mesh.Vertices.Length;
-
-                PushIndicesFromItem(currentItem, indicesCount, primitiveCount);
-                indicesCount += currentItem._mesh.Indices.Length;
-
-                lastItem = currentItem;
-                itemCount++;
-                primitiveCount += currentItem._mesh.Indices.Length / 3;
-            }
-            else
+            if (!lastItem.Equals(currentItem))
             {
                 Flush(engine, lastItem._texture, lastItem._shader, verticesCount, primitiveCount);
+                itemCount = 0;
                 verticesCount = 0;
                 indicesCount = 0;
-                itemCount = 0;
                 primitiveCount = 0;
             }
+
+            PushVerticesFromItem(currentItem, verticesCount);
+            PushIndicesFromItem(currentItem, indicesCount, primitiveCount);
+
+            itemCount++;
+            verticesCount += currentItem._mesh.Vertices.Length;
+            indicesCount += currentItem._mesh.Indices.Length;
+            primitiveCount += currentItem._mesh.Indices.Length / 3;
+            lastItem = currentItem;
         }
 
         if (itemCount > 0)
@@ -128,6 +125,7 @@ internal sealed class Batcher : IBatcher
         for (var i = 0; i < item._mesh.Vertices.Length; i++)
         {
             Vertex vertex = mesh.Vertices[i];
+
             _vertices[index + i] = new VertexPositionColorTexture(vertex.Position, vertex.Color, mesh.Uvs[i]);
         }
     }

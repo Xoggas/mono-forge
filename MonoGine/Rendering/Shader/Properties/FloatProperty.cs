@@ -2,28 +2,28 @@
 
 namespace MonoGine.Rendering;
 
-public sealed class IntProperty : Property<int>
+public sealed class FloatProperty : Property<float>
 {
     public override void ApplyProperty(Effect effect, string propertyName)
     {
         effect.Parameters[propertyName].SetValue(Value);
     }
 
-    public override Property<int> DeepCopy()
+    public override Property<float> DeepCopy()
     {
-        return new IntProperty { Value = Value };
+        return new FloatProperty { Value = Value };
     }
 }
 
-public sealed class IntBufferProperty : Property<int[]>
+public sealed class FloatBufferProperty : Property<float[]>
 {
     public override void ApplyProperty(Effect effect, string propertyName)
     {
         effect.Parameters[propertyName].SetValue(Value);
     }
 
-    public override Property<int[]> DeepCopy()
+    public override Property<float[]> DeepCopy()
     {
-        return new IntBufferProperty { Value = (int[])Value.Clone() };
+        return new FloatBufferProperty { Value = (float[])Value.Clone() };
     }
 }

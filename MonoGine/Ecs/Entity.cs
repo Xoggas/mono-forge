@@ -50,6 +50,7 @@ public abstract class Entity : IEntity
         if (!Started)
         {
             Start(engine);
+            return;
         }
 
         for (var i = 0; i < _components.Count; i++)

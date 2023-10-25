@@ -8,7 +8,6 @@ public sealed class Game : Engine
     protected override void OnInitialize()
     {
         base.OnInitialize();
-
         SetupWindow();
         SetupRenderer();
         SetupCursor();
@@ -21,13 +20,12 @@ public sealed class Game : Engine
         Window.Viewport.Scaler = new FitHeight();
         Window.Resolution = new Point(1280, 720);
         Window.Framerate = 60;
-        Window.UseVSync = true;
     }
 
     private void SetupCursor()
     {
         Cursor.IsVisible = true;
-        Cursor.Texture = AssetManager.LoadFromFile<Sprite>("Cursor.png");
+        Cursor.Sprite = AssetManager.LoadFromFile<Sprite>("Cursor.png");
     }
 
     private void SetupRenderer()

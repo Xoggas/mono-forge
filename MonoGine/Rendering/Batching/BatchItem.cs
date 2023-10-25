@@ -28,8 +28,11 @@ public readonly struct BatchItem : IComparable<BatchItem>, IEquatable<BatchItem>
 
     public bool Equals(BatchItem other)
     {
-        return ReferenceEquals(_texture, other._texture) ||
-               ReferenceEquals(_shader, other._shader) ||
-               (_shader != null && _shader.Equals(other._shader));
+        return _texture == other._texture && _shader != null && _shader.Equals(other._shader);
+    }
+
+    public override string ToString()
+    {
+        return $"{_texture} : {_mesh} : {_shader} : {_depth}";
     }
 }

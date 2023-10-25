@@ -27,7 +27,7 @@ public sealed class Cursor : IObject
     /// <summary>
     /// Sets the texture of the cursor.
     /// </summary>
-    public Texture2D Texture
+    public Texture2D Sprite
     {
         set => Mouse.SetCursor(MouseCursor.FromTexture2D(value, 0, 0));
     }

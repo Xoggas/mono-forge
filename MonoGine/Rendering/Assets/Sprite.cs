@@ -3,6 +3,7 @@ using MonoGine.AssetLoading;
 
 namespace MonoGine.Rendering;
 
+//TODO: Implement sprite atlas
 public sealed class Sprite : IAsset
 {
     public int Width => _texture.Width;
