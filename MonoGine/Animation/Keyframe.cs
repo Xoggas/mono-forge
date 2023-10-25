@@ -10,14 +10,14 @@ public struct Keyframe : IComparable<Keyframe>
     public float Value;
     public Ease Ease;
 
-    public Keyframe(float time, float value, Ease ease)
+    public Keyframe(float time, float value, Ease ease = Ease.Linear)
     {
         Time = time;
         Value = value;
         Ease = ease;
     }
 
-    public Keyframe(float time, bool value, Ease ease)
+    public Keyframe(float time, bool value, Ease ease = Ease.Linear)
     {
         Time = time;
         Value = value ? 1 : 0;

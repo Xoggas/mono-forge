@@ -2,5 +2,7 @@
 
 public interface IAnimatable
 {
-    public float this[string propertyName] { set; }
+    public string? Name { get; set; }
+    public IAnimatable? FindChildByName(string name);
+    public void SetProperty(string name, float value);
 }

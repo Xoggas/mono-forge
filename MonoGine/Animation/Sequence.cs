@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace MonoGine.Animations;
 
 [Serializable]
 public sealed class Sequence
 {
-    private Keyframe[] _keyframes;
+    [JsonProperty]
+    private Keyframe[] _keyframes = Array.Empty<Keyframe>();
+
+    public Sequence()
+    {
+    }
 
     public Sequence(IEnumerable<Keyframe> keyframes)
     {
-        _keyframes = keyframes.ToArray();
-        Array.Sort(_keyframes);
+        _keyframes = keyframes.OrderBy(x => x.Time).ToArray();
     }
 
-    public IEnumerable<Keyframe> Keyframes => _keyframes;
+    [JsonIgnore]
+    public float Duration => _keyframes.Length != 0 ? _keyframes[^1].Time : 0f;
 
     public float Evaluate(float time)
     {
@@ -29,7 +35,7 @@ public sealed class Sequence
                 return _keyframes[0].Interpolate(_keyframes[1], time);
         }
 
-        if (time <= 0)
+        if (time <= _keyframes[0].Time)
         {
             return _keyframes[0].Value;
         }
