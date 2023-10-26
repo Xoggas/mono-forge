@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine.Rendering;
@@ -11,10 +12,20 @@ public sealed class Properties : IDeepCopyable<Properties>, IEquatable<Propertie
 
     private static readonly Dictionary<Type, Func<IProperty>> s_propertyTypeLookup = new()
     {
+        { typeof(Quaternion), () => new QuaternionProperty() },
+        { typeof(bool), () => new BoolProperty() },
         { typeof(int), () => new IntProperty() },
         { typeof(int[]), () => new IntBufferProperty() },
         { typeof(float), () => new FloatProperty() },
-        { typeof(float[]), () => new FloatBufferProperty() }
+        { typeof(float[]), () => new FloatBufferProperty() },
+        { typeof(Matrix), () => new MatrixProperty() },
+        { typeof(Matrix[]), () => new MatrixBufferProperty() },
+        { typeof(Vector2), () => new Vector2Property() },
+        { typeof(Vector2[]), () => new Vector2BufferProperty() },
+        { typeof(Vector3), () => new Vector3Property() },
+        { typeof(Vector3[]), () => new Vector3BufferProperty() },
+        { typeof(Vector4), () => new Vector4Property() },
+        { typeof(Vector4[]), () => new Vector4BufferProperty() }
     };
 
     internal Properties()
