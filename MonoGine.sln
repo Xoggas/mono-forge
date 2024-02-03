@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGine", "MonoGine\MonoGine.csproj", "{BEC437FC-76BB-4357-BB49-B086282BDE4D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9380978E-2E18-4BD7-8B32-6E07E5FB12A3} = {9380978E-2E18-4BD7-8B32-6E07E5FB12A3}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGine.Test", "MonoGine.Test\MonoGine.Test.csproj", "{BFD9AAD9-1CEA-4701-A09C-0378223D63F3}"
 EndProject

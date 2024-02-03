@@ -40,5 +40,5 @@ public interface IInput : IObject, IUpdatable
     /// <summary>
     /// Gets the array of gamepads.
     /// </summary>
-    public IGamepad[] Gamepads { get; }
+    public IGamepad[] GamePads { get; }
 }

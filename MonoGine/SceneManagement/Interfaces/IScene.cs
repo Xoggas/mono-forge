@@ -2,13 +2,14 @@
 using MonoGine.Rendering;
 using MonoGine.SceneGraph;
 using MonoGine.UI;
+using World = Box2DX.Dynamics.World;
 
 namespace MonoGine.SceneManagement;
 
 /// <summary>
 /// Represents an interface for a scene in the game.
 /// </summary>
-public interface IScene : IUpdatable, IObject
+public interface IScene : IUpdatable, IDrawable, IObject
 {
     /// <summary>
     /// Gets the world associated with the scene.
@@ -19,11 +20,11 @@ public interface IScene : IUpdatable, IObject
     /// Gets the root of the scene hierarchy tree.
     /// </summary>
     public Node Root { get; }
-    
+
     /// <summary>
     /// Gets the physics module.
     /// </summary>
-    public Box2DX.Dynamics.World Physics { get; }
+    public World Physics { get; }
 
     /// <summary>
     /// Gets the camera associated with the world.

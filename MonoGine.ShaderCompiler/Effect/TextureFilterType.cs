@@ -1,11 +1,9 @@
-﻿
-namespace MonoGame.Effect
+﻿namespace MonoGame.Effect;
+
+public enum TextureFilterType
 {
-    public enum TextureFilterType
-    {
-        None,
-        Point,
-        Linear, 
-        Anisotropic,
-    }
+    None,
+    Point,
+    Linear,
+    Anisotropic
 }

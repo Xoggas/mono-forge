@@ -18,7 +18,7 @@ public sealed class Input : IInput
         _window.TextInput += HandleInputFromKeyboard;
         _window.FileDrop += HandleFileDrop;
 
-        foreach (IGamepad gamepad in Gamepads)
+        foreach (IGamepad gamepad in GamePads)
         {
             gamepad.Connected += () => AnyDeviceConnected?.Invoke(gamepad);
             gamepad.Disconnected += () => AnyDeviceDisconnected?.Invoke(gamepad);
@@ -28,7 +28,7 @@ public sealed class Input : IInput
     public IKeyboard Keyboard { get; } = new Keyboard();
     public IMouse Mouse { get; } = new Mouse();
 
-    public IGamepad[] Gamepads { get; } =
+    public IGamepad[] GamePads { get; } =
     {
         new Gamepad(PlayerIndex.One),
         new Gamepad(PlayerIndex.Two),
@@ -43,7 +43,7 @@ public sealed class Input : IInput
 
         for (var i = 0; i < 4; i++)
         {
-            Gamepads[i].Update(engine);
+            GamePads[i].Update(engine);
         }
     }
 

@@ -4,18 +4,18 @@ using Newtonsoft.Json;
 
 namespace MonoGine.AssetLoading;
 
-public sealed class AnimationClipProcessor : IAssetReader<AnimationClip>, IAssetWriter<AnimationClip>
+internal sealed class AnimationClipProcessor : IAssetReader<AnimationClip>, IAssetWriter<AnimationClip>
 {
-    public AnimationClip Read(IEngine engine, string path)
+    public AnimationClip Read(IEngine engine, string localPath)
     {
-        var absolutePath = PathUtils.GetAbsolutePath(path);
+        var absolutePath = PathUtility.GetAbsoluteAssetPath(localPath);
         var jsonText = File.ReadAllText(absolutePath);
         return JsonConvert.DeserializeObject<AnimationClip>(jsonText) ?? throw new JsonReaderException();
     }
 
-    public void Write(IEngine engine, string path, AnimationClip resource)
+    public void Write(IEngine engine, string localPath, AnimationClip resource)
     {
-        var absolutePath = PathUtils.GetAbsolutePath(path);
+        var absolutePath = PathUtility.GetAbsoluteAssetPath(localPath);
         var jsonText = JsonConvert.SerializeObject(resource);
         File.WriteAllText(absolutePath, jsonText);
     }

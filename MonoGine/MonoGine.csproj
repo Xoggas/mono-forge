@@ -6,13 +6,13 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Box2DX" Version="2.0.2" />
-        <PackageReference Include="FmodForFoxes" Version="3.0.0" />
-        <PackageReference Include="FmodForFoxes.Desktop" Version="3.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Box2DX" Version="2.0.2"/>
+        <PackageReference Include="FmodForFoxes" Version="3.0.0"/>
+        <PackageReference Include="FmodForFoxes.Desktop" Version="3.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\MonoGine.ShaderCompiler\MonoGine.ShaderCompiler.csproj" />
+        <ProjectReference Include="..\MonoGine.ShaderCompiler\MonoGine.ShaderCompiler.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <None Update="Libraries\fmod.dll">
@@ -21,6 +21,6 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="ParticleSystem\" />
+        <Folder Include="ParticleSystem\"/>
     </ItemGroup>
 </Project>

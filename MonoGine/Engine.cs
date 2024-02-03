@@ -1,10 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGine.AssetLoading;
 using MonoGine.Audio;
 using MonoGine.InputSystem;
 using MonoGine.Rendering;
-using MonoGine.AssetLoading;
+using MonoGine.Rendering.Batching;
 using MonoGine.SceneManagement;
 
 namespace MonoGine;
@@ -14,25 +15,25 @@ namespace MonoGine;
 /// </summary>
 public abstract class Engine : IEngine
 {
-    private readonly Core _core;
+    private readonly MonoGameBridge _monoGameBridge;
 
     /// <summary>
     /// Initializes a new instance of the Engine class.
     /// </summary>
     protected Engine()
     {
-        _core = new Core();
-        _core.OnInitialize += OnInitialize;
-        _core.OnLoadResources += OnLoadResources;
-        _core.OnUnloadResources += OnUnloadResources;
-        _core.OnDraw += OnDraw;
-        _core.OnBeginUpdate += OnBeginUpdate;
-        _core.OnUpdate += OnUpdate;
+        _monoGameBridge = new MonoGameBridge();
+        _monoGameBridge.OnInitialize += OnInitialize;
+        _monoGameBridge.OnLoadResources += OnLoadResources;
+        _monoGameBridge.OnUnloadResources += OnUnloadResources;
+        _monoGameBridge.OnDraw += OnDraw;
+        _monoGameBridge.OnBeginUpdate += OnBeginUpdate;
+        _monoGameBridge.OnUpdate += OnUpdate;
 
         Time = new Time();
-        Screen = new Screen(_core);
-        Cursor = new Cursor(_core);
-        Input = new Input(_core.Window);
+        Screen = new Screen(_monoGameBridge);
+        Cursor = new Cursor(_monoGameBridge);
+        Input = new Input(_monoGameBridge.Window);
         SceneManager = new SceneManager();
         AudioManager = new AudioManager();
         AssetManager = new AssetManager(this);
@@ -41,12 +42,12 @@ public abstract class Engine : IEngine
     /// <summary>
     /// Gets the graphics device manager associated with the engine.
     /// </summary>
-    public GraphicsDeviceManager GraphicsDeviceManager => _core.GraphicsDeviceManager;
+    public GraphicsDeviceManager GraphicsDeviceManager => _monoGameBridge.GraphicsDeviceManager;
 
     /// <summary>
     /// Gets the graphics device associated with the engine.
     /// </summary>
-    public GraphicsDevice GraphicsDevice => _core.GraphicsDevice;
+    public GraphicsDevice GraphicsDevice => _monoGameBridge.GraphicsDevice;
 
     /// <summary>
     /// Gets the time instance associated with the engine.
@@ -98,7 +99,7 @@ public abstract class Engine : IEngine
     /// </summary>
     public void Exit()
     {
-        _core.Exit();
+        _monoGameBridge.Exit();
     }
 
     /// <summary>
@@ -113,7 +114,6 @@ public abstract class Engine : IEngine
         AssetManager.Dispose();
         SceneManager.Dispose();
         AudioManager.Dispose();
-        Renderer.Dispose();
     }
 
     /// <summary>
@@ -121,7 +121,7 @@ public abstract class Engine : IEngine
     /// </summary>
     public void Run()
     {
-        _core.Run();
+        _monoGameBridge.Run();
     }
 
     /// <summary>
@@ -129,8 +129,8 @@ public abstract class Engine : IEngine
     /// </summary>
     protected virtual void OnInitialize()
     {
-        Window = new Window(_core);
-        Renderer = new Renderer(this);
+        Window = new Window(_monoGameBridge);
+        Renderer = new Renderer(this, new DynamicBatcher(), RenderConfig.Default);
         AudioManager.Initialize(this);
         AssetManager.Initialize(this);
     }

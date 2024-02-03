@@ -11,6 +11,6 @@ public interface IDrawable
     /// Draws the object using the specified engine and batcher.
     /// </summary>
     /// <param name="engine">The game engine.</param>
-    /// <param name="batch">The batcher used for rendering.</param>
-    public void Draw(IEngine engine, IBatch batch);
+    /// <param name="renderQueue">The batcher used for rendering.</param>
+    public void Draw(IEngine engine, IRenderQueue renderQueue);
 }

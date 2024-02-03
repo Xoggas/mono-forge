@@ -3,10 +3,10 @@ using MonoGine.Audio;
 
 namespace MonoGine.AssetLoading;
 
-public sealed class AudioClipReader : IAssetReader<AudioClip>
+internal sealed class AudioClipReader : IAssetReader<AudioClip>
 {
-    public AudioClip Read(IEngine engine, string path)
+    public AudioClip Read(IEngine engine, string localPath)
     {
-        return new AudioClip(CoreSystem.LoadStreamedSound(path));
+        return new AudioClip(CoreSystem.LoadStreamedSound(localPath));
     }
 }

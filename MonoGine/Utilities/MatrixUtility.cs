@@ -2,9 +2,9 @@
 
 namespace MonoGine.Utilities;
 
-public static class MatrixUtility
+internal static class MatrixUtility
 {
-    public static Matrix CreateSkewMatrix(float skewX, float skewY)
+    private static Matrix CreateSkewMatrix(float skewX, float skewY)
     {
         Matrix matrix = Matrix.Identity;
         matrix.M21 = skewX;
@@ -12,7 +12,7 @@ public static class MatrixUtility
         return matrix;
     }
 
-    public static Matrix CreateTrssMatrix(Vector2 position, Vector3 rotation, Vector2 scale, Vector2 skew)
+    internal static Matrix CreateTRSSMatrix(Vector2 position, Vector3 rotation, Vector2 scale, Vector2 skew)
     {
         return Matrix.CreateScale(new Vector3(scale, 0f)) *
                CreateSkewMatrix(MathHelper.ToRadians(skew.X), MathHelper.ToRadians(skew.Y)) *

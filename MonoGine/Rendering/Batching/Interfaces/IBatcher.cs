@@ -1,12 +1,10 @@
-﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine.Rendering.Batching;
 
-public interface IBatcher : IObject
+public interface IBatcher
 {
-    public void Begin(IEngine engine, Matrix? transformMatrix);
-    public void Push(BatchItem batchItem);
-    public void End(IEngine engine);
-    public void Flush(IEngine engine, Texture2D texture, Shader? shader, int verticesCount, int indicesCount);
+    public void Push(Texture2D texture, Mesh mesh, Shader? shader, float depth);
+    public bool TryGetPass(out BatchPassResult batchPassResult);
+    public void Reset();
 }

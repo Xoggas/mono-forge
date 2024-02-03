@@ -9,7 +9,6 @@ public sealed class Game : Engine
     {
         base.OnInitialize();
         SetupWindow();
-        SetupRenderer();
         SetupCursor();
         LoadScene();
     }
@@ -28,14 +27,8 @@ public sealed class Game : Engine
         Cursor.Sprite = AssetManager.LoadFromFile<Sprite>("Cursor.png");
     }
 
-    private void SetupRenderer()
-    {
-        Renderer.Dispose();
-        Renderer = new CustomRenderer(this);
-    }
-
     private void LoadScene()
     {
-        SceneManager.Load(this, new MainScene());
+        SceneManager.Load(this, new RenderingTestScene());
     }
 }

@@ -1,0 +1,6 @@
+﻿<import type="image" path="Assets/Rectangle.png" name="Rectangle" >
+
+<flex-box unique-id="images"> 
+  <image name="Rectangle" />
+  <image name="Rectangle" />
+</flex-box> 

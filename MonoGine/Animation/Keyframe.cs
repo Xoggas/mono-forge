@@ -1,5 +1,5 @@
 ﻿using System;
-using MonoGine.Utilities;
+using MonoGine.Extensions;
 
 namespace MonoGine.Animations;
 

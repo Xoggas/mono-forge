@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using MonoGine.Rendering;
 using MonoGine.Rendering.Batching;
 
@@ -20,44 +21,26 @@ public sealed class SpriteNode : Node
         UpdateUv();
     }
 
-    public override void SetProperty(string name, float value)
+    public override Action<float> GetPropertySetter(string name)
     {
-        switch (name)
+        return name switch
         {
-            case "color.r":
-                Color = new Color(value, Color.G, Color.B, Color.A);
-                break;
-            case "color.g":
-                Color = new Color(Color.R, value, Color.B, Color.A);
-                break;
-            case "color.b":
-                Color = new Color(Color.R, Color.G, value, Color.A);
-                break;
-            case "color.a":
-                Color = new Color(Color.R, Color.G, Color.B, value);
-                break;
-            default:
-                if (name.StartsWith('_'))
-                {
-                    Shader?.Properties.Set(name[1..], value);
-                }
-                else
-                {
-                    base.SetProperty(name, value);
-                }
-
-                break;
-        }
+            "color.r" => value => Color = new Color(value, Color.G, Color.B, Color.A),
+            "color.g" => value => Color = new Color(Color.R, value, Color.B, Color.A),
+            "color.b" => value => Color = new Color(Color.R, Color.G, value, Color.A),
+            "color.a" => value => Color = new Color(Color.R, Color.G, Color.B, value),
+            _ => name.StartsWith('_') ? value => Shader?.Properties.Set(name[1..], value) : base.GetPropertySetter(name)
+        };
     }
 
-    public override void Draw(IEngine engine, IBatch batch)
+    public override void Draw(IEngine engine, IRenderQueue renderQueue)
     {
         if (Sprite != null)
         {
-            batch.DrawTexturedMesh(Sprite, _mesh, Shader, Transform.WorldDepth);
+            renderQueue.EnqueueTexturedMesh(Sprite, _mesh, Shader, Transform.WorldDepth);
         }
 
-        base.Draw(engine, batch);
+        base.Draw(engine, renderQueue);
     }
 
     private void UpdateMesh()

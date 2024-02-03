@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MonoGine.Animations;
 
@@ -18,8 +19,24 @@ public sealed class Camera : ICamera
         UpdateMatrix(engine.Window.Viewport);
     }
 
-    public void Dispose()
+    public IAnimatable? GetChild(string name)
     {
+        return default;
+    }
+
+    public Action<float> GetPropertySetter(string name)
+    {
+        return name switch
+        {
+            "backgroundColor.r" => value => BackgroundColor = new Color(value, BackgroundColor.G, BackgroundColor.B),
+            "backgroundColor.g" => value => BackgroundColor = new Color(BackgroundColor.R, value, BackgroundColor.B),
+            "backgroundColor.b" => value => BackgroundColor = new Color(BackgroundColor.R, BackgroundColor.G, value),
+            "pos.x" => value => Position = new Vector2(value, Position.Y),
+            "pos.y" => value => Position = new Vector2(Position.X, value),
+            "rotation" => value => Rotation = value,
+            "zoom" => value => Zoom = value,
+            _ => throw new KeyNotFoundException()
+        };
     }
 
     private void ClampZoom()
@@ -40,19 +57,5 @@ public sealed class Camera : ICamera
                           Matrix.CreateRotationZ(MathHelper.ToRadians(Rotation)) *
                           Matrix.CreateScale(Zoom, Zoom, 1f) *
                           Matrix.CreateTranslation(width * 0.5f, height * 0.5f, 0f);
-    }
-
-    //TODO: Rework this shit as well
-    public string? Name { get; set; }
-
-    //TODO: Rework this method
-    public IAnimatable? FindChildByName(string name)
-    {
-        return null;
-    }
-
-    public void SetProperty(string name, float value)
-    {
-        throw new NotImplementedException();
     }
 }

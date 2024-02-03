@@ -6,9 +6,10 @@ namespace MonoGine.AssetLoading;
 
 internal sealed class ShaderReader : IAssetReader<Shader>
 {
-    public Shader Read(IEngine engine, string path)
+    public Shader Read(IEngine engine, string localPath)
     {
-        var bytes = File.ReadAllBytes(PathUtils.GetAbsolutePath(path));
+        var absolutePath = PathUtility.GetAbsoluteAssetPath(localPath);
+        var bytes = File.ReadAllBytes(absolutePath);
         return new Shader(new Effect(engine.GraphicsDevice, bytes));
     }
 }

@@ -43,4 +43,17 @@ public sealed class Shader : IAsset, IEquatable<Shader>, IDeepCopyable<Shader>
     {
         _effect.Dispose();
     }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as Shader);
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            return (_effect.GetHashCode() * 397) ^ _properties.GetHashCode();
+        }
+    }
 }

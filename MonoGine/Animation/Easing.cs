@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using MonoGine.Extensions;
 
 namespace MonoGine.Animations;
 
@@ -241,7 +242,7 @@ public static class EasingFunctions
     private static float InBounce(float start, float end, float value)
     {
         end -= start;
-        var d = 1f;
+        const float d = 1f;
         return end - OutBounce(0, end, d - value) + start;
     }
 
@@ -287,13 +288,13 @@ public static class EasingFunctions
     {
         end -= start;
         value /= 1;
-        var s = 1.70158f;
+        const float s = 1.70158f;
         return end * value * value * ((s + 1) * value - s) + start;
     }
 
     private static float OutBack(float start, float end, float value)
     {
-        var s = 1.70158f;
+        const float s = 1.70158f;
         end -= start;
         value = value - 1;
         return end * (value * value * ((s + 1) * value + s) + 1) + start;
@@ -319,7 +320,7 @@ public static class EasingFunctions
     {
         end -= start;
 
-        var d = 1f;
+        const float d = 1f;
         var p = d * .3f;
         float s;
         float a = 0;
@@ -329,7 +330,7 @@ public static class EasingFunctions
             return start;
         }
 
-        if ((value /= d) == 1)
+        if (MathExtensions.AreFloatsEqual(value /= d, 1f))
         {
             return start + end;
         }
@@ -351,8 +352,8 @@ public static class EasingFunctions
     {
         end -= start;
 
-        var d = 1f;
-        var p = d * .3f;
+        const float d = 1f;
+        const float p = d * .3f;
         float s;
         float a = 0;
 
@@ -361,7 +362,7 @@ public static class EasingFunctions
             return start;
         }
 
-        if (Math.Abs((value /= d) - 1) < 0.000001f)
+        if (MathExtensions.AreFloatsEqual(value /= d, 1f))
         {
             return start + end;
         }
@@ -383,8 +384,8 @@ public static class EasingFunctions
     {
         end -= start;
 
-        var d = 1f;
-        var p = d * .3f;
+        const float d = 1f;
+        const float p = d * .3f;
         float s;
         float a = 0;
 
@@ -393,7 +394,7 @@ public static class EasingFunctions
             return start;
         }
 
-        if (Math.Abs((value /= d * 0.5f) - 2) < 0.000001f)
+        if (MathExtensions.AreFloatsEqual(value /= d, 1f))
         {
             return start + end;
         }

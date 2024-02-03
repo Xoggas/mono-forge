@@ -4,13 +4,11 @@ namespace MonoGine.Ecs;
 
 public abstract class Entity : IEntity
 {
-    private readonly List<IComponent> _components = new();
-
     public bool Started { get; private set; }
-
     public bool IsDestroyed { get; private set; }
-
     public bool IsActive { get; private set; } = true;
+
+    private readonly List<IComponent> _components = new();
 
     public void AddComponent(IComponent component)
     {

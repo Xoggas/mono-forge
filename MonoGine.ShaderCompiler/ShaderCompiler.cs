@@ -25,7 +25,12 @@ public sealed class ShaderCompiler : IDisposable
 
     private static void Compile(string path)
     {
-        var options = new Options { SourceFile = path, OutputFile = Path.ChangeExtension(path, "shader") };
+        var options = new Options
+        {
+            SourceFile = path,
+            OutputFile = Path.ChangeExtension(path, "shader")
+        };
+
         GetShaderBytecode(options);
     }
 
@@ -43,14 +48,15 @@ public sealed class ShaderCompiler : IDisposable
 
     private static ShaderResult GetShaderResult(Options options)
     {
-        return ShaderResult.FromFile(options.SourceFile, options, s_output);
+        ShaderResult result = ShaderResult.FromFile(options.SourceFile, options, s_output);
+        return result;
     }
 
     private class EffectCompilerOutput : IEffectCompilerOutput
     {
         public void WriteWarning(string file, int line, int column, string message)
         {
-            Debug.Print("Warning: {0}({1},{2}): {3}", file, line, column, message);
+            Debug.Print($"Warning: {file}({line},{column}): {message}");
         }
 
         public void WriteError(string file, int line, int column, string message)

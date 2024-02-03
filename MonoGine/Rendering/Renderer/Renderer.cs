@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Rendering.Batching;
 using MonoGine.SceneManagement;
 
@@ -7,17 +6,19 @@ namespace MonoGine.Rendering;
 
 public sealed class Renderer : IRenderer
 {
-    private readonly IBatch _batch;
-    private readonly RasterizerState _rasterizerState;
+    private readonly IRenderQueue _renderQueue;
 
-    public Renderer(IEngine engine)
+    public Renderer(IEngine engine, IBatcher batcher, RenderConfig config)
     {
-        _batch = new Batch(engine);
-        _rasterizerState = new RasterizerState
-        {
-            CullMode = CullMode.CullCounterClockwiseFace,
-            MultiSampleAntiAlias = true
-        };
+        Config = config;
+        _renderQueue = new RenderQueue(engine, batcher);
+    }
+
+    public RenderConfig Config { get; set; }
+
+    public void SetBatcher(IBatcher batcher)
+    {
+        _renderQueue.SetBatcher(batcher);
     }
 
     public void Draw(IEngine engine, IScene scene)
@@ -26,37 +27,37 @@ public sealed class Renderer : IRenderer
         DrawViewport(engine, engine.Window.Viewport);
     }
 
-    public void Dispose()
-    {
-        _batch.Dispose();
-    }
-
     private void DrawScene(IEngine engine, IScene scene)
     {
-        _batch.SetRenderTarget(engine, engine.Window.Viewport.Target);
-        _batch.Clear(engine, scene.Camera.BackgroundColor);
-        _batch.Begin(engine, transformMatrix: scene.Camera.TransformMatrix, samplerState: SamplerState.LinearWrap, rasterizerState: _rasterizerState, blendState: BlendState.NonPremultiplied);
+        _renderQueue.SetRenderTarget(engine, engine.Window.Viewport.Target);
+        _renderQueue.Clear(engine, scene.Camera.BackgroundColor);
+        _renderQueue.Begin(engine, Config, scene.Camera.TransformMatrix);
 
-        scene.Root.Draw(engine, _batch);
-        scene.Canvas.Draw(engine, _batch);
+        scene.Draw(engine, _renderQueue);
 
-        _batch.End(engine);
+        _renderQueue.End(engine);
     }
 
     private void DrawViewport(IEngine engine, IViewport viewport)
     {
-        _batch.SetRenderTarget(engine, null);
-        _batch.Clear(engine, Color.Black);
-        _batch.Begin(engine, samplerState: SamplerState.LinearWrap, rasterizerState: _rasterizerState);
+        _renderQueue.SetRenderTarget(engine, null);
+        _renderQueue.Clear(engine, Color.Black);
+        _renderQueue.Begin(engine, Config);
 
-        //TODO: Fix rendering
-        //_batch.DrawTexturedMesh(viewport.Target, Color.White, GetViewportMatrix(engine.Window, viewport), Vector2.One * 0.5f, null, null, 0f);
-        
-        _batch.End(engine);
+        ApplyMatrixToViewport(engine.Window, engine.Window.Viewport);
+
+        _renderQueue.EnqueueTexturedMesh(viewport.Target, viewport.Mesh, null, 0f);
+        _renderQueue.End(engine);
     }
 
-    private Matrix GetViewportMatrix(Window window, IViewport viewport)
+    private void ApplyMatrixToViewport(Window window, IViewport viewport)
     {
-        return Matrix.CreateScale(viewport.Width, viewport.Height, 0) * Matrix.CreateTranslation(new Vector3(window.Width, window.Height, 0) * 0.5f);
+        Matrix matrix = Matrix.CreateScale(viewport.Width, viewport.Height, 0) *
+                        Matrix.CreateTranslation(new Vector3(window.Width, window.Height, 0) * 0.5f);
+
+        viewport.Mesh.Vertices[0] = new Vertex(Vector3.Transform(Vector3.Zero, matrix), Color.White);
+        viewport.Mesh.Vertices[1] = new Vertex(Vector3.Transform(Vector3.UnitY, matrix), Color.White);
+        viewport.Mesh.Vertices[2] = new Vertex(Vector3.Transform(Vector3.UnitX, matrix), Color.White);
+        viewport.Mesh.Vertices[3] = new Vertex(Vector3.Transform(Vector3.One, matrix), Color.White);
     }
 }

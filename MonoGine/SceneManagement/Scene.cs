@@ -2,6 +2,7 @@
 using Box2DX.Common;
 using MonoGine.Ecs;
 using MonoGine.Rendering;
+using MonoGine.Rendering.Batching;
 using MonoGine.SceneGraph;
 using MonoGine.UI;
 
@@ -15,7 +16,13 @@ public abstract class Scene : IScene
     public IWorld World { get; } = new World();
 
     public Box2DX.Dynamics.World Physics { get; } =
-        new(new AABB { LowerBound = Vec2.Zero, UpperBound = Vec2.Zero }, Vec2.Zero, true);
+        new(new AABB { LowerBound = Vec2.Zero, UpperBound = Vec2.Zero }, new Vec2(0f, 9.8f), true);
+
+    public virtual void Draw(IEngine engine, IRenderQueue renderQueue)
+    {
+        Root.Draw(engine, renderQueue);
+        Canvas.Draw(engine, renderQueue);
+    }
 
     public virtual void Update(IEngine engine)
     {
@@ -29,7 +36,6 @@ public abstract class Scene : IScene
     public virtual void Dispose()
     {
         World.Dispose();
-        Camera.Dispose();
         Root.Dispose();
         Canvas.Dispose();
     }
@@ -46,23 +52,7 @@ public abstract class Scene : IScene
         Dispose();
     }
 
-    /// <summary>
-    /// Called when the scene is loaded.
-    /// </summary>
-    /// <param name="engine">The engine used for the game.</param>
-    /// <param name="args">Optional arguments passed during scene loading.</param>
     protected abstract void OnLoad(IEngine engine, object[]? args);
-
-    /// <summary>
-    /// Called when the scene is unloaded.
-    /// </summary>
-    /// <param name="engine">The engine used for the game.</param>
-    /// <param name="args">Optional arguments passed during scene unloading.</param>
     protected abstract void OnUnload(IEngine engine, object[]? args);
-
-    /// <summary>
-    /// Called when the scene's resources are loaded.
-    /// </summary>
-    /// <param name="engine">The engine used for the game.</param>
     protected abstract void OnLoadResources(IEngine engine);
 }

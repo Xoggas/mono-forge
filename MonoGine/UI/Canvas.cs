@@ -8,7 +8,7 @@ public sealed class Canvas : ICanvas
     {
     }
 
-    public void Draw(IEngine engine, IBatch batch)
+    public void Draw(IEngine engine, IRenderQueue renderQueue)
     {
     }
 

@@ -15,14 +15,14 @@ public class AnimationClip : IAsset
     [JsonProperty]
     private float _duration;
 
-    public AnimationClip()
-    {
-    }
-
     public AnimationClip(Dictionary<string, Sequence> sequences)
     {
         _sequences = sequences;
         _duration = sequences.Values.Max(x => x.Duration);
+    }
+
+    private AnimationClip()
+    {
     }
 
     [JsonIgnore]

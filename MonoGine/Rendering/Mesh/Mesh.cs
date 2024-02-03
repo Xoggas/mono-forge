@@ -14,7 +14,7 @@ public sealed class Mesh
             new Vertex(new Vector3(1f, 0f, 0f), Color.White),
             new Vertex(new Vector3(1f, 1f, 0f), Color.White)
         },
-        Indices = new short[]
+        Indices = new[]
         {
             0, 2, 1,
             2, 3, 1
@@ -29,6 +29,6 @@ public sealed class Mesh
     };
 
     public Vertex[] Vertices = Array.Empty<Vertex>();
-    public short[] Indices = Array.Empty<short>();
+    public int[] Indices = Array.Empty<int>();
     public Vector2[] Uvs = Array.Empty<Vector2>();
 }
