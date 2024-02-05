@@ -4,7 +4,7 @@ namespace MonoGine;
 
 public sealed class FillWindow : IViewportScaler
 {
-    public Point GetScale(Point windowResolution)
+    public Point GetSize(Point windowResolution)
     {
         return windowResolution;
     }

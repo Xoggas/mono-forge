@@ -6,6 +6,10 @@ public sealed class StaticBatcher : IDrawable
     {
     }
 
+    public void Remove(IDrawable drawable)
+    {
+    }
+
     public void Draw(IEngine engine, IRenderQueue renderQueue)
     {
     }

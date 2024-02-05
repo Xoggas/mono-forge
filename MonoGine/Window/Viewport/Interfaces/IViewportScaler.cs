@@ -4,5 +4,5 @@ namespace MonoGine;
 
 public interface IViewportScaler
 {
-    public Point GetScale(Point windowResolution);
+    public Point GetSize(Point windowResolution);
 }

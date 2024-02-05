@@ -4,6 +4,7 @@ using MonoGine.SceneManagement;
 
 namespace MonoGine.Rendering;
 
+//TODO: Implement culling
 public sealed class Renderer : IRenderer
 {
     private readonly IRenderQueue _renderQueue;
@@ -29,7 +30,7 @@ public sealed class Renderer : IRenderer
 
     private void DrawScene(IEngine engine, IScene scene)
     {
-        _renderQueue.SetRenderTarget(engine, engine.Window.Viewport.Target);
+        _renderQueue.SetRenderTarget(engine, engine.Window.Viewport.RenderTarget);
         _renderQueue.Clear(engine, scene.Camera.BackgroundColor);
         _renderQueue.Begin(engine, Config, scene.Camera.TransformMatrix);
 
@@ -38,26 +39,14 @@ public sealed class Renderer : IRenderer
         _renderQueue.End(engine);
     }
 
-    private void DrawViewport(IEngine engine, IViewport viewport)
+    private void DrawViewport(IEngine engine, IDrawable viewport)
     {
         _renderQueue.SetRenderTarget(engine, null);
         _renderQueue.Clear(engine, Color.Black);
         _renderQueue.Begin(engine, Config);
 
-        ApplyMatrixToViewport(engine.Window, engine.Window.Viewport);
+        viewport.Draw(engine, _renderQueue);
 
-        _renderQueue.EnqueueTexturedMesh(viewport.Target, viewport.Mesh, null, 0f);
         _renderQueue.End(engine);
-    }
-
-    private void ApplyMatrixToViewport(Window window, IViewport viewport)
-    {
-        Matrix matrix = Matrix.CreateScale(viewport.Width, viewport.Height, 0) *
-                        Matrix.CreateTranslation(new Vector3(window.Width, window.Height, 0) * 0.5f);
-
-        viewport.Mesh.Vertices[0] = new Vertex(Vector3.Transform(Vector3.Zero, matrix), Color.White);
-        viewport.Mesh.Vertices[1] = new Vertex(Vector3.Transform(Vector3.UnitY, matrix), Color.White);
-        viewport.Mesh.Vertices[2] = new Vertex(Vector3.Transform(Vector3.UnitX, matrix), Color.White);
-        viewport.Mesh.Vertices[3] = new Vertex(Vector3.Transform(Vector3.One, matrix), Color.White);
     }
 }

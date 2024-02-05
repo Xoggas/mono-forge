@@ -1,6 +1,10 @@
 ﻿#images
 {
   flex-direction: row;
-  flex-distance: 5;
+  flex-gap: 5;
 }
 
+#button
+{
+
+}

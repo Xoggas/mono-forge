@@ -8,28 +8,31 @@ namespace MonoGine;
 /// </summary>
 public sealed class Window : IObject
 {
+    public IViewport Viewport { get; }
+
     private readonly MonoGameBridge _monoGameBridge;
-    private readonly IViewport _viewport;
+    private readonly GameWindow _window;
+    private readonly GraphicsDeviceManager _graphicsDeviceManager;
 
     internal Window(MonoGameBridge monoGameBridge)
     {
         _monoGameBridge = monoGameBridge;
-        _monoGameBridge.GraphicsDeviceManager.HardwareModeSwitch = false;
-        _viewport = new Viewport(this, monoGameBridge.GraphicsDevice);
+        _window = monoGameBridge.Window;
+        _graphicsDeviceManager = monoGameBridge.GraphicsDeviceManager;
+        _graphicsDeviceManager.HardwareModeSwitch = false;
+        Viewport = new Viewport(this, monoGameBridge.GraphicsDevice);
+        ResolutionChanged?.Invoke(Resolution);
     }
 
-    /// <summary>
-    /// Gets the window viewport.
-    /// </summary>
-    public IViewport Viewport => _viewport;
+    public event Action<Point>? ResolutionChanged;
 
     /// <summary>
     /// Gets or sets the title of the window.
     /// </summary>
     public string Title
     {
-        get => _monoGameBridge.Window.Title;
-        set => _monoGameBridge.Window.Title = value;
+        get => _window.Title;
+        set => _window.Title = value;
     }
 
     /// <summary>
@@ -37,8 +40,8 @@ public sealed class Window : IObject
     /// </summary>
     public Point Position
     {
-        get => _monoGameBridge.Window.Position;
-        set => _monoGameBridge.Window.Position = value;
+        get => _window.Position;
+        set => _window.Position = value;
     }
 
     /// <summary>
@@ -46,12 +49,7 @@ public sealed class Window : IObject
     /// </summary>
     public Point Resolution
     {
-        get
-        {
-            GraphicsDeviceManager graphicsDeviceManager = _monoGameBridge.GraphicsDeviceManager;
-            return new Point(graphicsDeviceManager.PreferredBackBufferWidth,
-                graphicsDeviceManager.PreferredBackBufferHeight);
-        }
+        get => new(_graphicsDeviceManager.PreferredBackBufferWidth, _graphicsDeviceManager.PreferredBackBufferHeight);
         set
         {
             if (Resolution == value)
@@ -59,11 +57,11 @@ public sealed class Window : IObject
                 return;
             }
 
-            _monoGameBridge.GraphicsDeviceManager.PreferredBackBufferWidth = value.X;
-            _monoGameBridge.GraphicsDeviceManager.PreferredBackBufferHeight = value.Y;
-            _monoGameBridge.GraphicsDeviceManager.ApplyChanges();
+            _graphicsDeviceManager.PreferredBackBufferWidth = value.X;
+            _graphicsDeviceManager.PreferredBackBufferHeight = value.Y;
+            _graphicsDeviceManager.ApplyChanges();
 
-            _viewport.Rescale(_monoGameBridge.GraphicsDevice, value);
+            ResolutionChanged?.Invoke(value);
         }
     }
 
@@ -96,11 +94,11 @@ public sealed class Window : IObject
     /// </summary>
     public bool IsFullscreen
     {
-        get => _monoGameBridge.GraphicsDeviceManager.IsFullScreen;
+        get => _graphicsDeviceManager.IsFullScreen;
         set
         {
-            _monoGameBridge.GraphicsDeviceManager.IsFullScreen = value;
-            _monoGameBridge.GraphicsDeviceManager.ApplyChanges();
+            _graphicsDeviceManager.IsFullScreen = value;
+            _graphicsDeviceManager.ApplyChanges();
         }
     }
 
@@ -109,8 +107,8 @@ public sealed class Window : IObject
     /// </summary>
     public bool IsBorderless
     {
-        get => _monoGameBridge.Window.IsBorderless;
-        set => _monoGameBridge.Window.IsBorderless = value;
+        get => _window.IsBorderless;
+        set => _window.IsBorderless = value;
     }
 
     /// <summary>
@@ -118,11 +116,11 @@ public sealed class Window : IObject
     /// </summary>
     public bool UseVSync
     {
-        get => _monoGameBridge.GraphicsDeviceManager.SynchronizeWithVerticalRetrace;
+        get => _graphicsDeviceManager.SynchronizeWithVerticalRetrace;
         set
         {
-            _monoGameBridge.GraphicsDeviceManager.SynchronizeWithVerticalRetrace = value;
-            _monoGameBridge.GraphicsDeviceManager.ApplyChanges();
+            _graphicsDeviceManager.SynchronizeWithVerticalRetrace = value;
+            _graphicsDeviceManager.ApplyChanges();
         }
     }
 
@@ -131,8 +129,8 @@ public sealed class Window : IObject
     /// </summary>
     public bool AllowAltF4
     {
-        get => _monoGameBridge.Window.AllowAltF4;
-        set => _monoGameBridge.Window.AllowAltF4 = value;
+        get => _window.AllowAltF4;
+        set => _window.AllowAltF4 = value;
     }
 
     /// <summary>
@@ -140,8 +138,8 @@ public sealed class Window : IObject
     /// </summary>
     public bool AllowResizing
     {
-        get => _monoGameBridge.Window.AllowUserResizing;
-        set => _monoGameBridge.Window.AllowUserResizing = value;
+        get => _window.AllowUserResizing;
+        set => _window.AllowUserResizing = value;
     }
 
     /// <summary>
@@ -149,5 +147,6 @@ public sealed class Window : IObject
     /// </summary>
     public void Dispose()
     {
+        Viewport.Dispose();
     }
 }

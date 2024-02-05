@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Animations;
 using MonoGine.AssetLoading;
 using MonoGine.Audio;
 using MonoGine.InputSystem;
@@ -133,6 +134,10 @@ public abstract class Engine : IEngine
         Renderer = new Renderer(this, new DynamicBatcher(), RenderConfig.Default);
         AudioManager.Initialize(this);
         AssetManager.Initialize(this);
+        AssetManager.RegisterProcessor<Sprite>(new SpriteReader());
+        AssetManager.RegisterProcessor<AnimationClip>(new AnimationClipProcessor());
+        AssetManager.RegisterProcessor<AudioClip>(new AudioClipReader());
+        AssetManager.RegisterProcessor<Shader>(new ShaderReader());
     }
 
     /// <summary>

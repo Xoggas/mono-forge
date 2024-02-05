@@ -1,14 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGine.Rendering;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine;
 
-public interface IViewport : IObject
+public interface IViewport : IObject, IDrawable
 {
-    public void Rescale(GraphicsDevice graphicsDevice, Point windowResolution);
-    public RenderTarget Target { get; }
-    public Mesh Mesh { get; }
+    public RenderTarget2D RenderTarget { get; }
     public IViewportScaler Scaler { get; set; }
     public int Width { get; }
     public int Height { get; }

@@ -11,7 +11,7 @@ internal sealed class DynamicBatcher : IBatcher
     private const int InitialBatchSize = 1024;
 
     private BatchableGraphics[] _graphicsToBatch;
-    private int _totalItemsToBatch;
+    private int _totalGraphicsToBatch;
     private int _firstItemToBatchIndex;
 
     private VertexPositionColorTexture[] _vertices;
@@ -30,67 +30,49 @@ internal sealed class DynamicBatcher : IBatcher
 
     public void Push(Texture2D texture, Mesh mesh, Shader? shader, float depth)
     {
-        ArrayUtility.ExtendArrayIfNeeded(ref _graphicsToBatch, _totalItemsToBatch + 1);
+        ArrayUtility.ExtendArrayIfNeeded(ref _graphicsToBatch, _totalGraphicsToBatch + 1);
 
         ArrayUtility.InitializeElementsInArray(_graphicsToBatch);
 
-        _graphicsToBatch[_totalItemsToBatch++].Set(texture, mesh, shader, depth);
+        _graphicsToBatch[_totalGraphicsToBatch++].Set(texture, mesh, shader, depth);
     }
 
-    public bool TryGetPass(out BatchPassResult batchPassResult)
+    public IEnumerable<BatchPassResult> GetPasses()
     {
-        batchPassResult = default;
-
-        if (_totalItemsToBatch == 0)
+        if (_totalGraphicsToBatch == 0 || _firstItemToBatchIndex >= _totalGraphicsToBatch)
         {
-            return false;
+            yield break;
         }
 
-        Array.Sort(_graphicsToBatch, 0, _totalItemsToBatch);
-
-        if (_firstItemToBatchIndex >= _totalBatchedItems)
-        {
-            return false;
-        }
+        Array.Sort(_graphicsToBatch, 0, _totalGraphicsToBatch);
 
         BatchableGraphics lastBatchableGraphics = _graphicsToBatch[_firstItemToBatchIndex];
 
-        for (var i = _firstItemToBatchIndex; i < _totalItemsToBatch; i++)
+        for (var i = _firstItemToBatchIndex; i < _totalGraphicsToBatch; i++)
         {
             BatchableGraphics currentBatchableGraphics = _graphicsToBatch[i];
 
-            if (!lastBatchableGraphics.Equals(currentBatchableGraphics))
+            if (lastBatchableGraphics.Equals(currentBatchableGraphics) == false)
             {
-                batchPassResult = GeneratePassResultFor(lastBatchableGraphics);
-
-                _totalBatchedItems = 0;
-                _totalBatchedVertices = 0;
-                _totalBatchedIndices = 0;
-                _totalBatchedPrimitives = 0;
+                yield return GeneratePassResultAndReset(lastBatchableGraphics);
             }
 
             PushGraphics(currentBatchableGraphics);
 
-            lastBatchableGraphics.Clear();
-
             lastBatchableGraphics = currentBatchableGraphics;
         }
 
-        if (_totalItemsToBatch <= 0)
+        if (_totalGraphicsToBatch <= 0)
         {
-            return false;
+            yield break;
         }
 
-        batchPassResult = GeneratePassResultFor(lastBatchableGraphics);
-
-        lastBatchableGraphics.Clear();
-
-        return true;
+        yield return GeneratePassResultAndReset(lastBatchableGraphics);
     }
 
     public void Reset()
     {
-        _totalItemsToBatch = 0;
+        _totalGraphicsToBatch = 0;
         _firstItemToBatchIndex = 0;
         _totalBatchedVertices = 0;
         _totalBatchedIndices = 0;
@@ -98,26 +80,43 @@ internal sealed class DynamicBatcher : IBatcher
         _totalBatchedItems = 0;
     }
 
-    private BatchPassResult GeneratePassResultFor(BatchableGraphics graphics)
+    private BatchPassResult GeneratePassResultAndReset(BatchableGraphics graphics)
     {
-        return new BatchPassResult
+        if (graphics.IsInvalid)
         {
-            Texture = graphics.Texture,
+            throw new InvalidOperationException("Invalid graphics!");
+        }
+
+        var batchResult = new BatchPassResult
+        {
+            Texture = graphics.Texture!,
             Shader = graphics.Shader,
             Vertices = _vertices,
             VertexCount = _totalBatchedVertices,
             Indices = _indices,
             PrimitiveCount = _totalBatchedPrimitives
         };
+
+        _totalBatchedItems = 0;
+        _totalBatchedVertices = 0;
+        _totalBatchedIndices = 0;
+        _totalBatchedPrimitives = 0;
+
+        return batchResult;
     }
 
     private void PushGraphics(BatchableGraphics graphics)
     {
-        PushVerticesAndUVs(graphics.Mesh.Vertices, graphics.Mesh.Uvs);
+        if (graphics.IsInvalid)
+        {
+            throw new InvalidOperationException("Invalid graphics!");
+        }
+
+        PushVerticesAndUVs(graphics.Mesh!.Vertices, graphics.Mesh.Uvs);
         PushIndices(graphics.Mesh.Indices);
 
         _totalBatchedItems++;
-        _firstItemToBatchIndex = _totalItemsToBatch;
+        _firstItemToBatchIndex = _totalBatchedItems;
     }
 
     private void PushVerticesAndUVs(IReadOnlyList<Vertex> vertices, IReadOnlyList<Vector2> uvs)
@@ -146,7 +145,6 @@ internal sealed class DynamicBatcher : IBatcher
         }
 
         _totalBatchedIndices += indices.Count;
-
         _totalBatchedPrimitives += indices.Count / 3;
     }
 }

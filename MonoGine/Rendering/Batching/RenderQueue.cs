@@ -33,7 +33,7 @@ public sealed class RenderQueue : IRenderQueue
         _batcher = batcher;
     }
 
-    public void SetRenderTarget(IEngine engine, RenderTarget? target)
+    public void SetRenderTarget(IEngine engine, RenderTarget2D? target)
     {
         engine.GraphicsDevice.SetRenderTarget(target);
     }
@@ -64,9 +64,9 @@ public sealed class RenderQueue : IRenderQueue
 
     public void End(IEngine engine)
     {
-        while (_batcher.TryGetPass(out BatchPassResult batchedPass))
+        foreach (BatchPassResult pass in _batcher.GetPasses())
         {
-            DrawUtility.Draw(engine.GraphicsDevice, batchedPass);
+            DrawUtility.Draw(engine.GraphicsDevice, pass);
         }
 
         _batchHasBegun = false;

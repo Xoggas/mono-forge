@@ -8,19 +8,17 @@ namespace MonoGine.Rendering.Batching;
 /// </summary>
 internal sealed class BatchableGraphics : IEquatable<BatchableGraphics>, IComparable<BatchableGraphics>
 {
-    internal bool IsValid => !_isDisposed && _texture is not null && _mesh is not null;
-    internal Texture2D Texture => _texture ?? throw new ArgumentNullException(nameof(_texture));
-    internal Mesh Mesh => _mesh ?? throw new ArgumentNullException(nameof(_texture));
+    internal bool IsInvalid => _isDisposed || Texture is null || Mesh is null;
+    internal Texture2D? Texture { get; private set; }
+    internal Mesh? Mesh { get; private set; }
     internal Shader? Shader { get; private set; }
 
-    private Texture2D? _texture;
-    private Mesh? _mesh;
     private bool _isDisposed;
     private float _depth;
 
     public bool Equals(BatchableGraphics? other)
     {
-        var areTextureReferencesEqual = _texture == other?._texture;
+        var areTextureReferencesEqual = Texture == other?.Texture;
         var areShadersEqual =
             ReferenceEquals(Shader, other?.Shader) || (Shader != null && Shader.Equals(other?.Shader));
         return areTextureReferencesEqual && areShadersEqual;
@@ -39,8 +37,8 @@ internal sealed class BatchableGraphics : IEquatable<BatchableGraphics>, ICompar
     public void Clear()
     {
         Shader = null;
-        _texture = null;
-        _mesh = null;
+        Texture = null;
+        Mesh = null;
         _isDisposed = true;
     }
 
@@ -51,8 +49,8 @@ internal sealed class BatchableGraphics : IEquatable<BatchableGraphics>, ICompar
 
     internal void Set(Texture2D texture, Mesh mesh, Shader? shader, float depth)
     {
-        _texture = texture;
-        _mesh = mesh;
+        Texture = texture;
+        Mesh = mesh;
         Shader = shader;
         _depth = depth;
     }
