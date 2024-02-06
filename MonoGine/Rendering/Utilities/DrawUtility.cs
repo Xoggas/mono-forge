@@ -3,6 +3,7 @@ using MonoGine.Rendering.Batching;
 
 namespace MonoGine.Rendering;
 
+//TODO: Reimplement this as a DrawService
 internal static class DrawUtility
 {
     internal static void Draw(GraphicsDevice graphicsDevice, BatchPassResult batchPassResult)

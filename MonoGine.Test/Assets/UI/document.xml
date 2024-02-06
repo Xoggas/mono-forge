@@ -1,8 +1,8 @@
-﻿<import type="image" path="Assets/Rectangle.png" name="Rectangle" >
+﻿<import type="image" path="Assets/Rectangle.png" name="Rectangle" />
 
-<flex-box unique-id="images"> 
+<flex-box unique-id="images">
   <image name="Rectangle" />
   <image name="Rectangle" />
-</flex-box> 
+</flex-box>
 
-<button unique-id="button" text=""> 
+<button unique-id="button" text=""></button>

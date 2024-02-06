@@ -13,6 +13,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\MonoGine.ShaderCompiler\MonoGine.ShaderCompiler.csproj"/>
+        <ProjectReference Include="..\MonoGine.Text\MonoGine.Text.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="Libraries\fmod.dll">
@@ -22,5 +23,7 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="ParticleSystem\"/>
+        <Folder Include="TileMap\" />
+        <Folder Include="Tweening\" />
     </ItemGroup>
 </Project>

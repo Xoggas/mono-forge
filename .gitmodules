@@ -1,0 +1,3 @@
+[submodule "Msdfgen.Net"]
+	path = Msdfgen.Net
+	url = https://github.com/DWVoid/Msdfgen.Net
