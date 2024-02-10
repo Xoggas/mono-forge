@@ -131,7 +131,7 @@ public abstract class Engine : IEngine
     protected virtual void OnInitialize()
     {
         Window = new Window(_monoGameBridge);
-        Renderer = new Renderer(this, new DynamicBatcher(), RenderConfig.Default);
+        Renderer = new Renderer(this, new DynamicBatcher(), new DrawingService(), RenderConfig.Default);
         AudioManager.Initialize(this);
         AssetManager.Initialize(this);
         AssetManager.RegisterProcessor<Sprite>(new SpriteReader());
@@ -169,6 +169,7 @@ public abstract class Engine : IEngine
     /// <param name="gameTime">The game time.</param>
     protected virtual void OnUpdate(GameTime gameTime)
     {
+        Window.Update(this);
         Time.Update(gameTime);
         Input.Update(this);
         SceneManager.Update(this);

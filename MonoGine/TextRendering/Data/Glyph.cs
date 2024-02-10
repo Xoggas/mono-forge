@@ -2,14 +2,14 @@ using Microsoft.Xna.Framework;
 
 namespace MonoGine.TextRendering;
 
-public readonly struct Glyph
+internal readonly struct Glyph
 {
-    public readonly Vector2 Position;
-    public readonly Vector2 Size;
+    internal readonly Vector2 _position;
+    internal readonly Vector2 _size;
 
-    public Glyph(Vector2 position, Vector2 size)
+    internal Glyph(Vector2 position, Vector2 size)
     {
-        Position = position;
-        Size = size;
+        _position = position;
+        _size = size;
     }
 }

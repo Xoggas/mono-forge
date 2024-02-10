@@ -15,9 +15,7 @@ public sealed class ShaderCompiler : IDisposable
 
     public static void CompileAllShaders(string path)
     {
-        var paths = Directory.GetFiles(path, "*.fx", SearchOption.AllDirectories);
-
-        foreach (var shaderFilePath in paths)
+        foreach (var shaderFilePath in Directory.EnumerateFiles(path, "*.fx", SearchOption.AllDirectories))
         {
             Compile(shaderFilePath);
         }

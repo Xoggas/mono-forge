@@ -29,6 +29,7 @@ public sealed class Viewport : IViewport
     public void Dispose()
     {
         RenderTarget.Dispose();
+
         _window.ResolutionChanged -= OnWindowResolutionChanged;
     }
 
@@ -37,22 +38,22 @@ public sealed class Viewport : IViewport
         renderQueue.EnqueueTexturedMesh(_dynamicRenderTarget, _mesh, null, 0f);
     }
 
-    private void OnWindowResolutionChanged(Point windowResolution)
+    private void OnWindowResolutionChanged(Point backBufferResolution, Point viewportResolution)
     {
-        ResizeRenderTarget(windowResolution);
-        RecalculateViewportMesh(windowResolution);
+        ResizeRenderTarget(backBufferResolution);
+        RecalculateViewportMesh(viewportResolution);
     }
 
-    private void ResizeRenderTarget(Point windowResolution)
+    private void ResizeRenderTarget(Point resolution)
     {
-        _dynamicRenderTarget.SetSize(_graphicsDevice, Scaler.GetSize(windowResolution));
+        _dynamicRenderTarget.SetSize(_graphicsDevice, Scaler.GetSize(resolution));
     }
 
-    private void RecalculateViewportMesh(Point windowResolution)
+    private void RecalculateViewportMesh(Point resolution)
     {
         Vector3 pivot = new(0.5f, 0.5f, 0f);
-        Vector3 screenCenter = new Vector3(windowResolution.ToVector2(), 0f) * 0.5f;
-        Vector3 screenSize = new(Scaler.GetSize(windowResolution).ToVector2(), 0f);
+        Vector3 screenCenter = new Vector3(resolution.ToVector2(), 0f) * 0.5f;
+        Vector3 screenSize = new(Scaler.GetSize(resolution).ToVector2(), 0f);
         Matrix transformMatrix = Matrix.CreateScale(screenSize) * Matrix.CreateTranslation(screenCenter);
 
         _mesh.Vertices[0] = new Vertex(Vector3.Transform(Vector3.Zero - pivot, transformMatrix), Color.White);

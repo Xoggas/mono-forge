@@ -9,10 +9,10 @@ public sealed class Renderer : IRenderer
 {
     private readonly IRenderQueue _renderQueue;
 
-    public Renderer(IEngine engine, IBatcher batcher, RenderConfig config)
+    public Renderer(IEngine engine, IBatcher batcher, IDrawingService drawingService, RenderConfig config)
     {
         Config = config;
-        _renderQueue = new RenderQueue(engine, batcher);
+        _renderQueue = new RenderQueue(engine, batcher, drawingService);
     }
 
     public RenderConfig Config { get; set; }

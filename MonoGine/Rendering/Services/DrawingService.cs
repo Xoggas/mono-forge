@@ -3,12 +3,11 @@ using MonoGine.Rendering.Batching;
 
 namespace MonoGine.Rendering;
 
-//TODO: Reimplement this as a DrawService
-internal static class DrawUtility
+internal sealed class DrawingService : IDrawingService
 {
-    internal static void Draw(GraphicsDevice graphicsDevice, BatchPassResult batchPassResult)
+    public void DrawMeshes(GraphicsDevice graphicsDevice, BatchPassResult pass)
     {
-        Shader? shader = batchPassResult.Shader;
+        Shader? shader = pass.Shader;
 
         if (shader is not null)
         {
@@ -18,12 +17,12 @@ internal static class DrawUtility
             {
                 effectPass.Apply();
 
-                DrawSeparatePass(graphicsDevice, batchPassResult);
+                DrawSeparatePass(graphicsDevice, pass);
             }
         }
         else
         {
-            DrawSeparatePass(graphicsDevice, batchPassResult);
+            DrawSeparatePass(graphicsDevice, pass);
         }
     }
 

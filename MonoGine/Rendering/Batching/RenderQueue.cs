@@ -8,14 +8,16 @@ public sealed class RenderQueue : IRenderQueue
 {
     private readonly SpriteEffect _spriteEffect;
     private readonly EffectPass _effectPass;
+    private IDrawingService _drawingService;
     private IBatcher _batcher;
     private bool _batchHasBegun;
 
-    public RenderQueue(IEngine engine, IBatcher batcher)
+    public RenderQueue(IEngine engine, IBatcher batcher, IDrawingService drawingService)
     {
         _spriteEffect = new SpriteEffect(engine.GraphicsDevice);
         _effectPass = _spriteEffect.CurrentTechnique.Passes[0];
         _batcher = batcher;
+        _drawingService = drawingService;
     }
 
     public void Clear(IEngine engine, Color color)
@@ -66,7 +68,7 @@ public sealed class RenderQueue : IRenderQueue
     {
         foreach (BatchPassResult pass in _batcher.GetPasses())
         {
-            DrawUtility.Draw(engine.GraphicsDevice, pass);
+            _drawingService.DrawMeshes(engine.GraphicsDevice, pass);
         }
 
         _batchHasBegun = false;

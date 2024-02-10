@@ -3,7 +3,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <LangVersion>latest</LangVersion>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Box2DX" Version="2.0.2"/>
@@ -13,7 +13,6 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\MonoGine.ShaderCompiler\MonoGine.ShaderCompiler.csproj"/>
-        <ProjectReference Include="..\MonoGine.Text\MonoGine.Text.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="Libraries\fmod.dll">
