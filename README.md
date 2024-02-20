@@ -1,2 +1,2 @@
 # MonoGine
-An engine based on MonoGame Framework
+An framework extension for MonoGame
