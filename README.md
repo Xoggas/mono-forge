@@ -1,2 +1,2 @@
 # MonoGine
-An framework extension for MonoGame
+A framework extension for MonoGame
