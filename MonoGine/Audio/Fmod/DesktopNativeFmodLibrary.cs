@@ -13,28 +13,34 @@ public class DesktopNativeFmodLibrary : INativeFmodLibrary
         {
             libraryName = Path.GetFileNameWithoutExtension(libraryName);
             dllImportSearchPath ??= DllImportSearchPath.AssemblyDirectory;
-            
+
             return NativeLibrary.Load(SelectDefaultLibraryName(libraryName, false), assembly, dllImportSearchPath);
         });
     }
 
-    private string SelectDefaultLibraryName(string libName, bool loggingEnabled = false)
+    private static string SelectDefaultLibraryName(string libName, bool loggingEnabled = false)
     {
-        string name;
-
         if (OperatingSystem.IsWindows())
         {
-            name = loggingEnabled ? $"{libName}L.dll" : $"{libName}.dll";
-        }
-        else if (OperatingSystem.IsLinux() || OperatingSystem.IsAndroid())
-        {
-            name = loggingEnabled ? $"lib{libName}L.so" : $"lib{libName}.so";
-        }
-        else
-        {
-            throw new PlatformNotSupportedException();
+            if (Environment.Is64BitOperatingSystem)
+            {
+                return loggingEnabled
+                    ? $"runtimes/win-x64/native/{libName}L.dll"
+                    : $"runtimes/win-x64/native/{libName}.dll";
+            }
+
+            return loggingEnabled
+                ? $"runtimes/win-x86/native/{libName}L.dll"
+                : $"runtimes/win-x86/native/{libName}.dll";
         }
 
-        return name;
+        if (OperatingSystem.IsLinux() || OperatingSystem.IsAndroid())
+        {
+            return loggingEnabled
+                ? $"runtimes/linux-x64/native/lib{libName}L.so"
+                : $"runtimes/linux-x64/native/lib{libName}.so";
+        }
+
+        throw new PlatformNotSupportedException();
     }
 }

@@ -7,6 +7,7 @@ namespace MonoGine.Audio;
 public sealed class AudioManager : IAudioManager
 {
     private const string ContentFolderName = "Content";
+
     private readonly Dictionary<int, IAudioChannel> _channels;
     private readonly INativeFmodLibrary _library;
 
@@ -25,7 +26,7 @@ public sealed class AudioManager : IAudioManager
 
     public void Initialize(IGame game)
     {
-        FmodManager.Init(_library, FmodInitMode.Core, ContentFolderName);
+        FmodManager.Init(_library, FmodInitMode.CoreAndStudio, ContentFolderName);
     }
 
     public void Update(IGame game, float deltaTime)

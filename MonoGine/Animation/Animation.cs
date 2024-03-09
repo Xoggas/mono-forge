@@ -76,6 +76,7 @@ public sealed class Animation : Component
         }
     }
 
+    //TODO: Refactor to get rid of redundant memory allocations
     private void CreateBindings()
     {
         if (Clip is null)

@@ -8,19 +8,24 @@
     <ItemGroup>
         <PackageReference Include="FmodForFoxes" Version="3.0.0"/>
         <PackageReference Include="FmodForFoxes.Desktop" Version="3.0.0"/>
-        <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+        <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
     <ItemGroup>
         <None Update="Libraries\fmod.dll">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <TargetPath>fmod.dll</TargetPath>
+            <TargetPath>runtimes/win-x64/native/fmod.dll</TargetPath>
         </None>
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="Fmod\Core\Linux\" />
+        <Folder Include="Fmod\Studio\Linux\" />
         <Folder Include="ParticleSystem\"/>
-        <Folder Include="TextRendering\" />
-        <Folder Include="TileMap\" />
-        <Folder Include="Tweening\" />
+        <Folder Include="TextRendering\"/>
+        <Folder Include="TileMap\"/>
+        <Folder Include="Tweening\"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\MonoGine.Content.Pipeline.Extensions\MonoGine.Content.Pipeline.Extensions.csproj"/>
     </ItemGroup>
 </Project>

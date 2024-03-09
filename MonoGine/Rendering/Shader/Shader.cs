@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine.Rendering;
 
-public sealed class Shader : IEquatable<Shader>, IDeepCopyable<Shader>
+public sealed class Shader : IEquatable<Shader>, IDeepCopyable<Shader>, IDisposable
 {
     private readonly Effect _effect;
     private readonly Properties _properties;
 
-    public Shader(Effect effect)
+    private Shader(Effect effect)
     {
         _effect = effect;
         _properties = new Properties();
@@ -22,6 +22,11 @@ public sealed class Shader : IEquatable<Shader>, IDeepCopyable<Shader>
 
     public Properties Properties => _properties;
     public EffectPassCollection Passes => _effect.CurrentTechnique.Passes;
+
+    public static Shader FromEffect(Effect effect)
+    {
+        return new Shader(effect);
+    }
 
     public void ApplyProperties()
     {

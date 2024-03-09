@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine.Rendering;
@@ -12,11 +11,12 @@ public sealed class SpriteAtlas : IDisposable
     private readonly Dictionary<string, Sprite> _spriteNameDictionary;
     private readonly Dictionary<int, Sprite> _spriteIdDictionary;
 
-    internal SpriteAtlas(Texture2D texture, IList<SpriteInfo> data)
+    //TODO: Fix naming
+    public SpriteAtlas(Texture2D texture, Dictionary<string, Sprite> spriteNames, Dictionary<int, Sprite> spriteIds)
     {
         _texture = texture;
-        _spriteNameDictionary = data.ToDictionary(x => x.Name, x => new Sprite(texture, x.Bounds));
-        _spriteIdDictionary = data.ToDictionary(x => x.Id, x => new Sprite(texture, x.Bounds));
+        _spriteNameDictionary = spriteNames;
+        _spriteIdDictionary = spriteIds;
     }
 
     public Sprite GetSpriteByName(string name)

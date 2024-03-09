@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Extensions;
 using MonoGine.Rendering;
 using MonoGine.Rendering.Batching;
 
@@ -51,7 +52,7 @@ public sealed class Viewport : IDrawable, IDisposable
     {
         Vector3 pivot = new(0.5f, 0.5f, 0f);
         Vector3 screenCenter = new Vector3(backBufferResolution.ToVector2(), 0f) * 0.5f;
-        Vector3 screenSize = new(Size.ToVector2(), 0f);
+        var screenSize = Size.ToVector3();
         Matrix transformMatrix = Matrix.CreateScale(screenSize) * Matrix.CreateTranslation(screenCenter);
 
         _mesh.Vertices[0] = new Vertex(Vector3.Transform(Vector3.Zero - pivot, transformMatrix), Color.White);

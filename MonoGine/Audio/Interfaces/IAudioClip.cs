@@ -1,6 +1,8 @@
-﻿namespace MonoGine.Audio;
+﻿using System;
 
-public interface IAudioClip
+namespace MonoGine.Audio;
+
+public interface IAudioClip : IDisposable
 {
     /// <summary>
     /// Gets the duration of the clip in milliseconds.

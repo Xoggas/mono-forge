@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGine.Extensions;
 using MonoGine.Rendering;
 using MonoGine.SceneGraph;
 using MonoGine.SceneManagement;
@@ -9,8 +11,6 @@ public sealed class RenderingTestScene : Scene
 {
     protected override void OnLoadResources(IGame game)
     {
-        game.ContentManager.Load<Sprite>("Sprites/Rectangle.png");
-        game.ContentManager.Load<Shader>("Shaders/Brightness.shader");
     }
 
     protected override void OnLoad(IGame game, object[]? args)
@@ -28,7 +28,7 @@ public sealed class RenderingTestScene : Scene
             Sprite = game.ContentManager.Load<Sprite>("Sprites/Rectangle.png")
         };
 
-        var shader = game.ContentManager.Load<Shader>("Shaders/Brightness.shader");
+        var shader = game.ContentManager.Load<Effect>("Shaders/Brightness.shader").ToShader();
 
         var shadedSpriteNode = new SpriteNode
         {

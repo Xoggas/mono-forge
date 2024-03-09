@@ -5,7 +5,6 @@ namespace MonoGine.Utilities;
 public static class Random
 {
     public static float Value => System.Random.Shared.NextSingle();
-
     public static Vector2 InsideUnitCircle => new(Value, Value);
 
     public static float Range(float min, float max)
