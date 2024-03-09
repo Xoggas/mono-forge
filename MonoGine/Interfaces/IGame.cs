@@ -11,7 +11,7 @@ namespace MonoGine;
 /// <summary>
 /// Represents the game engine interface in the MonoGine framework.
 /// </summary>
-public interface IEngine : IObject
+public interface IGame : IObject
 {
     /// <summary>
     /// Gets the graphics device manager associated with the engine.

@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace MonoGine.Test;
 
-public sealed class Game : Engine
+public sealed class Game : MonoGine.Game
 {
     protected override void OnInitialize()
     {
@@ -25,11 +24,5 @@ public sealed class Game : Engine
     private void LoadScene()
     {
         SceneManager.Load(this, new RenderingTestScene());
-    }
-
-    protected override void OnUpdate(GameTime gameTime)
-    {
-        base.OnUpdate(gameTime);
-        Debug.WriteLine(Window.Resolution);
     }
 }

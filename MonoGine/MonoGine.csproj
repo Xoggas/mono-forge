@@ -6,9 +6,9 @@
         <LangVersion>default</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Box2DX" Version="2.0.2"/>
         <PackageReference Include="FmodForFoxes" Version="3.0.0"/>
         <PackageReference Include="FmodForFoxes.Desktop" Version="3.0.0"/>
+        <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
     <ItemGroup>

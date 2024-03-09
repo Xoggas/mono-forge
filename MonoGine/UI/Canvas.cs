@@ -4,11 +4,11 @@ namespace MonoGine.UI;
 
 public class Canvas : IObject, IDrawable, IUpdatable
 {
-    public void Draw(IEngine engine, IRenderQueue renderQueue)
+    public void Draw(IGame game, IRenderQueue renderQueue)
     {
     }
 
-    public void Update(IEngine engine)
+    public void Update(IGame game, float deltaTime)
     {
     }
 

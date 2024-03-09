@@ -23,15 +23,15 @@ public sealed class AudioManager : IAudioManager
     public IAudioChannel Master { get; } = new AudioChannel();
     public IAudioChannel Sfx { get; } = new AudioChannel();
 
-    public void Initialize(IEngine engine)
+    public void Initialize(IGame game)
     {
         FmodManager.Init(_library, FmodInitMode.Core, ContentFolderName);
     }
 
-    public void Update(IEngine engine)
+    public void Update(IGame game, float deltaTime)
     {
         FmodManager.Update();
-        ExecuteCallbackForChannels(_channels.Values, channel => channel.Update(engine));
+        ExecuteCallbackForChannels(_channels.Values, channel => channel.Update(game, deltaTime));
     }
 
     public IAudioChannel GetOrAddChannel(int id)

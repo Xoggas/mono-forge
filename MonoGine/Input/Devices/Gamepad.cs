@@ -24,7 +24,7 @@ public sealed class Gamepad : IGamepad
     public float LeftShoulderValue { get; private set; }
     public float RightShoulderValue { get; private set; }
 
-    public void Update(IEngine engine)
+    public void Update(IGame game, float deltaTime)
     {
         UpdateStates();
         HandleEvents();

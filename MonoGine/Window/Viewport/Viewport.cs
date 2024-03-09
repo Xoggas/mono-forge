@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Rendering;
 using MonoGine.Rendering.Batching;
 
 namespace MonoGine;
 
-public sealed class Viewport : IDrawable
+public sealed class Viewport : IDrawable, IDisposable
 {
     public RenderTarget2D RenderTarget => _dynamicRenderTarget;
     public Point Size { get; set; }
@@ -30,7 +31,7 @@ public sealed class Viewport : IDrawable
         _window.ResolutionChanged -= OnWindowResolutionChanged;
     }
 
-    public void Draw(IEngine engine, IRenderQueue renderQueue)
+    public void Draw(IGame game, IRenderQueue renderQueue)
     {
         renderQueue.EnqueueTexturedMesh(_dynamicRenderTarget, _mesh, null, 0f);
     }

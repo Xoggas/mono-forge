@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine;
 
-internal sealed class MonoGameBridge : Game
+internal sealed class MonoGameBridge : Microsoft.Xna.Framework.Game
 {
     internal event Action? OnInitialize;
     internal event Action? OnLoadResources;

@@ -1,6 +1,4 @@
-﻿using Box2DX.Collision;
-using Box2DX.Common;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoGine.Ecs;
 using MonoGine.Rendering;
 using MonoGine.Rendering.Batching;
@@ -14,24 +12,20 @@ public abstract class Scene
     public Node Root { get; } = new();
     public Camera Camera { get; } = new();
     public Canvas Canvas { get; } = new();
-    public IWorld World { get; } = new World();
+    public World World { get; } = new();
 
-    public Box2DX.Dynamics.World Physics { get; } =
-        new(new AABB { LowerBound = Vec2.Zero, UpperBound = Vec2.Zero }, new Vec2(0f, 9.8f), true);
-
-    public virtual void Draw(IEngine engine, IRenderQueue renderQueue)
+    public virtual void Draw(IGame game, IRenderQueue renderQueue)
     {
-        Root.Draw(engine, renderQueue);
-        Canvas.Draw(engine, renderQueue);
+        Root.Draw(game, renderQueue);
+        Canvas.Draw(game, renderQueue);
     }
 
-    public virtual void Update(IEngine engine)
+    public virtual void Update(IGame game)
     {
         Camera.Update(new Point(), new Point()); //TODO: Fix
-        Physics.Step(engine.Time.DeltaTime, 1, 1);
-        World.Update(engine);
-        Root.Update(engine);
-        Canvas.Update(engine);
+        World.Update(game, game.Time.DeltaTime);
+        Root.Update(game, game.Time.DeltaTime);
+        Canvas.Update(game, game.Time.DeltaTime);
     }
 
     public virtual void Dispose()
@@ -41,19 +35,19 @@ public abstract class Scene
         Canvas.Dispose();
     }
 
-    internal void Load(IEngine engine, object[]? args)
+    internal void Load(IGame game, object[]? args)
     {
-        OnLoadResources(engine);
-        OnLoad(engine, args);
+        OnLoadResources(game);
+        OnLoad(game, args);
     }
 
-    internal void Unload(IEngine engine, object[]? args)
+    internal void Unload(IGame game, object[]? args)
     {
-        OnUnload(engine, args);
+        OnUnload(game, args);
         Dispose();
     }
 
-    protected abstract void OnLoad(IEngine engine, object[]? args);
-    protected abstract void OnUnload(IEngine engine, object[]? args);
-    protected abstract void OnLoadResources(IEngine engine);
+    protected abstract void OnLoad(IGame game, object[]? args);
+    protected abstract void OnUnload(IGame game, object[]? args);
+    protected abstract void OnLoadResources(IGame game);
 }

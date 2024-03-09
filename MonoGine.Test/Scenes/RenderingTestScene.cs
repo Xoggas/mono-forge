@@ -7,13 +7,13 @@ namespace MonoGine.Test;
 
 public sealed class RenderingTestScene : Scene
 {
-    protected override void OnLoadResources(IEngine engine)
+    protected override void OnLoadResources(IGame game)
     {
-        engine.ContentManager.Load<Sprite>("Sprites/Rectangle.png");
-        engine.ContentManager.Load<Shader>("Shaders/Brightness.shader");
+        game.ContentManager.Load<Sprite>("Sprites/Rectangle.png");
+        game.ContentManager.Load<Shader>("Shaders/Brightness.shader");
     }
 
-    protected override void OnLoad(IEngine engine, object[]? args)
+    protected override void OnLoad(IGame game, object[]? args)
     {
         Camera.BackgroundColor = Color.Gray;
 
@@ -25,10 +25,10 @@ public sealed class RenderingTestScene : Scene
                 Scale = new Vector2(100, 100),
                 Depth = 1f
             },
-            Sprite = engine.ContentManager.Load<Sprite>("Sprites/Rectangle.png")
+            Sprite = game.ContentManager.Load<Sprite>("Sprites/Rectangle.png")
         };
 
-        var shader = engine.ContentManager.Load<Shader>("Shaders/Brightness.shader");
+        var shader = game.ContentManager.Load<Shader>("Shaders/Brightness.shader");
 
         var shadedSpriteNode = new SpriteNode
         {
@@ -39,7 +39,7 @@ public sealed class RenderingTestScene : Scene
                 Depth = 2f
             },
             Color = Color.DeepPink,
-            Sprite = engine.ContentManager.Load<Sprite>("Sprites/Rectangle.png"),
+            Sprite = game.ContentManager.Load<Sprite>("Sprites/Rectangle.png"),
             Shader = shader
         };
 
@@ -49,7 +49,7 @@ public sealed class RenderingTestScene : Scene
         Root.AddChild(shadedSpriteNode);
     }
 
-    protected override void OnUnload(IEngine engine, object[]? args)
+    protected override void OnUnload(IGame game, object[]? args)
     {
     }
 }

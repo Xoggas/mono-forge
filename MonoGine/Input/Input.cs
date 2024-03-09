@@ -36,14 +36,14 @@ public sealed class Input : IInput
         new Gamepad(PlayerIndex.Four)
     };
 
-    public void Update(IEngine engine)
+    public void Update(IGame game, float deltaTime)
     {
-        Keyboard.Update(engine);
-        Mouse.Update(engine);
+        Keyboard.Update(game, deltaTime);
+        Mouse.Update(game, deltaTime);
 
         for (var i = 0; i < 4; i++)
         {
-            GamePads[i].Update(engine);
+            GamePads[i].Update(game, deltaTime);
         }
     }
 

@@ -10,7 +10,7 @@ public sealed class StaticBatcher : IDrawable
     {
     }
 
-    public void Draw(IEngine engine, IRenderQueue renderQueue)
+    public void Draw(IGame game, IRenderQueue renderQueue)
     {
     }
 }

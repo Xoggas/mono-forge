@@ -31,7 +31,7 @@ public sealed class AudioSource : IAudioSource
     public float Pitch { get; set; } = 1f;
     public bool IsLooping { get; set; }
 
-    public void Update(IEngine engine)
+    public void Update(IGame game, float deltaTime)
     {
         _fmodChannel.Volume = Channel.Volume * Volume;
         _fmodChannel.Pitch = Channel.Pitch * Pitch;

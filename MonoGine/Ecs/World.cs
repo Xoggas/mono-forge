@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace MonoGine.Ecs;
 
-public class World : IWorld
+public class World : IObject, IUpdatable
 {
     private readonly List<IEntity> _entities;
 
@@ -39,7 +39,7 @@ public class World : IWorld
         }
     }
 
-    public void Update(IEngine engine)
+    public void Update(IGame game, float deltaTime)
     {
         for (var i = 0; i < _entities.Count; i++)
         {
@@ -50,7 +50,7 @@ public class World : IWorld
                 continue;
             }
 
-            entity.Update(engine);
+            entity.Update(game, deltaTime);
         }
 
         RemoveDestroyedEntities();

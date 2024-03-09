@@ -5,5 +5,4 @@
 /// </summary>
 public interface ISystem : IObject, IInitializable, IUpdatable
 {
-    
 }

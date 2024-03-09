@@ -2,7 +2,7 @@
 
 namespace MonoGine;
 
-public sealed class Time : IObject
+public sealed class Time
 {
     internal Time()
     {
@@ -33,9 +33,5 @@ public sealed class Time : IObject
         ElapsedTime = (float)gameTime.TotalGameTime.TotalSeconds;
         DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * Speed;
         IsRunningSlowly = gameTime.IsRunningSlowly;
-    }
-
-    public void Dispose()
-    {
     }
 }

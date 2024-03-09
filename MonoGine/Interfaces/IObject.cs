@@ -7,5 +7,4 @@ namespace MonoGine;
 /// </summary>
 public interface IObject : IDisposable
 {
-    
 }

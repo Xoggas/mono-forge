@@ -13,14 +13,14 @@ namespace MonoGine;
 /// <summary>
 /// Represents the base class for the game engine.
 /// </summary>
-public abstract class Engine : IEngine
+public abstract class Game : IGame
 {
     private readonly MonoGameBridge _monoGameBridge;
 
     /// <summary>
     /// Initializes a new instance of the Engine class.
     /// </summary>
-    protected Engine()
+    protected Game()
     {
         _monoGameBridge = new MonoGameBridge();
         _monoGameBridge.OnInitialize += OnInitialize;
@@ -107,7 +107,6 @@ public abstract class Engine : IEngine
     /// </summary>
     public virtual void Dispose()
     {
-        Time.Dispose();
         Input.Dispose();
         ContentManager.Dispose();
         SceneManager.Dispose();
@@ -153,7 +152,7 @@ public abstract class Engine : IEngine
     /// <param name="gameTime">The game time.</param>
     protected virtual void OnBeginUpdate(GameTime gameTime)
     {
-        AudioManager.Update(this);
+        AudioManager.Update(this, Time.DeltaTime);
     }
 
     /// <summary>
@@ -163,7 +162,7 @@ public abstract class Engine : IEngine
     protected virtual void OnUpdate(GameTime gameTime)
     {
         Time.Update(gameTime);
-        Input.Update(this);
+        Input.Update(this, Time.DeltaTime);
         SceneManager.Update(this);
     }
 

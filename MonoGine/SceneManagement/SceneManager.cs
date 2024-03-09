@@ -4,16 +4,16 @@ public sealed class SceneManager
 {
     public Scene? CurrentScene { get; private set; }
 
-    public void Load(IEngine engine, Scene scene, object[]? loadArgs = null, object[]? unloadArgs = null)
+    public void Load(IGame game, Scene scene, object[]? loadArgs = null, object[]? unloadArgs = null)
     {
-        CurrentScene?.Unload(engine, unloadArgs);
+        CurrentScene?.Unload(game, unloadArgs);
         CurrentScene = scene;
-        CurrentScene.Load(engine, loadArgs);
+        CurrentScene.Load(game, loadArgs);
     }
 
-    public void Update(IEngine engine)
+    public void Update(IGame game)
     {
-        CurrentScene?.Update(engine);
+        CurrentScene?.Update(game);
     }
 
     public void Dispose()

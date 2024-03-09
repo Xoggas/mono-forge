@@ -23,7 +23,7 @@ public sealed class Transform : IObject, IUpdatable
     public Matrix WorldMatrix { get; private set; }
     public float WorldDepth { get; private set; }
 
-    public void Update(IEngine engine)
+    public void Update(IGame game, float deltaTime)
     {
         UpdateLocalMatrix();
         UpdateWorldMatrix();

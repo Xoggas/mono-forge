@@ -15,11 +15,11 @@ public sealed class AudioChannel : IAudioChannel
     public float Volume { get; set; } = 1f;
     public float Pitch { get; set; } = 1f;
 
-    public void Update(IEngine engine)
+    public void Update(IGame game, float deltaTime)
     {
         foreach (IAudioSource source in _sources)
         {
-            source.Update(engine);
+            source.Update(game, deltaTime);
         }
     }
 
