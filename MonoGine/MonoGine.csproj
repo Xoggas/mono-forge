@@ -12,9 +12,6 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\MonoGine.ShaderCompiler\MonoGine.ShaderCompiler.csproj"/>
-    </ItemGroup>
-    <ItemGroup>
         <None Update="Libraries\fmod.dll">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <TargetPath>fmod.dll</TargetPath>
@@ -22,6 +19,7 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="ParticleSystem\"/>
+        <Folder Include="TextRendering\" />
         <Folder Include="TileMap\" />
         <Folder Include="Tweening\" />
     </ItemGroup>

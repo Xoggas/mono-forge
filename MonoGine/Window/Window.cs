@@ -1,23 +1,18 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGine;
 
 /// <summary>
 /// Represents a window in the game engine.
 /// </summary>
-public sealed class Window : IObject, IUpdatable
+public sealed class Window
 {
-    public IViewport Viewport { get; }
+    public Viewport Viewport { get; }
 
     private readonly MonoGameBridge _monoGameBridge;
     private readonly GameWindow _window;
     private readonly GraphicsDeviceManager _graphicsDeviceManager;
-    private readonly GraphicsDevice _graphicsDevice;
-
-    private int _oldWindowWidth = -1;
-    private int _oldWindowHeight = -1;
 
     internal Window(MonoGameBridge monoGameBridge)
     {
@@ -25,14 +20,13 @@ public sealed class Window : IObject, IUpdatable
         _window = monoGameBridge.Window;
         _graphicsDeviceManager = monoGameBridge.GraphicsDeviceManager;
         _graphicsDeviceManager.HardwareModeSwitch = false;
-        _graphicsDevice = monoGameBridge.GraphicsDevice;
         Viewport = new Viewport(this, monoGameBridge.GraphicsDevice);
     }
 
     /// <summary>
     /// An event for handling resolution changes.
     /// </summary>
-    public event Action<Point, Point>? ResolutionChanged;
+    public event Action<Point>? ResolutionChanged;
 
     /// <summary>
     /// Gets or sets the title of the window.
@@ -53,19 +47,14 @@ public sealed class Window : IObject, IUpdatable
     }
 
     /// <summary>
-    /// Gets the window resolution.
-    /// </summary>
-    public Point WindowResolution => new(_graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height);
-
-    /// <summary>
     /// Gets or sets the back buffer resolution.
     /// </summary>
-    public Point GameResolution
+    public Point Resolution
     {
         get => new(_graphicsDeviceManager.PreferredBackBufferWidth, _graphicsDeviceManager.PreferredBackBufferHeight);
         set
         {
-            if (GameResolution == value)
+            if (Resolution == value)
             {
                 return;
             }
@@ -74,19 +63,19 @@ public sealed class Window : IObject, IUpdatable
             _graphicsDeviceManager.PreferredBackBufferHeight = value.Y;
             _graphicsDeviceManager.ApplyChanges();
 
-            ResolutionChanged?.Invoke(value, WindowResolution);
+            ResolutionChanged?.Invoke(value);
         }
     }
 
     /// <summary>
     /// Gets current window width.
     /// </summary>
-    public int Width => GameResolution.X;
+    public int Width => Resolution.X;
 
     /// <summary>
     /// Gets current window height.
     /// </summary>
-    public int Height => GameResolution.Y;
+    public int Height => Resolution.Y;
 
     /// <summary>
     /// Gets the focused state of window.
@@ -153,30 +142,5 @@ public sealed class Window : IObject, IUpdatable
     {
         get => _window.AllowUserResizing;
         set => _window.AllowUserResizing = value;
-    }
-
-    /// <summary>
-    /// Disposes the window.
-    /// </summary>
-    public void Dispose()
-    {
-        Viewport.Dispose();
-    }
-
-    /// <summary>
-    /// Updates the window.
-    /// </summary>
-    /// <param name="engine">Engine instance.</param>
-    public void Update(IEngine engine)
-    {
-        if (_oldWindowWidth == WindowResolution.X && _oldWindowHeight == WindowResolution.Y)
-        {
-            return;
-        }
-
-        _oldWindowWidth = WindowResolution.X;
-        _oldWindowHeight = WindowResolution.Y;
-
-        ResolutionChanged?.Invoke(GameResolution, WindowResolution);
     }
 }

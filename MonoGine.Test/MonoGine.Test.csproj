@@ -28,15 +28,7 @@
         <ProjectReference Include="..\MonoGine\MonoGine.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <None Update="Assets\**">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-    <ItemGroup>
         <Reference Include="System.Drawing.Common"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Assets\Animations\"/>
     </ItemGroup>
     <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
         <Message Text="Restoring dotnet tools" Importance="High"/>

@@ -29,12 +29,12 @@ public interface IScene : IUpdatable, IDrawable, IObject
     /// <summary>
     /// Gets the camera associated with the world.
     /// </summary>
-    public ICamera Camera { get; }
+    public Camera Camera { get; }
 
     /// <summary>
     /// Gets the canvas associated with the scene.
     /// </summary>
-    public ICanvas Canvas { get; }
+    public Canvas Canvas { get; }
 
     /// <summary>
     /// Loads the scene with the specified engine and optional arguments.

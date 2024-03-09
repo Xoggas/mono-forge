@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGine.AssetLoading;
 
 namespace MonoGine.Rendering;
 
-public sealed class Sprite : IAsset
+public sealed class Sprite : IDisposable
 {
     public int Width => _texture.Width;
     public int Height => _texture.Height;

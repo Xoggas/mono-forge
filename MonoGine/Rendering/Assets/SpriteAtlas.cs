@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGine.AssetLoading;
 
 namespace MonoGine.Rendering;
 
 //TODO: Think about extensibility of loading
-public sealed class SpriteAtlas : IAsset
+public sealed class SpriteAtlas : IDisposable
 {
     private readonly Texture2D _texture;
     private readonly Dictionary<string, Sprite> _spriteNameDictionary;

@@ -1,37 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoGine.AssetLoading;
-using Newtonsoft.Json;
 
 namespace MonoGine.Animations;
 
 [Serializable]
-public class AnimationClip : IAsset
+public class AnimationClip
 {
-    [JsonProperty]
-    private Dictionary<string, Sequence> _sequences = new();
+    public IReadOnlyDictionary<string, Sequence> Sequences => _sequences;
+    public float Duration { get; }
 
-    [JsonProperty]
-    private float _duration;
+    private Dictionary<string, Sequence> _sequences = new();
 
     public AnimationClip(Dictionary<string, Sequence> sequences)
     {
+        Duration = sequences.Values.Max(x => x.Duration);
         _sequences = sequences;
-        _duration = sequences.Values.Max(x => x.Duration);
     }
 
     private AnimationClip()
-    {
-    }
-
-    [JsonIgnore]
-    public IReadOnlyDictionary<string, Sequence> Sequences => _sequences;
-
-    [JsonIgnore]
-    public float Duration => _duration;
-
-    public void Dispose()
     {
     }
 }

@@ -5,12 +5,10 @@ using MonoGine.Rendering.Batching;
 
 namespace MonoGine;
 
-public sealed class Viewport : IViewport
+public sealed class Viewport : IDrawable
 {
     public RenderTarget2D RenderTarget => _dynamicRenderTarget;
-    public IViewportScaler Scaler { get; set; } = new FillWindow();
-    public int Width => RenderTarget.Width;
-    public int Height => RenderTarget.Height;
+    public Point Size { get; set; }
 
     private readonly Mesh _mesh;
     private readonly DynamicRenderTarget2D _dynamicRenderTarget;
@@ -29,7 +27,6 @@ public sealed class Viewport : IViewport
     public void Dispose()
     {
         RenderTarget.Dispose();
-
         _window.ResolutionChanged -= OnWindowResolutionChanged;
     }
 
@@ -38,22 +35,22 @@ public sealed class Viewport : IViewport
         renderQueue.EnqueueTexturedMesh(_dynamicRenderTarget, _mesh, null, 0f);
     }
 
-    private void OnWindowResolutionChanged(Point backBufferResolution, Point viewportResolution)
+    private void OnWindowResolutionChanged(Point backBufferResolution)
     {
         ResizeRenderTarget(backBufferResolution);
-        RecalculateViewportMesh(viewportResolution);
+        RecalculateViewportMesh(backBufferResolution);
     }
 
-    private void ResizeRenderTarget(Point resolution)
+    private void ResizeRenderTarget(Point backBufferResolution)
     {
-        _dynamicRenderTarget.SetSize(_graphicsDevice, Scaler.GetSize(resolution));
+        _dynamicRenderTarget.SetSize(_graphicsDevice, backBufferResolution);
     }
 
-    private void RecalculateViewportMesh(Point resolution)
+    private void RecalculateViewportMesh(Point backBufferResolution)
     {
         Vector3 pivot = new(0.5f, 0.5f, 0f);
-        Vector3 screenCenter = new Vector3(resolution.ToVector2(), 0f) * 0.5f;
-        Vector3 screenSize = new(Scaler.GetSize(resolution).ToVector2(), 0f);
+        Vector3 screenCenter = new Vector3(backBufferResolution.ToVector2(), 0f) * 0.5f;
+        Vector3 screenSize = new(Size.ToVector2(), 0f);
         Matrix transformMatrix = Matrix.CreateScale(screenSize) * Matrix.CreateTranslation(screenCenter);
 
         _mesh.Vertices[0] = new Vertex(Vector3.Transform(Vector3.Zero - pivot, transformMatrix), Color.White);

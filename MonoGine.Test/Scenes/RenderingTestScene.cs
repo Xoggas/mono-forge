@@ -9,8 +9,8 @@ public sealed class RenderingTestScene : Scene
 {
     protected override void OnLoadResources(IEngine engine)
     {
-        engine.AssetManager.LoadFromFile<Sprite>("Sprites/Rectangle.png");
-        engine.AssetManager.LoadFromFile<Shader>("Shaders/Brightness.shader");
+        engine.ContentManager.Load<Sprite>("Sprites/Rectangle.png");
+        engine.ContentManager.Load<Shader>("Shaders/Brightness.shader");
     }
 
     protected override void OnLoad(IEngine engine, object[]? args)
@@ -25,10 +25,10 @@ public sealed class RenderingTestScene : Scene
                 Scale = new Vector2(100, 100),
                 Depth = 1f
             },
-            Sprite = engine.AssetManager.LoadFromFile<Sprite>("Sprites/Rectangle.png")
+            Sprite = engine.ContentManager.Load<Sprite>("Sprites/Rectangle.png")
         };
 
-        var shader = engine.AssetManager.LoadFromFile<Shader>("Shaders/Brightness.shader");
+        var shader = engine.ContentManager.Load<Shader>("Shaders/Brightness.shader");
 
         var shadedSpriteNode = new SpriteNode
         {
@@ -39,7 +39,7 @@ public sealed class RenderingTestScene : Scene
                 Depth = 2f
             },
             Color = Color.DeepPink,
-            Sprite = engine.AssetManager.LoadFromFile<Sprite>("Sprites/Rectangle.png"),
+            Sprite = engine.ContentManager.Load<Sprite>("Sprites/Rectangle.png"),
             Shader = shader
         };
 

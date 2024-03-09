@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGine.Animations;
-using MonoGine.AssetLoading;
 using MonoGine.Audio;
 using MonoGine.InputSystem;
 using MonoGine.Rendering;
@@ -37,7 +36,7 @@ public abstract class Engine : IEngine
         Input = new Input(_monoGameBridge.Window);
         SceneManager = new SceneManager();
         AudioManager = new AudioManager();
-        AssetManager = new AssetManager(this);
+        ContentManager = _monoGameBridge.Content;
     }
 
     /// <summary>
@@ -78,7 +77,7 @@ public abstract class Engine : IEngine
     /// <summary>
     /// Gets or sets the resource manager instance associated with the engine.
     /// </summary>
-    public IAssetManager AssetManager { get; protected set; }
+    public ContentManager ContentManager { get; }
 
     /// <summary>
     /// Gets or sets the scene manager instance associated with the engine.
@@ -109,12 +108,11 @@ public abstract class Engine : IEngine
     public virtual void Dispose()
     {
         Time.Dispose();
-        Window.Dispose();
         Input.Dispose();
-        Cursor.Dispose();
-        AssetManager.Dispose();
+        ContentManager.Dispose();
         SceneManager.Dispose();
         AudioManager.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -133,11 +131,6 @@ public abstract class Engine : IEngine
         Window = new Window(_monoGameBridge);
         Renderer = new Renderer(this, new DynamicBatcher(), new DrawingService(), RenderConfig.Default);
         AudioManager.Initialize(this);
-        AssetManager.Initialize(this);
-        AssetManager.RegisterProcessor<Sprite>(new SpriteReader());
-        AssetManager.RegisterProcessor<AnimationClip>(new AnimationClipProcessor());
-        AssetManager.RegisterProcessor<AudioClip>(new AudioClipReader());
-        AssetManager.RegisterProcessor<Shader>(new ShaderReader());
     }
 
     /// <summary>
@@ -169,7 +162,6 @@ public abstract class Engine : IEngine
     /// <param name="gameTime">The game time.</param>
     protected virtual void OnUpdate(GameTime gameTime)
     {
-        Window.Update(this);
         Time.Update(gameTime);
         Input.Update(this);
         SceneManager.Update(this);

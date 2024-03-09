@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGine.Audio;
 using MonoGine.InputSystem;
 using MonoGine.Rendering;
-using MonoGine.AssetLoading;
 using MonoGine.SceneManagement;
 
 namespace MonoGine;
@@ -51,7 +51,7 @@ public interface IEngine : IObject
     /// <summary>
     /// Gets the resource manager associated with the engine.
     /// </summary>
-    public IAssetManager AssetManager { get; }
+    public ContentManager ContentManager { get; }
 
     /// <summary>
     /// Gets the scene manager associated with the engine.

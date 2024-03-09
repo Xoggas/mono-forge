@@ -6,7 +6,7 @@ namespace MonoGine;
 /// <summary>
 /// Represents a cursor in the game engine.
 /// </summary>
-public sealed class Cursor : IObject
+public sealed class Cursor
 {
     private readonly MonoGameBridge _monoGameBridge;
 
@@ -30,13 +30,5 @@ public sealed class Cursor : IObject
     public Texture2D Sprite
     {
         set => Mouse.SetCursor(MouseCursor.FromTexture2D(value, 0, 0));
-    }
-
-    /// <summary>
-    /// Disposes the cursor.
-    /// </summary>
-    public void Dispose()
-    {
-        // Dispose implementation goes here
     }
 }

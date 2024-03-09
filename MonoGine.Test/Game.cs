@@ -16,8 +16,8 @@ public sealed class Game : Engine
     private void SetupWindow()
     {
         Window.Title = "MonoGine";
-        Window.Viewport.Scaler = new FitWidth();
-        Window.GameResolution = new Point(1280, 640);
+        Window.Resolution = new Point(1280, 720);
+        Window.Viewport.Size = new Point(640, 360);
         Window.IsFullscreen = false;
         Window.Framerate = 60;
     }
@@ -30,6 +30,6 @@ public sealed class Game : Engine
     protected override void OnUpdate(GameTime gameTime)
     {
         base.OnUpdate(gameTime);
-        Debug.WriteLine(Window.GameResolution);
+        Debug.WriteLine(Window.Resolution);
     }
 }

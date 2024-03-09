@@ -1,5 +1,6 @@
 ﻿using Box2DX.Collision;
 using Box2DX.Common;
+using Microsoft.Xna.Framework;
 using MonoGine.Ecs;
 using MonoGine.Rendering;
 using MonoGine.Rendering.Batching;
@@ -11,8 +12,8 @@ namespace MonoGine.SceneManagement;
 public abstract class Scene : IScene
 {
     public Node Root { get; } = new();
-    public ICamera Camera { get; } = new Camera();
-    public ICanvas Canvas { get; } = new Canvas();
+    public Camera Camera { get; } = new();
+    public Canvas Canvas { get; } = new();
     public IWorld World { get; } = new World();
 
     public Box2DX.Dynamics.World Physics { get; } =
@@ -26,7 +27,7 @@ public abstract class Scene : IScene
 
     public virtual void Update(IEngine engine)
     {
-        Camera.Update(engine);
+        Camera.Update(new Point(), new Point()); //TODO: Fix
         Physics.Step(engine.Time.DeltaTime, 1, 1);
         World.Update(engine);
         Root.Update(engine);

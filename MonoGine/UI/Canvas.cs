@@ -2,13 +2,13 @@
 
 namespace MonoGine.UI;
 
-public sealed class Canvas : ICanvas
+public class Canvas : IObject, IDrawable, IUpdatable
 {
-    public void Update(IEngine engine)
+    public void Draw(IEngine engine, IRenderQueue renderQueue)
     {
     }
 
-    public void Draw(IEngine engine, IRenderQueue renderQueue)
+    public void Update(IEngine engine)
     {
     }
 
