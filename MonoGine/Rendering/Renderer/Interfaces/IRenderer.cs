@@ -7,5 +7,5 @@ public interface IRenderer
 {
     public RenderConfig Config { get; set; }
     public void SetBatcher(IBatcher batcher);
-    public void Draw(IEngine engine, IScene scene);
+    public void Draw(IEngine engine, Scene scene);
 }

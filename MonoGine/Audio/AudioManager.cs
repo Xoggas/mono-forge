@@ -6,6 +6,7 @@ namespace MonoGine.Audio;
 
 public sealed class AudioManager : IAudioManager
 {
+    private const string ContentFolderName = "Content";
     private readonly Dictionary<int, IAudioChannel> _channels;
     private readonly INativeFmodLibrary _library;
 
@@ -24,7 +25,7 @@ public sealed class AudioManager : IAudioManager
 
     public void Initialize(IEngine engine)
     {
-        FmodManager.Init(_library, FmodInitMode.Core, "Assets");
+        FmodManager.Init(_library, FmodInitMode.Core, ContentFolderName);
     }
 
     public void Update(IEngine engine)
@@ -83,7 +84,7 @@ public sealed class AudioManager : IAudioManager
         FmodManager.Unload();
     }
 
-    private void ExecuteCallbackForChannels(IEnumerable<IAudioChannel> channels, Action<IAudioChannel> callback)
+    private static void ExecuteCallbackForChannels(IEnumerable<IAudioChannel> channels, Action<IAudioChannel> callback)
     {
         foreach (IAudioChannel channel in channels)
         {

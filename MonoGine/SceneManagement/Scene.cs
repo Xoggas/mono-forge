@@ -9,7 +9,7 @@ using MonoGine.UI;
 
 namespace MonoGine.SceneManagement;
 
-public abstract class Scene : IScene
+public abstract class Scene
 {
     public Node Root { get; } = new();
     public Camera Camera { get; } = new();
@@ -41,13 +41,13 @@ public abstract class Scene : IScene
         Canvas.Dispose();
     }
 
-    void IScene.Load(IEngine engine, object[]? args)
+    internal void Load(IEngine engine, object[]? args)
     {
         OnLoadResources(engine);
         OnLoad(engine, args);
     }
 
-    void IScene.Unload(IEngine engine, object[]? args)
+    internal void Unload(IEngine engine, object[]? args)
     {
         OnUnload(engine, args);
         Dispose();

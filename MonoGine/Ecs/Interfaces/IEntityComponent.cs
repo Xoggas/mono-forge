@@ -17,6 +17,8 @@ public interface IEntityComponent : IObject, IUpdatable, IDestroyable
     /// </summary>
     public bool IsActive { get; }
 
+    internal bool IsDead => IsDestroyed || !IsActive;
+
     /// <summary>
     /// Starts the entity and components (even disabled components are started).
     /// </summary>

@@ -16,9 +16,6 @@
         <None Remove="app.manifest"/>
         <None Remove="Icon.bmp"/>
         <None Remove="Icon.ico"/>
-        <None Update="Assets\Sprites\Rectangle.png">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303"/>

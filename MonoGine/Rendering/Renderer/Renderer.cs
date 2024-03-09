@@ -22,13 +22,13 @@ public sealed class Renderer : IRenderer
         _renderQueue.SetBatcher(batcher);
     }
 
-    public void Draw(IEngine engine, IScene scene)
+    public void Draw(IEngine engine, Scene scene)
     {
         DrawScene(engine, scene);
         DrawViewport(engine, engine.Window.Viewport);
     }
 
-    private void DrawScene(IEngine engine, IScene scene)
+    private void DrawScene(IEngine engine, Scene scene)
     {
         _renderQueue.SetRenderTarget(engine, engine.Window.Viewport.RenderTarget);
         _renderQueue.Clear(engine, scene.Camera.BackgroundColor);

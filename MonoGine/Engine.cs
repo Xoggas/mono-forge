@@ -82,7 +82,7 @@ public abstract class Engine : IEngine
     /// <summary>
     /// Gets or sets the scene manager instance associated with the engine.
     /// </summary>
-    public ISceneManager SceneManager { get; protected set; }
+    public SceneManager SceneManager { get; }
 
     /// <summary>
     /// Gets or sets the audio manager instance associated with the engine.

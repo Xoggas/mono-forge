@@ -1,4 +1,6 @@
-﻿namespace MonoGine.Ecs;
+﻿using System;
+
+namespace MonoGine.Ecs;
 
 public abstract class Component : IComponent
 {
@@ -31,5 +33,6 @@ public abstract class Component : IComponent
 
     public virtual void Dispose()
     {
+        GC.SuppressFinalize(this);
     }
 }

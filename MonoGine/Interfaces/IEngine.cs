@@ -56,7 +56,7 @@ public interface IEngine : IObject
     /// <summary>
     /// Gets the scene manager associated with the engine.
     /// </summary>
-    public ISceneManager SceneManager { get; }
+    public SceneManager SceneManager { get; }
 
     /// <summary>
     /// Gets the audio manager associated with the engine.

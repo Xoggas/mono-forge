@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MonoGine.Ecs;
 
@@ -55,7 +56,7 @@ public abstract class Entity : IEntity
         {
             IComponent component = _components[i];
 
-            if (ShouldSkip(component))
+            if (component.IsDead)
             {
                 continue;
             }
@@ -82,11 +83,8 @@ public abstract class Entity : IEntity
         {
             component.Dispose();
         }
-    }
 
-    private bool ShouldSkip(IComponent component)
-    {
-        return component.IsDestroyed || !component.IsActive;
+        GC.SuppressFinalize(this);
     }
 
     private void RemoveDestroyedComponents()
