@@ -1,0 +1,16 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:..\..\MonoGine\bin\Release\net6.0\MonoGine.Content.Pipeline.Extensions.dll
+
+#---------------------------------- Content ---------------------------------#
+
