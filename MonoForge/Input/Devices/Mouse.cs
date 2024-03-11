@@ -20,7 +20,7 @@ public sealed class Mouse : IMouse
     public Vector2 Delta { get; private set; }
     public float ScrollWheelSpeed { get; private set; }
 
-    public void Update(IGame game, float deltaTime)
+    public void Update(GameBase gameBase, float deltaTime)
     {
         UpdateStates();
         UpdateValues();

@@ -36,14 +36,14 @@ public sealed class Input : IInput
         new Gamepad(PlayerIndex.Four)
     };
 
-    public void Update(IGame game, float deltaTime)
+    public void Update(GameBase gameBase, float deltaTime)
     {
-        Keyboard.Update(game, deltaTime);
-        Mouse.Update(game, deltaTime);
+        Keyboard.Update(gameBase, deltaTime);
+        Mouse.Update(gameBase, deltaTime);
 
         for (var i = 0; i < 4; i++)
         {
-            GamePads[i].Update(game, deltaTime);
+            GamePads[i].Update(gameBase, deltaTime);
         }
     }
 

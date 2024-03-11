@@ -39,7 +39,7 @@ public class World : IObject, IUpdatable
         }
     }
 
-    public void Update(IGame game, float deltaTime)
+    public void Update(GameBase gameBase, float deltaTime)
     {
         for (var i = 0; i < _entities.Count; i++)
         {
@@ -50,7 +50,7 @@ public class World : IObject, IUpdatable
                 continue;
             }
 
-            entity.Update(game, deltaTime);
+            entity.Update(gameBase, deltaTime);
         }
 
         RemoveDestroyedEntities();

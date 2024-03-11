@@ -8,6 +8,6 @@ public interface IInitializable
     /// <summary>
     /// Initializes the object with the specified game engine.
     /// </summary>
-    /// <param name="game">The game engine.</param>
-    public void Initialize(IGame game);
+    /// <param name="gameBase">The game engine.</param>
+    public void Initialize(GameBase gameBase);
 }

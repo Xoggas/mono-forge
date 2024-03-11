@@ -12,22 +12,22 @@ public sealed class RenderQueue : IRenderQueue
     private IBatcher _batcher;
     private bool _batchHasBegun;
 
-    public RenderQueue(IGame game, IBatcher batcher, IDrawingService drawingService)
+    public RenderQueue(GameBase gameBase, IBatcher batcher, IDrawingService drawingService)
     {
-        _spriteEffect = new SpriteEffect(game.GraphicsDevice);
+        _spriteEffect = new SpriteEffect(gameBase.GraphicsDevice);
         _effectPass = _spriteEffect.CurrentTechnique.Passes[0];
         _batcher = batcher;
         _drawingService = drawingService;
     }
 
-    public void Clear(IGame game, Color color)
+    public void Clear(GameBase gameBase, Color color)
     {
-        game.GraphicsDevice.Clear(color);
+        gameBase.GraphicsDevice.Clear(color);
     }
 
-    public void Clear(IGame game, ClearOptions clearOptions, Color color, float depth, int stencil)
+    public void Clear(GameBase gameBase, ClearOptions clearOptions, Color color, float depth, int stencil)
     {
-        game.GraphicsDevice.Clear(clearOptions, color, depth, stencil);
+        gameBase.GraphicsDevice.Clear(clearOptions, color, depth, stencil);
     }
 
     public void SetBatcher(IBatcher batcher)
@@ -35,12 +35,12 @@ public sealed class RenderQueue : IRenderQueue
         _batcher = batcher;
     }
 
-    public void SetRenderTarget(IGame game, RenderTarget2D? target)
+    public void SetRenderTarget(GameBase gameBase, RenderTarget2D? target)
     {
-        game.GraphicsDevice.SetRenderTarget(target);
+        gameBase.GraphicsDevice.SetRenderTarget(target);
     }
 
-    public void Begin(IGame game, RenderConfig renderConfig, Matrix? transformMatrix = null)
+    public void Begin(GameBase gameBase, RenderConfig renderConfig, Matrix? transformMatrix = null)
     {
         if (_batchHasBegun)
         {
@@ -51,10 +51,10 @@ public sealed class RenderQueue : IRenderQueue
         _spriteEffect.TransformMatrix = transformMatrix;
         _effectPass.Apply();
 
-        game.GraphicsDevice.BlendState = renderConfig.BlendState ?? BlendState.NonPremultiplied;
-        game.GraphicsDevice.SamplerStates[0] = renderConfig.SamplerState ?? SamplerState.LinearClamp;
-        game.GraphicsDevice.DepthStencilState = renderConfig.DepthStencilState ?? DepthStencilState.None;
-        game.GraphicsDevice.RasterizerState = renderConfig.RasterizerState ?? RasterizerState.CullCounterClockwise;
+        gameBase.GraphicsDevice.BlendState = renderConfig.BlendState ?? BlendState.NonPremultiplied;
+        gameBase.GraphicsDevice.SamplerStates[0] = renderConfig.SamplerState ?? SamplerState.LinearClamp;
+        gameBase.GraphicsDevice.DepthStencilState = renderConfig.DepthStencilState ?? DepthStencilState.None;
+        gameBase.GraphicsDevice.RasterizerState = renderConfig.RasterizerState ?? RasterizerState.CullCounterClockwise;
 
         _batchHasBegun = true;
     }
@@ -64,11 +64,11 @@ public sealed class RenderQueue : IRenderQueue
         _batcher.Push(texture, mesh, shader, depth);
     }
 
-    public void End(IGame game)
+    public void End(GameBase gameBase)
     {
         foreach (BatchPassResult pass in _batcher.GetPasses())
         {
-            _drawingService.DrawMeshes(game.GraphicsDevice, pass);
+            _drawingService.DrawMeshes(gameBase.GraphicsDevice, pass);
         }
 
         _batchHasBegun = false;

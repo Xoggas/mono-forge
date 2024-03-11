@@ -33,9 +33,9 @@ public class Node : IObject, IDrawable, IUpdatable, IDestroyable, IAnimatable
         return FindChildByName(name);
     }
 
-    public virtual void Update(IGame game, float deltaTime)
+    public virtual void Update(GameBase gameBase, float deltaTime)
     {
-        Transform.Update(game, deltaTime);
+        Transform.Update(gameBase, deltaTime);
 
         for (var index = 0; index < _children.Count; index++)
         {
@@ -43,12 +43,12 @@ public class Node : IObject, IDrawable, IUpdatable, IDestroyable, IAnimatable
 
             if (child.IsActive)
             {
-                child.Update(game, deltaTime);
+                child.Update(gameBase, deltaTime);
             }
         }
     }
 
-    public virtual void Draw(IGame game, IRenderQueue renderQueue)
+    public virtual void Draw(GameBase gameBase, IRenderQueue renderQueue)
     {
         for (var index = 0; index < _children.Count; index++)
         {
@@ -56,7 +56,7 @@ public class Node : IObject, IDrawable, IUpdatable, IDestroyable, IAnimatable
 
             if (child.IsActive)
             {
-                child.Draw(game, renderQueue);
+                child.Draw(gameBase, renderQueue);
             }
         }
     }

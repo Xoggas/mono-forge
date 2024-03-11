@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace MonoForge.Animations;
 
-[Serializable]
 public sealed class Sequence
 {
-    [JsonProperty]
-    private Keyframe[] _keyframes = Array.Empty<Keyframe>();
+    public float Duration => _keyframes.Length != 0 ? _keyframes[^1].Time : 0f;
 
-    public Sequence()
-    {
-    }
+    private readonly Keyframe[] _keyframes;
 
     public Sequence(IEnumerable<Keyframe> keyframes)
     {
         _keyframes = keyframes.OrderBy(x => x.Time).ToArray();
     }
-
-    [JsonIgnore]
-    public float Duration => _keyframes.Length != 0 ? _keyframes[^1].Time : 0f;
 
     public float Evaluate(float time)
     {

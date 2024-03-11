@@ -20,7 +20,7 @@ public sealed class Keyboard : IKeyboard
     public bool CapsLock => _currentState.CapsLock;
     public bool NumLock => _currentState.NumLock;
 
-    public void Update(IGame game, float deltaTime)
+    public void Update(GameBase gameBase, float deltaTime)
     {
         _lastState = _currentState;
         _currentState = Microsoft.Xna.Framework.Input.Keyboard.GetState();

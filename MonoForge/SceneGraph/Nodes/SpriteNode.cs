@@ -14,9 +14,9 @@ public sealed class SpriteNode : Node
 
     private readonly Mesh _mesh = Mesh.NewQuad;
 
-    public override void Update(IGame game, float deltaTime)
+    public override void Update(GameBase gameBase, float deltaTime)
     {
-        base.Update(game, deltaTime);
+        base.Update(gameBase, deltaTime);
         UpdateMesh();
         UpdateUv();
     }
@@ -33,14 +33,14 @@ public sealed class SpriteNode : Node
         };
     }
 
-    public override void Draw(IGame game, IRenderQueue renderQueue)
+    public override void Draw(GameBase gameBase, IRenderQueue renderQueue)
     {
         if (Sprite != null)
         {
             renderQueue.EnqueueTexturedMesh(Sprite, _mesh, Shader, Transform.WorldDepth);
         }
 
-        base.Draw(game, renderQueue);
+        base.Draw(gameBase, renderQueue);
     }
 
     private void UpdateMesh()

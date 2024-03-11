@@ -12,11 +12,12 @@ public sealed class Camera : IAnimatable
     public float Rotation { get; set; }
     public float Zoom { get; set; } = 1f;
     public Matrix TransformMatrix { get; private set; }
+    public float OrthographicSize { get; set; } = 720f;
 
-    public void Update(Point gameResolution, Point viewportResolution)
+    public void Update(Point viewportResolution)
     {
         ClampZoom();
-        UpdateMatrix(viewportResolution.ToVector2() / gameResolution.ToVector2());
+        UpdateMatrix(viewportResolution.ToVector2());
     }
 
     public IAnimatable? GetChild(string name)
@@ -51,8 +52,10 @@ public sealed class Camera : IAnimatable
     {
         var width = viewportResolution.X;
         var height = viewportResolution.Y;
+        var scaleFactor = height / OrthographicSize;
 
-        TransformMatrix = Matrix.CreateTranslation(-Position.X, -Position.Y, 0f) *
+        TransformMatrix = Matrix.CreateScale(scaleFactor) *
+                          Matrix.CreateTranslation(-Position.X, -Position.Y, 0f) *
                           Matrix.CreateTranslation(-width * 0.5f, -height * 0.5f, 0f) *
                           Matrix.CreateRotationZ(MathHelper.ToRadians(Rotation)) *
                           Matrix.CreateScale(Zoom, Zoom, 1f) *

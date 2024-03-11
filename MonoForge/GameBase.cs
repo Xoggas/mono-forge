@@ -11,16 +11,16 @@ using MonoForge.SceneManagement;
 namespace MonoForge;
 
 /// <summary>
-/// Represents the base class for the game engine.
+/// Represents the base class for the game framework.
 /// </summary>
-public abstract class Game : IGame
+public abstract class GameBase : IDisposable
 {
     private readonly MonoGameBridge _monoGameBridge;
 
     /// <summary>
     /// Initializes a new instance of the Engine class.
     /// </summary>
-    protected Game()
+    protected GameBase()
     {
         _monoGameBridge = new MonoGameBridge();
         _monoGameBridge.OnInitialize += OnInitialize;
@@ -31,7 +31,6 @@ public abstract class Game : IGame
         _monoGameBridge.OnUpdate += OnUpdate;
 
         Time = new Time();
-        Screen = new Screen(_monoGameBridge);
         Cursor = new Cursor(_monoGameBridge);
         Input = new Input(_monoGameBridge.Window);
         SceneManager = new SceneManager();
@@ -53,11 +52,6 @@ public abstract class Game : IGame
     /// Gets the time instance associated with the engine.
     /// </summary>
     public Time Time { get; }
-
-    /// <summary>
-    /// Gets the screen instance associated with the engine.
-    /// </summary>
-    public Screen Screen { get; }
 
     /// <summary>
     /// Gets the window instance associated with the engine.
@@ -107,6 +101,7 @@ public abstract class Game : IGame
     /// </summary>
     public virtual void Dispose()
     {
+        Window.Dispose();
         Input.Dispose();
         ContentManager.Dispose();
         SceneManager.Dispose();

@@ -9,10 +9,10 @@ public sealed class Renderer : IRenderer
 {
     private readonly IRenderQueue _renderQueue;
 
-    public Renderer(IGame game, IBatcher batcher, IDrawingService drawingService, RenderConfig config)
+    public Renderer(GameBase gameBase, IBatcher batcher, IDrawingService drawingService, RenderConfig config)
     {
         Config = config;
-        _renderQueue = new RenderQueue(game, batcher, drawingService);
+        _renderQueue = new RenderQueue(gameBase, batcher, drawingService);
     }
 
     public RenderConfig Config { get; set; }
@@ -22,31 +22,31 @@ public sealed class Renderer : IRenderer
         _renderQueue.SetBatcher(batcher);
     }
 
-    public void Draw(IGame game, Scene scene)
+    public void Draw(GameBase gameBase, Scene scene)
     {
-        DrawScene(game, scene);
-        DrawViewport(game, game.Window.Viewport);
+        DrawScene(gameBase, scene);
+        DrawViewport(gameBase, gameBase.Window.Viewport);
     }
 
-    private void DrawScene(IGame game, Scene scene)
+    private void DrawScene(GameBase gameBase, Scene scene)
     {
-        _renderQueue.SetRenderTarget(game, game.Window.Viewport.RenderTarget);
-        _renderQueue.Clear(game, scene.Camera.BackgroundColor);
-        _renderQueue.Begin(game, Config, scene.Camera.TransformMatrix);
+        _renderQueue.SetRenderTarget(gameBase, gameBase.Window.Viewport.RenderTarget);
+        _renderQueue.Clear(gameBase, scene.Camera.BackgroundColor);
+        _renderQueue.Begin(gameBase, Config, scene.Camera.TransformMatrix);
 
-        scene.Draw(game, _renderQueue);
+        scene.Draw(gameBase, _renderQueue);
 
-        _renderQueue.End(game);
+        _renderQueue.End(gameBase);
     }
 
-    private void DrawViewport(IGame game, IDrawable viewport)
+    private void DrawViewport(GameBase gameBase, IDrawable viewport)
     {
-        _renderQueue.SetRenderTarget(game, null);
-        _renderQueue.Clear(game, Color.Black);
-        _renderQueue.Begin(game, Config);
+        _renderQueue.SetRenderTarget(gameBase, null);
+        _renderQueue.Clear(gameBase, Color.Black);
+        _renderQueue.Begin(gameBase, Config);
 
-        viewport.Draw(game, _renderQueue);
+        viewport.Draw(gameBase, _renderQueue);
 
-        _renderQueue.End(game);
+        _renderQueue.End(gameBase);
     }
 }

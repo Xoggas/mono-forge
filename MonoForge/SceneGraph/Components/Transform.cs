@@ -23,7 +23,7 @@ public sealed class Transform : IObject, IUpdatable
     public Matrix WorldMatrix { get; private set; }
     public float WorldDepth { get; private set; }
 
-    public void Update(IGame game, float deltaTime)
+    public void Update(GameBase gameBase, float deltaTime)
     {
         UpdateLocalMatrix();
         UpdateWorldMatrix();

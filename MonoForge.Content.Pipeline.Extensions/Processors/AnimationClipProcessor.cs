@@ -4,8 +4,8 @@ using TOutput = System.String;
 
 namespace MonoForge.Content.Pipeline.Extensions;
 
-[ContentProcessor(DisplayName = "Processor1")]
-internal class Processor1 : ContentProcessor<TInput, TOutput>
+[ContentProcessor(DisplayName = "Animation Clip Processor")]
+internal class AnimationClipProcessor : ContentProcessor<TInput, TOutput>
 {
     public override TOutput Process(TInput input, ContentProcessorContext context)
     {

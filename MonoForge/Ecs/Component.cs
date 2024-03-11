@@ -8,7 +8,7 @@ public abstract class Component : IComponent
     public bool IsDestroyed { get; private set; }
     public bool IsActive { get; private set; } = true;
 
-    public virtual void Start(IGame game)
+    public virtual void Start(GameBase gameBase)
     {
         Started = true;
     }
@@ -18,11 +18,11 @@ public abstract class Component : IComponent
         return entity.ContainsComponent(this);
     }
 
-    public virtual void Update(IGame game, float deltaTime)
+    public virtual void Update(GameBase gameBase, float deltaTime)
     {
         if (!Started)
         {
-            Start(game);
+            Start(gameBase);
         }
     }
 

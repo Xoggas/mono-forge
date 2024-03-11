@@ -10,17 +10,10 @@ namespace MonoForge;
 /// </summary>
 public sealed class Screen
 {
-    private readonly MonoGameBridge _monoGameBridge;
-
-    internal Screen(MonoGameBridge monoGameBridge)
-    {
-        _monoGameBridge = monoGameBridge;
-    }
-
     /// <summary>
     /// Gets an array of all available screen resolutions.
     /// </summary>
-    public IEnumerable<Point> Resolutions
+    public static IEnumerable<Point> Resolutions
     {
         get
         {
@@ -32,7 +25,7 @@ public sealed class Screen
     /// <summary>
     /// Gets the current screen resolution.
     /// </summary>
-    public Point Resolution
+    public static Point Resolution
     {
         get
         {

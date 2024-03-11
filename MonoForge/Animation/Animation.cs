@@ -44,16 +44,16 @@ public sealed class Animation : Component
         CreateBindings();
     }
 
-    public override void Update(IGame game, float deltaTime)
+    public override void Update(GameBase gameBase, float deltaTime)
     {
-        base.Update(game, deltaTime);
+        base.Update(gameBase, deltaTime);
 
         if (IsPlaying == false || Clip is null)
         {
             return;
         }
 
-        Time += game.Time.DeltaTime * Speed;
+        Time += gameBase.Time.DeltaTime * Speed;
 
         if (Time < 0f)
         {

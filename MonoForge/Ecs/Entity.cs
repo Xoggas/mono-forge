@@ -39,16 +39,16 @@ public abstract class Entity : IEntity
         }
     }
 
-    public virtual void Start(IGame game)
+    public virtual void Start(GameBase gameBase)
     {
         Started = true;
     }
 
-    public virtual void Update(IGame game, float deltaTime)
+    public virtual void Update(GameBase gameBase, float deltaTime)
     {
         if (!Started)
         {
-            Start(game);
+            Start(gameBase);
             return;
         }
 
@@ -61,7 +61,7 @@ public abstract class Entity : IEntity
                 continue;
             }
 
-            component.Update(game, deltaTime);
+            component.Update(gameBase, deltaTime);
         }
 
         RemoveDestroyedComponents();

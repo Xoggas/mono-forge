@@ -2,7 +2,7 @@
 
 namespace MonoForge.Test;
 
-public sealed class Game : MonoForge.Game
+public sealed class Game : GameBase
 {
     protected override void OnInitialize()
     {
@@ -16,9 +16,10 @@ public sealed class Game : MonoForge.Game
     {
         Window.Title = "MonoForge";
         Window.Resolution = new Point(1280, 720);
-        Window.Viewport.Size = new Point(640, 360);
+        Window.Viewport.Scaler = new FitBoth();
         Window.IsFullscreen = false;
         Window.Framerate = 60;
+        Window.AllowResizing = true;
     }
 
     private void LoadScene()

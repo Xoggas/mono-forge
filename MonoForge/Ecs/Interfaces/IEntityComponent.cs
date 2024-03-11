@@ -22,6 +22,6 @@ public interface IEntityComponent : IObject, IUpdatable, IDestroyable
     /// <summary>
     /// Starts the entity and components (even disabled components are started).
     /// </summary>
-    /// <param name="game">The engine used for starting the entity.</param>
-    public void Start(IGame game);
+    /// <param name="gameBase">The engine used for starting the entity.</param>
+    public void Start(GameBase gameBase);
 }

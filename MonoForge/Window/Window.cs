@@ -6,7 +6,7 @@ namespace MonoForge;
 /// <summary>
 /// Represents a window in the game engine.
 /// </summary>
-public sealed class Window
+public sealed class Window : IDisposable
 {
     public Viewport Viewport { get; }
 
@@ -20,6 +20,7 @@ public sealed class Window
         _window = monoGameBridge.Window;
         _graphicsDeviceManager = monoGameBridge.GraphicsDeviceManager;
         _graphicsDeviceManager.HardwareModeSwitch = false;
+        _monoGameBridge.Window.ClientSizeChanged += OnClientSizeChanged;
         Viewport = new Viewport(this, monoGameBridge.GraphicsDevice);
     }
 
@@ -51,7 +52,7 @@ public sealed class Window
     /// </summary>
     public Point Resolution
     {
-        get => new(_graphicsDeviceManager.PreferredBackBufferWidth, _graphicsDeviceManager.PreferredBackBufferHeight);
+        get => new(_monoGameBridge.Window.ClientBounds.Width, _monoGameBridge.Window.ClientBounds.Height);
         set
         {
             if (Resolution == value)
@@ -63,7 +64,7 @@ public sealed class Window
             _graphicsDeviceManager.PreferredBackBufferHeight = value.Y;
             _graphicsDeviceManager.ApplyChanges();
 
-            ResolutionChanged?.Invoke(value);
+            ResolutionChanged?.Invoke(Resolution);
         }
     }
 
@@ -142,5 +143,16 @@ public sealed class Window
     {
         get => _window.AllowUserResizing;
         set => _window.AllowUserResizing = value;
+    }
+
+    private void OnClientSizeChanged(object? obj, EventArgs args)
+    {
+        ResolutionChanged?.Invoke(Resolution);
+    }
+
+    public void Dispose()
+    {
+        _monoGameBridge.Window.ClientSizeChanged -= OnClientSizeChanged;
+        Viewport.Dispose();
     }
 }

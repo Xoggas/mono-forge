@@ -3,53 +3,37 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoForge.Rendering;
 using MonoForge.SceneGraph;
 using MonoForge.SceneManagement;
-using MonoForge.Extensions;
 
 namespace MonoForge.Test;
 
 public sealed class RenderingTestScene : Scene
 {
-    protected override void OnLoadResources(IGame game)
+    private Sprite _sprite = default!;
+
+    protected override void OnLoadResources(GameBase gameBase)
     {
+        _sprite = new Sprite(gameBase.ContentManager.Load<Texture2D>("Content/Rectangle"));
     }
 
-    protected override void OnLoad(IGame game, object[]? args)
+    protected override void OnLoad(GameBase gameBase, object[]? args)
     {
         Camera.BackgroundColor = Color.Gray;
 
-        var normalSpriteNode = new SpriteNode
+        var spriteNode = new SpriteNode
         {
             Transform =
             {
                 Position = new Vector2(640, 360),
-                Scale = new Vector2(100, 100),
-                Depth = 1f
+                Scale = new Vector2(100, 100)
             },
-            Sprite = game.ContentManager.Load<Sprite>("Sprites/Rectangle.png")
+            Sprite = _sprite,
+            Color = Color.DeepPink
         };
 
-        var shader = game.ContentManager.Load<Effect>("Shaders/Brightness.shader").ToShader();
-
-        var shadedSpriteNode = new SpriteNode
-        {
-            Transform =
-            {
-                Position = new Vector2(600, 300),
-                Scale = new Vector2(100, 100),
-                Depth = 2f
-            },
-            Color = Color.DeepPink,
-            Sprite = game.ContentManager.Load<Sprite>("Sprites/Rectangle.png"),
-            Shader = shader
-        };
-
-        shader.Properties.Set("Brightness", 0.5f);
-
-        Root.AddChild(normalSpriteNode);
-        Root.AddChild(shadedSpriteNode);
+        Root.AddChild(spriteNode);
     }
 
-    protected override void OnUnload(IGame game, object[]? args)
+    protected override void OnUnload(GameBase gameBase, object[]? args)
     {
     }
 }
