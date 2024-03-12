@@ -28,11 +28,6 @@ public class Node : IDrawable, IUpdatable, IDestroyable, IAnimatable
         return _children.Find(x => name.Equals(x.Name));
     }
 
-    public IAnimatable? GetChild(string name)
-    {
-        return FindChildByName(name);
-    }
-
     public virtual void Update(GameBase gameBase, float deltaTime)
     {
         Transform.Update(gameBase, deltaTime);
@@ -61,7 +56,12 @@ public class Node : IDrawable, IUpdatable, IDestroyable, IAnimatable
         }
     }
 
-    public virtual Action<float> GetPropertySetter(string name)
+    public IAnimatable? GetChild(ReadOnlySpan<char> name)
+    {
+        return FindChildByName(name.ToString());
+    }
+
+    public virtual Action<float> GetPropertySetter(ReadOnlySpan<char> name)
     {
         return name switch
         {
@@ -78,7 +78,7 @@ public class Node : IDrawable, IUpdatable, IDestroyable, IAnimatable
             "skew.x" => value => Transform.Skew = new Vector2(value, Transform.Skew.Y),
             "skew.y" => value => Transform.Skew = new Vector2(Transform.Skew.X, value),
             "depth" => value => Transform.Depth = value,
-            _ => throw new KeyNotFoundException(name)
+            _ => throw new KeyNotFoundException(name.ToString())
         };
     }
 

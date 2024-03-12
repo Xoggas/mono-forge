@@ -11,8 +11,14 @@
 #-------------------------------- References --------------------------------#
 
 /reference:..\..\MonoForge.Content.Pipeline.Extensions\bin\Debug\net6.0\MonoForge.Content.Pipeline.Extensions.dll
+/reference:..\bin\Debug\net6.0\Newtonsoft.Json.dll
 
 #---------------------------------- Content ---------------------------------#
+
+#begin Animation.json
+/importer:AnimationClipImporter
+/processor:AnimationClipProcessor
+/build:Animation.json
 
 #begin Rectangle.png
 /importer:TextureImporter

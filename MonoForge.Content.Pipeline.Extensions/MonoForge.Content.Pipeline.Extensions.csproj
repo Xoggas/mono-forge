@@ -10,6 +10,7 @@
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
     <ItemGroup>
         <Content Remove="\**\*\CppNet.dll"/>
@@ -19,8 +20,5 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\MonoForge\MonoForge.csproj"/>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="ContentResults\" />
     </ItemGroup>
 </Project>

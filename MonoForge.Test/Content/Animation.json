@@ -1,0 +1,13 @@
+﻿{
+  "Sequences": {
+    "Square/pos.x": {
+      "Keyframes": [
+        {
+          "Time": 0.0,
+          "Value": 0.0,
+          "Ease": 0
+        }
+      ]
+    }
+  }
+}

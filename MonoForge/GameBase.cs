@@ -125,7 +125,6 @@ public abstract class GameBase : IDisposable
     {
         Window = new Window(_monoGameBridge);
         Renderer = new Renderer(this, new DynamicBatcher(), new DrawingService(), RenderConfig.Default);
-        AudioManager.Initialize(this);
     }
 
     /// <summary>

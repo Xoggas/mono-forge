@@ -27,7 +27,7 @@ public sealed class AudioChannel : IAudioChannel
 
     public IAudioSource CreateSource()
     {
-        var source = new AudioSource(this);
+        var source = new AudioSource();
 
         _sources.Add(source);
 

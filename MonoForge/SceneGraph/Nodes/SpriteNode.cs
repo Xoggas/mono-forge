@@ -12,6 +12,7 @@ public sealed class SpriteNode : Node
     public Color Color { get; set; } = Color.White;
     public Rectangle TextureRect { get; set; } = new(0, 0, 1, 1);
 
+    private const string ShaderPropertyPrefix = "_";
     private readonly Mesh _mesh = Mesh.NewQuad;
 
     public override void Update(GameBase gameBase, float deltaTime)
@@ -21,15 +22,21 @@ public sealed class SpriteNode : Node
         UpdateUv();
     }
 
-    public override Action<float> GetPropertySetter(string name)
+    public override Action<float> GetPropertySetter(ReadOnlySpan<char> name)
     {
+        if (name.StartsWith(ShaderPropertyPrefix))
+        {
+            var shaderPropertyName = name.ToString();
+            return value => Shader?.Properties.Set(shaderPropertyName[1..], value);
+        }
+
         return name switch
         {
             "color.r" => value => Color = new Color(value, Color.G, Color.B, Color.A),
             "color.g" => value => Color = new Color(Color.R, value, Color.B, Color.A),
             "color.b" => value => Color = new Color(Color.R, Color.G, value, Color.A),
             "color.a" => value => Color = new Color(Color.R, Color.G, Color.B, value),
-            _ => name.StartsWith('_') ? value => Shader?.Properties.Set(name[1..], value) : base.GetPropertySetter(name)
+            _ => base.GetPropertySetter(name)
         };
     }
 

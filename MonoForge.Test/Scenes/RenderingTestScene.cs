@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoForge.Rendering;
 using MonoForge.SceneGraph;
 using MonoForge.SceneManagement;
@@ -12,7 +11,6 @@ public sealed class RenderingTestScene : Scene
 
     protected override void OnLoadResources(GameBase gameBase)
     {
-        _sprite = new Sprite(gameBase.ContentManager.Load<Texture2D>("Content/Rectangle"));
     }
 
     protected override void OnLoad(GameBase gameBase, object[]? args)

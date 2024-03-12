@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using FmodForFoxes;
 
 namespace MonoForge.Audio;
 
 public sealed class AudioManager : IAudioManager
 {
     private readonly Dictionary<int, IAudioChannel> _channels;
-    private readonly INativeFmodLibrary _library;
 
     internal AudioManager()
     {
-        _library = new FmodForFoxes.DesktopNativeFmodLibrary();
         _channels = new Dictionary<int, IAudioChannel>
         {
             { 0, Master },
@@ -22,14 +19,8 @@ public sealed class AudioManager : IAudioManager
     public IAudioChannel Master { get; } = new AudioChannel();
     public IAudioChannel Sfx { get; } = new AudioChannel();
 
-    public void Initialize(GameBase gameBase)
-    {
-        FmodManager.Init(_library, FmodInitMode.CoreAndStudio, string.Empty);
-    }
-
     public void Update(GameBase gameBase, float deltaTime)
     {
-        FmodManager.Update();
         ExecuteCallbackForChannels(_channels.Values, channel => channel.Update(gameBase, deltaTime));
     }
 
@@ -80,7 +71,6 @@ public sealed class AudioManager : IAudioManager
     public void Dispose()
     {
         ExecuteCallbackForChannels(_channels.Values, channel => channel.Dispose());
-        FmodManager.Unload();
     }
 
     private static void ExecuteCallbackForChannels(IEnumerable<IAudioChannel> channels, Action<IAudioChannel> callback)

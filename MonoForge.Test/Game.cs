@@ -1,10 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace MonoForge.Test;
 
 public sealed class Game : GameBase
 {
+    private Point _offset;
+
     protected override void OnInitialize()
     {
         base.OnInitialize();
@@ -36,16 +39,22 @@ public sealed class Game : GameBase
         {
             SceneManager.Load(this, new EmptyScene());
         }
+
+        var offset = new Vector2(MathF.Cos(Time.ElapsedTime) * 25f, MathF.Sin(Time.ElapsedTime * 2f) * 25f);
+
+        SceneManager.CurrentScene.Camera.Position = offset;
+
+        Window.Position = new Point(360, 180) + offset.ToPoint();
     }
 
     private void SetupWindow()
     {
         Window.Title = "MonoForge";
         Window.Resolution = new Point(1280, 720);
-        Window.Viewport.Scaler = new FitBoth();
+        Window.Viewport.Scaler = new FitAspectRatio();
         Window.IsFullscreen = false;
-        Window.Framerate = 60;
         Window.AllowResizing = true;
+        Window.Framerate = 75;
     }
 
     private void LoadScene()

@@ -1,73 +1,48 @@
-﻿namespace MonoForge.Audio;
+﻿using System;
+
+namespace MonoForge.Audio;
 
 //TODO: Implement 3D sound
 public sealed class AudioSource : IAudioSource
 {
-    private readonly FmodChannel _fmodChannel;
-
-    internal AudioSource(IAudioChannel channel)
-    {
-        Channel = channel;
-        Id = string.Empty;
-        _fmodChannel = new FmodChannel();
-    }
-
     public IAudioChannel Channel { get; }
-
-    public IAudioClip? Clip
-    {
-        get => _fmodChannel.Clip;
-        set => _fmodChannel.Clip = value as AudioClip;
-    }
-
-    public float Time
-    {
-        get => _fmodChannel.Time;
-        set => _fmodChannel.Time = value;
-    }
-
-    public bool IsLooping
-    {
-        get => _fmodChannel.IsLooping;
-        set => _fmodChannel.IsLooping = value;
-    }
-
+    public IAudioClip? Clip { get; set; }
     public string Id { get; set; }
-    public bool IsPlaying => _fmodChannel.IsPlaying;
-    public float Volume { get; set; } = 1f;
-    public float Pitch { get; set; } = 1f;
-    public bool IsDestroyed { get; private set; }
+    public bool IsPlaying { get; }
+    public float Time { get; set; }
+    public float Volume { get; set; }
+    public float Pitch { get; set; }
+    public bool IsLooping { get; set; }
 
-    public void Update(GameBase gameBase, float deltaTime)
-    {
-        _fmodChannel.Volume = Channel.Volume * Volume;
-        _fmodChannel.Pitch = Channel.Pitch * Pitch;
-    }
+    public bool IsDestroyed { get; }
 
     public void Play()
     {
-        _fmodChannel.Play();
+        throw new NotImplementedException();
     }
 
     public void Pause()
     {
-        _fmodChannel.Pause();
+        throw new NotImplementedException();
     }
 
     public void Stop()
     {
-        _fmodChannel.Stop();
+        throw new NotImplementedException();
+    }
+
+    public void Update(GameBase gameBase, float deltaTime)
+    {
+        throw new NotImplementedException();
     }
 
     public void Destroy()
     {
-        Stop();
-        Dispose();
-        IsDestroyed = true;
+        throw new NotImplementedException();
     }
 
     public void Dispose()
     {
-        _fmodChannel.Dispose();
+        throw new NotImplementedException();
     }
 }

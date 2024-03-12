@@ -9,7 +9,6 @@ public sealed class AudioTestScene : Scene
 
     protected override void OnLoadResources(GameBase gameBase)
     {
-        _song = AudioClip.FromFileStreamed("Content/Song.mp3");
     }
 
     protected override void OnLoad(GameBase gameBase, object[]? args)

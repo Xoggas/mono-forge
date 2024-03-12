@@ -20,12 +20,12 @@ public sealed class Camera : IAnimatable
         UpdateMatrix(viewportResolution.ToVector2());
     }
 
-    public IAnimatable? GetChild(string name)
+    public IAnimatable? GetChild(ReadOnlySpan<char> name)
     {
         return default;
     }
 
-    public Action<float> GetPropertySetter(string name)
+    public Action<float> GetPropertySetter(ReadOnlySpan<char> name)
     {
         return name switch
         {

@@ -6,7 +6,7 @@ namespace MonoForge.InputSystem;
 /// <summary>
 /// Interface representing a gamepad input device.
 /// </summary>
-public interface IGamepad : IInputDevice
+public interface IGamepad : IDisconnectableInputDevice
 {
     /// <summary>
     /// Gets the left stick value.
@@ -17,12 +17,12 @@ public interface IGamepad : IInputDevice
     /// Gets the right stick value.
     /// </summary>
     public Vector2 RightStickValue { get; }
-    
+
     /// <summary>
     /// Gets the left shoulder value.
     /// </summary>
     public float LeftShoulderValue { get; }
-    
+
     /// <summary>
     /// Gets the right shoulder value.
     /// </summary>
@@ -34,7 +34,7 @@ public interface IGamepad : IInputDevice
     /// <param name="left">Strength value for the left motor.</param>
     /// <param name="right">Strength value for the right motor.</param>
     public void SetRumbleSpeed(float left, float right);
-    
+
     /// <summary>
     /// Checks if the specified gamepad button was pressed.
     /// </summary>

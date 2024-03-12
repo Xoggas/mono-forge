@@ -2,7 +2,7 @@
 
 namespace MonoForge;
 
-public sealed class FitBoth : IViewportScaler
+public sealed class FitAspectRatio : IViewportScaler
 {
     private float _aspectRatio = 16f / 9f;
 
