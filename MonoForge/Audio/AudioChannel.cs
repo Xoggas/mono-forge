@@ -21,6 +21,8 @@ public sealed class AudioChannel : IAudioChannel
         {
             source.Update(gameBase, deltaTime);
         }
+
+        RemoveDestroyedSources();
     }
 
     public IAudioSource CreateSource()
@@ -82,6 +84,17 @@ public sealed class AudioChannel : IAudioChannel
         foreach (IAudioSource source in sources)
         {
             callback.Invoke(source);
+        }
+    }
+
+    private void RemoveDestroyedSources()
+    {
+        for (var i = 0; i < _sources.Count; i++)
+        {
+            if (_sources[i].IsDestroyed)
+            {
+                _sources.RemoveAt(i);
+            }
         }
     }
 }

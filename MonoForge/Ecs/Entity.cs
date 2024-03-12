@@ -56,7 +56,7 @@ public abstract class Entity : IEntity
         {
             IComponent component = _components[i];
 
-            if (component.IsDead)
+            if (component.ShouldBeSkipped)
             {
                 continue;
             }

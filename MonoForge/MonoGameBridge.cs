@@ -7,6 +7,7 @@ namespace MonoForge;
 internal sealed class MonoGameBridge : Game
 {
     internal event Action? OnInitialize;
+    internal event Action? OnBeginRun;
     internal event Action? OnLoadResources;
     internal event Action? OnUnloadResources;
     internal event Action<GameTime>? OnBeginUpdate;
@@ -60,5 +61,12 @@ internal sealed class MonoGameBridge : Game
         base.Draw(gameTime);
 
         OnDraw?.Invoke(gameTime);
+    }
+
+    protected override void BeginRun()
+    {
+        base.BeginRun();
+
+        OnBeginRun?.Invoke();
     }
 }

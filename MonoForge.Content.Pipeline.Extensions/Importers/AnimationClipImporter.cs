@@ -1,13 +1,16 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using System.IO;
+using Microsoft.Xna.Framework.Content.Pipeline;
 using MonoForge.Animations;
+using Newtonsoft.Json;
 
-namespace MonoForge.Content.Pipeline.Extensions;
+namespace MonoGine.Content.Pipeline.Extensions.Importers;
 
-[ContentImporter(".clip", DisplayName = "Animation Clip Importer", DefaultProcessor = "Animation Clip Processor")]
-public class AnimationClipImporter : ContentImporter<AnimationClip>
+[ContentImporter(".json", DisplayName = "Animation Clip Importer", DefaultProcessor = nameof(AnimationClipProcessor))]
+public sealed class AnimationClipImporter : ContentImporter<AnimationClip>
 {
     public override AnimationClip Import(string filename, ContentImporterContext context)
     {
-        return default;
+        var json = File.ReadAllText(filename);
+        return JsonConvert.DeserializeObject<AnimationClip>(json);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using FmodForFoxes;
+using Microsoft.Xna.Framework;
 
 namespace MonoForge.Audio;
 
@@ -32,6 +33,18 @@ internal sealed class FmodChannel : IObject
         }
     }
 
+    internal float LowPassGain
+    {
+        get => TryGetProperty(channel => channel.LowpassGain, default);
+        set => TrySetProperty(channel => channel.LowpassGain = value);
+    }
+
+    internal Vector3 Position
+    {
+        get => TryGetProperty(channel => channel.Position3D, Vector3.Zero);
+        set => TrySetProperty(channel => channel.Position3D = value);
+    }
+
     internal bool IsPlaying => TryGetProperty(channel => channel.IsPlaying, false);
 
     internal bool IsLooping
@@ -62,7 +75,7 @@ internal sealed class FmodChannel : IObject
 
     public void Dispose()
     {
-        _clip = null;
+        _channel.Stop();
     }
 
     internal void Play()
@@ -95,7 +108,7 @@ internal sealed class FmodChannel : IObject
         }
     }
 
-    private T TryGetProperty<T>(Func<Channel, T> predicate, T defaultValue)
+    private T TryGetProperty<T>(Func<Channel, T> predicate, T defaultValue = default) where T : struct
     {
         return _channel.Sound != null ? predicate.Invoke(_channel) : defaultValue;
     }

@@ -5,6 +5,7 @@ namespace MonoForge.Animations;
 
 public sealed class Sequence
 {
+    public IEnumerable<Keyframe> Keyframes => _keyframes;
     public float Duration => _keyframes.Length != 0 ? _keyframes[^1].Time : 0f;
 
     private readonly Keyframe[] _keyframes;

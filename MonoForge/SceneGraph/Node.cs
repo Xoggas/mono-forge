@@ -6,7 +6,7 @@ using MonoForge.Rendering.Batching;
 
 namespace MonoForge.SceneGraph;
 
-public class Node : IObject, IDrawable, IUpdatable, IDestroyable, IAnimatable
+public class Node : IDrawable, IUpdatable, IDestroyable, IAnimatable
 {
     private readonly List<Node> _children;
 
@@ -97,11 +97,5 @@ public class Node : IObject, IDrawable, IUpdatable, IDestroyable, IAnimatable
     public void Destroy()
     {
         SetParent(null);
-        Dispose();
-    }
-
-    public void Dispose()
-    {
-        Transform.Dispose();
     }
 }

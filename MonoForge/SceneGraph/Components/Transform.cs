@@ -3,7 +3,7 @@ using MonoForge.Utilities;
 
 namespace MonoForge.SceneGraph;
 
-public sealed class Transform : IObject, IUpdatable
+public sealed class Transform : IUpdatable
 {
     public Transform(Node node)
     {
@@ -27,10 +27,6 @@ public sealed class Transform : IObject, IUpdatable
     {
         UpdateLocalMatrix();
         UpdateWorldMatrix();
-    }
-
-    public void Dispose()
-    {
     }
 
     private void UpdateLocalMatrix()

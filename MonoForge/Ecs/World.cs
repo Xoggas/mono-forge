@@ -45,7 +45,7 @@ public class World : IObject, IUpdatable
         {
             IEntity entity = _entities[i];
 
-            if (ShouldSkip(entity))
+            if (entity.ShouldBeSkipped)
             {
                 continue;
             }
@@ -60,14 +60,8 @@ public class World : IObject, IUpdatable
     {
         for (var i = 0; i < _entities.Count; i++)
         {
-            IEntity entity = _entities[i];
-            entity.Dispose();
+            _entities[i].Dispose();
         }
-    }
-
-    private static bool ShouldSkip(IEntityComponent entity)
-    {
-        return entity.IsDestroyed || !entity.IsActive;
     }
 
     private void RemoveDestroyedEntities()

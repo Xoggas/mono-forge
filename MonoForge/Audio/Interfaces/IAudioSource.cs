@@ -41,6 +41,11 @@ public interface IAudioSource : IObject, IUpdatable, IDestroyable
     /// Gets or sets IsLooping flag.
     /// </summary>
     public bool IsLooping { get; set; }
+    
+    /// <summary>
+    /// Gets the destroyed state.
+    /// </summary>
+    public bool IsDestroyed { get; }
 
     /// <summary>
     /// Starts the playback.

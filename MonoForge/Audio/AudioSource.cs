@@ -1,5 +1,6 @@
 ﻿namespace MonoForge.Audio;
 
+//TODO: Implement 3D sound
 public sealed class AudioSource : IAudioSource
 {
     private readonly FmodChannel _fmodChannel;
@@ -25,11 +26,17 @@ public sealed class AudioSource : IAudioSource
         set => _fmodChannel.Time = value;
     }
 
+    public bool IsLooping
+    {
+        get => _fmodChannel.IsLooping;
+        set => _fmodChannel.IsLooping = value;
+    }
+
     public string Id { get; set; }
     public bool IsPlaying => _fmodChannel.IsPlaying;
     public float Volume { get; set; } = 1f;
     public float Pitch { get; set; } = 1f;
-    public bool IsLooping { get; set; }
+    public bool IsDestroyed { get; private set; }
 
     public void Update(GameBase gameBase, float deltaTime)
     {
@@ -56,7 +63,7 @@ public sealed class AudioSource : IAudioSource
     {
         Stop();
         Dispose();
-        Channel.RemoveSource(this);
+        IsDestroyed = true;
     }
 
     public void Dispose()

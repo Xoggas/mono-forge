@@ -30,7 +30,6 @@ public abstract class Scene
     public virtual void Dispose()
     {
         World.Dispose();
-        Root.Dispose();
         Canvas.Dispose();
     }
 

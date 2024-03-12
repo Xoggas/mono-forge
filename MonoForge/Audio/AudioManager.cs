@@ -6,8 +6,6 @@ namespace MonoForge.Audio;
 
 public sealed class AudioManager : IAudioManager
 {
-    private const string ContentFolderName = "Content";
-
     private readonly Dictionary<int, IAudioChannel> _channels;
     private readonly INativeFmodLibrary _library;
 
@@ -26,7 +24,7 @@ public sealed class AudioManager : IAudioManager
 
     public void Initialize(GameBase gameBase)
     {
-        FmodManager.Init(_library, FmodInitMode.CoreAndStudio, ContentFolderName);
+        FmodManager.Init(_library, FmodInitMode.CoreAndStudio, string.Empty);
     }
 
     public void Update(GameBase gameBase, float deltaTime)

@@ -7,7 +7,7 @@ namespace MonoForge.Animations;
 [Serializable]
 public class AnimationClip
 {
-    public IReadOnlyDictionary<string, Sequence> Sequences { get; }
+    public Dictionary<string, Sequence> Sequences { get; }
     public float Duration { get; }
 
     public AnimationClip(Dictionary<string, Sequence> sequences)

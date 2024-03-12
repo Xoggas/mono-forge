@@ -6,9 +6,19 @@ public sealed class AudioClip : IAudioClip
 {
     private readonly Sound _sound;
 
-    internal AudioClip(Sound sound)
+    private AudioClip(Sound sound)
     {
         _sound = sound;
+    }
+
+    public static AudioClip FromFile(string path)
+    {
+        return new AudioClip(CoreSystem.LoadSound(path));
+    }
+
+    public static AudioClip FromFileStreamed(string path)
+    {
+        return new AudioClip(CoreSystem.LoadStreamedSound(path));
     }
 
     public uint DurationInMilliseconds => _sound.Length;

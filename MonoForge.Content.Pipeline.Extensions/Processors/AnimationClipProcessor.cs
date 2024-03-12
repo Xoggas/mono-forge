@@ -1,14 +1,13 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
-using TInput = System.String;
-using TOutput = System.String;
+using MonoForge.Animations;
 
-namespace MonoForge.Content.Pipeline.Extensions;
+namespace MonoGine.Content.Pipeline.Extensions;
 
 [ContentProcessor(DisplayName = "Animation Clip Processor")]
-internal class AnimationClipProcessor : ContentProcessor<TInput, TOutput>
+public sealed class AnimationClipProcessor : ContentProcessor<AnimationClip, AnimationClip>
 {
-    public override TOutput Process(TInput input, ContentProcessorContext context)
+    public override AnimationClip Process(AnimationClip input, ContentProcessorContext context)
     {
-        return default;
+        return input;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace MonoForge.Test;
 
@@ -9,7 +10,32 @@ public sealed class Game : GameBase
         base.OnInitialize();
         Cursor.IsVisible = true;
         SetupWindow();
+    }
+
+    protected override void OnStart()
+    {
+        base.OnStart();
         LoadScene();
+    }
+
+    protected override void OnUpdate(GameTime gameTime)
+    {
+        base.OnUpdate(gameTime);
+
+        if (Input.Keyboard.WasPressed(Keys.NumPad1))
+        {
+            SceneManager.Load(this, new RenderingTestScene());
+        }
+
+        if (Input.Keyboard.WasPressed(Keys.NumPad2))
+        {
+            SceneManager.Load(this, new AudioTestScene());
+        }
+
+        if (Input.Keyboard.WasPressed(Keys.Delete))
+        {
+            SceneManager.Load(this, new EmptyScene());
+        }
     }
 
     private void SetupWindow()

@@ -24,18 +24,19 @@ public abstract class GameBase : IDisposable
     {
         _monoGameBridge = new MonoGameBridge();
         _monoGameBridge.OnInitialize += OnInitialize;
+        _monoGameBridge.OnBeginRun += OnStart;
         _monoGameBridge.OnLoadResources += OnLoadResources;
         _monoGameBridge.OnUnloadResources += OnUnloadResources;
         _monoGameBridge.OnDraw += OnDraw;
         _monoGameBridge.OnBeginUpdate += OnBeginUpdate;
         _monoGameBridge.OnUpdate += OnUpdate;
 
+        ContentManager = _monoGameBridge.Content;
         Time = new Time();
         Cursor = new Cursor(_monoGameBridge);
         Input = new Input(_monoGameBridge.Window);
-        SceneManager = new SceneManager();
         AudioManager = new AudioManager();
-        ContentManager = _monoGameBridge.Content;
+        SceneManager = new SceneManager();
     }
 
     /// <summary>
@@ -125,6 +126,13 @@ public abstract class GameBase : IDisposable
         Window = new Window(_monoGameBridge);
         Renderer = new Renderer(this, new DynamicBatcher(), new DrawingService(), RenderConfig.Default);
         AudioManager.Initialize(this);
+    }
+
+    /// <summary>
+    /// Called once the engine is initialized.
+    /// </summary>
+    protected virtual void OnStart()
+    {
     }
 
     /// <summary>
