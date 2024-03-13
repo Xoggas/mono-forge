@@ -2,6 +2,7 @@
 using MonoForge.Rendering;
 using MonoForge.Rendering.Batching;
 using MonoForge.SceneGraph;
+using MonoForge.SceneManagement.Interfaces;
 using MonoForge.UI;
 
 namespace MonoForge.SceneManagement;
@@ -12,6 +13,10 @@ public abstract class Scene
     public Camera Camera { get; } = new();
     public Canvas Canvas { get; } = new();
     public World World { get; } = new();
+
+    protected Scene(GameBase gameBase, ISceneLoadingArgs args)
+    {
+    }
 
     public virtual void Draw(GameBase gameBase, IRenderQueue renderQueue)
     {
@@ -33,19 +38,11 @@ public abstract class Scene
         Canvas.Dispose();
     }
 
-    internal void Load(GameBase gameBase, object[]? args)
+    internal void Unload(GameBase gameBase)
     {
-        OnLoadResources(gameBase);
-        OnLoad(gameBase, args);
-    }
-
-    internal void Unload(GameBase gameBase, object[]? args)
-    {
-        OnUnload(gameBase, args);
+        OnUnload(gameBase);
         Dispose();
     }
 
-    protected abstract void OnLoad(GameBase gameBase, object[]? args);
-    protected abstract void OnUnload(GameBase gameBase, object[]? args);
-    protected abstract void OnLoadResources(GameBase gameBase);
+    protected abstract void OnUnload(GameBase gameBase);
 }

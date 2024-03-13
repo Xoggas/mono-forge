@@ -1,27 +1,15 @@
-﻿using MonoForge.Audio;
-using MonoForge.SceneManagement;
+﻿using MonoForge.SceneManagement;
+using MonoForge.SceneManagement.Interfaces;
 
 namespace MonoForge.Test;
 
 public sealed class AudioTestScene : Scene
 {
-    private AudioClip _song = default!;
-
-    protected override void OnLoadResources(GameBase gameBase)
+    public AudioTestScene(GameBase gameBase, ISceneLoadingArgs args) : base(gameBase, args)
     {
     }
 
-    protected override void OnLoad(GameBase gameBase, object[]? args)
+    protected override void OnUnload(GameBase gameBase)
     {
-        IAudioSource source = gameBase.AudioManager.Master.CreateSource();
-        source.Clip = _song;
-        source.Volume = 0.5f;
-        source.Play();
-    }
-
-    protected override void OnUnload(GameBase gameBase, object[]? args)
-    {
-        gameBase.AudioManager.Master.DestroyAll();
-        _song.Dispose();
     }
 }

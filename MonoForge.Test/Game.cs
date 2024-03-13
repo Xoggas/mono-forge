@@ -27,17 +27,17 @@ public sealed class Game : GameBase
 
         if (Input.Keyboard.WasPressed(Keys.NumPad1))
         {
-            SceneManager.Load(this, new RenderingTestScene());
+            SceneManager.Load<RenderingTestScene>(this, SceneLoadingArgs.Empty);
         }
 
         if (Input.Keyboard.WasPressed(Keys.NumPad2))
         {
-            SceneManager.Load(this, new AudioTestScene());
+            SceneManager.Load<AudioTestScene>(this, SceneLoadingArgs.Empty);
         }
 
         if (Input.Keyboard.WasPressed(Keys.Delete))
         {
-            SceneManager.Load(this, new EmptyScene());
+            SceneManager.Load<EmptyScene>(this, SceneLoadingArgs.Empty);
         }
 
         var offset = new Vector2(MathF.Cos(Time.ElapsedTime) * 25f, MathF.Sin(Time.ElapsedTime * 2f) * 25f);
@@ -59,6 +59,6 @@ public sealed class Game : GameBase
 
     private void LoadScene()
     {
-        SceneManager.Load(this, new RenderingTestScene());
+        SceneManager.Load<RenderingTestScene>(this, SceneLoadingArgs.Empty);
     }
 }

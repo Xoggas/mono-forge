@@ -3,9 +3,9 @@ using MonoForge.SceneManagement.Interfaces;
 
 namespace MonoForge.Test;
 
-public sealed class EmptyScene : Scene
+public sealed class SexScene : Scene
 {
-    public EmptyScene(GameBase gameBase, ISceneLoadingArgs args) : base(gameBase, args)
+    public SexScene(GameBase gameBase, ISceneLoadingArgs args) : base(gameBase, args)
     {
     }
 
