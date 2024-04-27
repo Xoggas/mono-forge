@@ -1,5 +1,3 @@
----
-
 # MonoGine 🚀
 
 ## Features
@@ -12,5 +10,3 @@
 - **Scene Graph:** Build object hierarchies easily for streamlined development. 🌟
 - **Rendering System:** Enhance visual fidelity with optimized rendering and shader support. 🎨
 - **Scene Management:** Simplify level organization and execution. 🏞️
-
----
